@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF- />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>About Us | MoneyMath</title>
   <meta name="description" content="Discover MoneyMath – your finance companion with tools, blogs, calculators, and insights.">
@@ -144,7 +144,7 @@
 
     async function updateVisitorCount() {
       try {
-        const res = await fetch("https://api.countapi.xyz/hit/moneymath.in/visitors");
+        const res = await fetch("https://api.countapi.xyz/hit/moneymath/visitors");
         const data = await res.json();
         document.getElementById("users").textContent = data.value.toLocaleString();
       } catch (err) {
