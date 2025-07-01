@@ -1,4 +1,4 @@
-<!-- Navbar Trigger Button -->
+<!-- Header with Menu Trigger -->
 <header class="bg-white/70 backdrop-blur-md dark:bg-gray-800/90 sticky top-0 z-50 border-b border-gray-200 dark:border-gray-700 px-4 py-3 flex justify-between items-center">
   <div class="text-xl font-bold text-blue-700 dark:text-blue-400">💸 MoneyMath</div>
   <button id="mobileToggle" class="text-gray-700 dark:text-gray-300 focus:outline-none">
@@ -9,48 +9,48 @@
   </button>
 </header>
 
-<!-- Bottom Sheet Menu -->
-<div id="mobileMenu" class="fixed inset-x-0 bottom-0 bg-white dark:bg-gray-800 rounded-t-xl shadow-lg transform translate-y-full transition-transform duration-300 z-50">
-  <div class="p-4">
+<!-- Bottom Sheet Navigation -->
+<div id="mobileMenu" class="fixed inset-x-0 bottom-0 bg-white dark:bg-gray-900 shadow-2xl rounded-t-2xl transition-transform duration-300 ease-in-out transform translate-y-full z-50">
+  <div class="p-5">
     <div class="flex justify-between items-center mb-4">
-      <div class="text-lg font-bold text-blue-700 dark:text-blue-400">Menu</div>
-      <button id="mobileClose" class="text-gray-700 dark:text-gray-300 focus:outline-none">
-        <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2"
+      <h2 class="text-lg font-bold text-blue-600 dark:text-blue-400">Menu</h2>
+      <button id="mobileClose" class="text-gray-600 dark:text-gray-300">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
              viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
           <path d="M6 18L18 6M6 6l12 12"/>
         </svg>
       </button>
     </div>
 
-    <nav class="flex flex-col space-y-3">
-      <a href="/" class="px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700">🏠 Home</a>
-      
+    <nav class="flex flex-col space-y-3 text-gray-800 dark:text-gray-200">
+      <a href="/" class="hover:bg-gray-100 dark:hover:bg-gray-800 px-3 py-2 rounded">🏠 Home</a>
+
       <!-- Dropdown -->
       <div>
-        <button id="calcToggle" class="w-full text-left px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 flex justify-between items-center">
+        <button id="calcToggle" class="flex justify-between items-center w-full hover:bg-gray-100 dark:hover:bg-gray-800 px-3 py-2 rounded">
           📊 Calculators
           <svg id="calcArrow" class="w-5 h-5 transition-transform" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.08 1.04l-4.25 4.25a.75.75 0 01-1.06 0L5.21 8.27a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
           </svg>
         </button>
-        <div id="calcMenu" class="hidden flex flex-col ml-4 space-y-1 mt-1">
-          <a href="/calculator/sip.html" class="px-2 py-1 rounded hover:text-blue-600 dark:hover:text-blue-400">📈 SIP Calculator</a>
-          <a href="/calculator/swp.html" class="px-2 py-1 rounded hover:text-blue-600 dark:hover:text-blue-400">💸 SWP Calculator</a>
-          <a href="/calculator/lumpsum.html" class="px-2 py-1 rounded hover:text-blue-600 dark:hover:text-blue-400">💰 Lumpsum Calculator</a>
-          <a href="/calculator/fire-calculator.html" class="px-2 py-1 rounded hover:text-blue-600 dark:hover:text-blue-400">🔥 FIRE Calculator</a>
+        <div id="calcMenu" class="hidden flex flex-col mt-2 ml-4 text-sm space-y-1">
+          <a href="/calculator/sip.html" class="hover:text-blue-600 dark:hover:text-blue-400">📈 SIP Calculator</a>
+          <a href="/calculator/swp.html" class="hover:text-blue-600 dark:hover:text-blue-400">💸 SWP Calculator</a>
+          <a href="/calculator/lumpsum.html" class="hover:text-blue-600 dark:hover:text-blue-400">💰 Lumpsum Calculator</a>
+          <a href="/calculator/fire-calculator.html" class="hover:text-blue-600 dark:hover:text-blue-400">🔥 FIRE Calculator</a>
         </div>
       </div>
 
-      <a href="/about.html" class="px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700">ℹ️ About</a>
-      <a href="/contact.html" class="px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700">📞 Contact</a>
+      <a href="/about.html" class="hover:bg-gray-100 dark:hover:bg-gray-800 px-3 py-2 rounded">ℹ️ About</a>
+      <a href="/contact.html" class="hover:bg-gray-100 dark:hover:bg-gray-800 px-3 py-2 rounded">📞 Contact</a>
     </nav>
   </div>
 </div>
 
-<!-- JS for Interactions -->
+<!-- JS to toggle menu -->
 <script>
-  const mobileToggle = document.getElementById('mobileToggle');
   const mobileMenu = document.getElementById('mobileMenu');
+  const mobileToggle = document.getElementById('mobileToggle');
   const mobileClose = document.getElementById('mobileClose');
   const calcToggle = document.getElementById('calcToggle');
   const calcMenu = document.getElementById('calcMenu');
