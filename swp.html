@@ -22,9 +22,10 @@
       </div>
 
       <div>
-        <label class="block text-sm font-semibold mb-1">Monthly Withdrawal (₹)</label>
-        <input id="swpWithdrawal" type="range" min="1000" max="100000" step="500" value="5000" class="w-full">
-        <div class="text-right text-sm text-gray-500">₹<span id="valSwpWithdrawal">5000</span></div>
+  <label class="block text-sm font-semibold mb-1">Monthly Withdrawal (₹)</label>
+  <input id="swpWithdrawal" type="range" min="1000" max="100000" step="500" value="5000" class="w-full">
+  <div class="text-right text-sm text-gray-500">₹<span id="valSwpWithdrawal">5000</span> (<span id="wordsWithdrawal"></span>)</div>
+</div>
       </div>
 
       <div>
@@ -74,6 +75,7 @@
 
     const valSwpPrincipal = document.getElementById('valSwpPrincipal');
     const valSwpWithdrawal = document.getElementById('valSwpWithdrawal');
+    const wordsWithdrawal = document.getElementById('wordsWithdrawal');
     const valSwpRate = document.getElementById('valSwpRate');
     const valSwpInflation = document.getElementById('valSwpInflation');
     const wordsPrincipal = document.getElementById('wordsPrincipal');
@@ -126,6 +128,7 @@
 
       valSwpPrincipal.textContent = formatINR(P);
       valSwpWithdrawal.textContent = formatINR(W);
+      wordsWithdrawal.textContent = numberToWords(W);
       valSwpRate.textContent = r;
       valSwpInflation.textContent = inflation;
       wordsPrincipal.textContent = numberToWords(P);
