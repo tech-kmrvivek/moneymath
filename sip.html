@@ -76,33 +76,30 @@
     }
 
     function calculateSIP(P, rate, years) {
-  const r = rate / 100 / 12;
-  const n = years * 12;
-  const maturity = P * ((Math.pow(1 + r, n) - 1) / r) * (1 + r);
-  const invested = P * n;
-  const gain = maturity - invested;
-  return { invested, gain, maturity };
-};
+      const r = rate / 100 / 12;
+      const n = years * 12;
+      const maturity = P * ((Math.pow(1 + r, n) - 1) / r) * (1 + r);
+      const invested = P * n;
+      const gain = maturity - invested;
+      return { invested, gain, maturity };
     }
 
     function generateProjection(P, rate, years) {
-  const r = rate / 100 / 12;
-  const projection = [];
-  let total = 0;
+      const r = rate / 100 / 12;
+      const projection = [];
+      let total = 0;
 
-  for (let i = 1; i <= years * 12; i++) {
-    total = (total + P) * (1 + r);
-    if (i % 12 === 0) {
-      projection.push({
-        year: `Year ${i / 12}`,
-        value: parseFloat(total.toFixed(0))
-      });
-    }
-  }
+      for (let i = 1; i <= years * 12; i++) {
+        total = (total + P) * (1 + r);
+        if (i % 12 === 0) {
+          projection.push({
+            year: `Year ${i / 12}`,
+            value: parseFloat(total.toFixed(0))
+          });
+        }
+      }
 
-  return projection;
-}
-      });
+      return projection;
     }
 
     function renderCharts(invested, gain, projection) {
