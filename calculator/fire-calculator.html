@@ -6,17 +6,29 @@
   <title>FIRE Calculator - MoneyMath</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    .tab-content {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.4s ease;
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .tab-btn.active {
+      background-color: #2563eb;
+      color: white;
+    }
+  </style>
 </head>
 <body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
-  <div id="include-header"></div>
-  <div id="include-nav"></div>
-
   <main class="flex-1 flex flex-col lg:flex-row p-4 sm:p-6 gap-6">
     <!-- Input Panel -->
     <section class="bg-white p-4 sm:p-6 rounded shadow-md w-full lg:w-1/3 space-y-6">
       <h2 class="text-xl font-bold text-blue-600 mb-2">🔥 FIRE Calculator</h2>
-
-      <!-- Age Inputs -->
       <div>
         <label class="block font-semibold mb-1">🎂 Current Age</label>
         <input type="range" id="currentAge" min="20" max="60" value="30" class="w-full">
@@ -32,23 +44,17 @@
         <input type="range" id="lifeExpectancy" min="60" max="100" value="85" class="w-full">
         <div class="text-sm text-right">Age: <span id="valLifeExpectancy">85</span></div>
       </div>
-
-      <!-- Monthly Expense Input -->
       <div>
         <label class="block font-semibold mb-1">💰 Monthly Expenses Post Retirement (₹)</label>
         <input id="monthlyExpense" type="range" min="10000" max="300000" step="1000" value="40000" class="w-full">
         <div class="text-sm text-right">₹<span id="valMonthlyExpense">40000</span></div>
         <div class="text-xs italic text-gray-500 mt-1 text-right" id="expenseInWords"></div>
       </div>
-
-      <!-- Pre-Retirement Return Input -->
       <div>
         <label class="block font-semibold mb-1">📊 Pre-Retirement Return %</label>
         <input id="returnRate" type="range" min="4" max="20" step="0.5" value="12" class="w-full">
         <div class="text-sm text-right"><span id="valReturnRate">12</span>% annually</div>
       </div>
-
-      <!-- Post-Retirement Return Input -->
       <div>
         <label class="block font-semibold mb-1">🏦 Post-Retirement Return %</label>
         <input id="postReturnRate" type="range" min="1" max="15" step="0.5" value="5" class="w-full">
@@ -56,25 +62,45 @@
       </div>
     </section>
 
-    <!-- Summary & Chart Panel -->
+    <!-- Summary and Tabs -->
     <section class="w-full lg:w-2/3 space-y-6">
       <div class="bg-gradient-to-r from-sky-100 to-indigo-100 p-4 rounded shadow-md">
         <h3 class="text-lg font-semibold text-blue-700 mb-2">📋 FIRE Plan Summary</h3>
         <div id="fireResult" class="grid sm:grid-cols-3 gap-4 text-center font-medium"></div>
-        <div class="mt-4 text-sm text-gray-700">
-          <p>📌 Your FIRE number is calculated based on expected expenses and a 7% assumed inflation rate.</p>
-          <p>📌 This projection assumes post-retirement return of <span id="valPostReturnRateClone">5</span>% and expenses till age <span id="valLifeExpectancyClone">85</span>.</p>
-        </div>
       </div>
 
+      <!-- Tabs and Content -->
       <div class="bg-white p-4 sm:p-6 rounded shadow-md">
-        <h3 class="text-lg font-semibold text-blue-700 mb-2">📊 Projection</h3>
-        <canvas id="fireChart" height="300"></canvas>
+        <h3 class="text-lg font-semibold text-blue-700 mb-4">📊 Charts & Table</h3>
+        <div class="flex gap-2 mb-4">
+          <button onclick="showTab('corpus')" class="tab-btn active px-3 py-1 rounded">📉 Corpus Depletion</button>
+          <button onclick="showTab('sip')" class="tab-btn px-3 py-1 rounded">💹 SIP Growth</button>
+          <button onclick="showTab('table')" class="tab-btn px-3 py-1 rounded">📋 Table View</button>
+        </div>
+
+        <div id="tab-corpus" class="tab-content active">
+          <canvas id="corpusChart" height="300"></canvas>
+        </div>
+
+        <div id="tab-sip" class="tab-content">
+          <canvas id="sipChart" height="300"></canvas>
+        </div>
+
+        <div id="tab-table" class="tab-content overflow-auto">
+          <table class="min-w-full text-sm border border-gray-200">
+            <thead class="bg-gray-100 text-gray-700 font-semibold">
+              <tr>
+                <th class="border px-3 py-2 text-left">Year</th>
+                <th class="border px-3 py-2 text-left">Corpus After Retirement (₹)</th>
+                <th class="border px-3 py-2 text-left">SIP Corpus (₹)</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody" class="text-gray-700 bg-white"></tbody>
+          </table>
+        </div>
       </div>
     </section>
   </main>
-
-  <div id="include-footer"></div>
 
   <script>
     function formatINR(num) {
@@ -96,23 +122,28 @@
       return inWords(num);
     }
 
+    function showTab(tabName) {
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+      document.getElementById(`tab-${tabName}`).classList.add('active');
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+    }
+
     function updateFIRE() {
-      const currentAge = parseInt(document.getElementById('currentAge').value);
-      const retirementAge = parseInt(document.getElementById('retirementAge').value);
-      const lifeExpectancy = parseInt(document.getElementById('lifeExpectancy').value);
-      const monthlyExpense = parseInt(document.getElementById('monthlyExpense').value);
-      const returnRate = parseFloat(document.getElementById('returnRate').value);
-      const postReturnRate = parseFloat(document.getElementById('postReturnRate').value);
+      const currentAge = +document.getElementById('currentAge').value;
+      const retirementAge = +document.getElementById('retirementAge').value;
+      const lifeExpectancy = +document.getElementById('lifeExpectancy').value;
+      const monthlyExpense = +document.getElementById('monthlyExpense').value;
+      const returnRate = +document.getElementById('returnRate').value;
+      const postReturnRate = +document.getElementById('postReturnRate').value;
       const inflation = 0.07;
 
       document.getElementById('valCurrentAge').textContent = currentAge;
       document.getElementById('valRetirementAge').textContent = retirementAge;
       document.getElementById('valLifeExpectancy').textContent = lifeExpectancy;
-      document.getElementById('valLifeExpectancyClone').textContent = lifeExpectancy;
-      document.getElementById('valPostReturnRate').textContent = postReturnRate;
-      document.getElementById('valPostReturnRateClone').textContent = postReturnRate;
       document.getElementById('valMonthlyExpense').textContent = monthlyExpense;
       document.getElementById('valReturnRate').textContent = returnRate;
+      document.getElementById('valPostReturnRate').textContent = postReturnRate;
       document.getElementById('expenseInWords').textContent = numberToWords(monthlyExpense) + ' Rupees';
 
       const annualExpense = monthlyExpense * 12;
@@ -120,8 +151,6 @@
       const yearsToInvest = retirementAge - currentAge;
       const inflatedExpense = annualExpense * Math.pow(1 + inflation, yearsToInvest);
       const fireCorpus = inflatedExpense * ((1 - Math.pow(1 + postReturnRate / 100, -retirementYears)) / (postReturnRate / 100));
-
-      // SIP required
       const r = returnRate / 100 / 12;
       const n = yearsToInvest * 12;
       const sip = fireCorpus * r / ((Math.pow(1 + r, n) - 1) * (1 + r));
@@ -134,61 +163,75 @@
         <div class="bg-rose-100 text-rose-700 rounded p-3 shadow">🏖️ Retirement Duration: ${retirementYears} years</div>
       `;
 
-      // Chart: Corpus Depletion Simulation
-      const ctx = document.getElementById('fireChart').getContext('2d');
-      if (window.fireChart && typeof window.fireChart.destroy === 'function') window.fireChart.destroy();
-
+      // Corpus chart
       let corpus = fireCorpus;
-      let expense = inflatedExpense;
-      const projection = [];
-
+      const corpusTrend = [], years = [];
       for (let i = 0; i < retirementYears; i++) {
-        projection.push(Math.round(expense));
-        corpus = (corpus - expense) * (1 + postReturnRate / 100);
+        corpusTrend.push(Math.round(corpus));
+        years.push(`Year ${i + 1}`);
+        corpus = (corpus - inflatedExpense) * (1 + postReturnRate / 100);
       }
 
-      window.fireChart = new Chart(ctx, {
+      if (window.corpusChart) window.corpusChart.destroy();
+      window.corpusChart = new Chart(document.getElementById('corpusChart').getContext('2d'), {
         type: 'line',
         data: {
-          labels: Array.from({ length: retirementYears }, (_, i) => `Year ${i + 1}`),
+          labels: years,
           datasets: [{
-            label: 'Annual Withdrawal (₹)',
-            data: projection,
-            borderColor: '#2563eb',
-            backgroundColor: 'rgba(37,99,235,0.2)',
+            label: 'Corpus Remaining (₹)',
+            data: corpusTrend,
+            borderColor: '#9333ea',
+            backgroundColor: 'rgba(147,51,234,0.2)',
             fill: true,
-            tension: 0.4
+            tension: 0.3
           }]
         },
-        options: {
-          responsive: true,
-          plugins: { legend: { position: 'top' } },
-          scales: {
-            y: {
-              ticks: {
-                callback: value => '₹' + value.toLocaleString('en-IN')
-              }
-            }
-          }
-        }
+        options: { responsive: true }
       });
+
+      // SIP chart
+      let sipCorpus = 0, sipGrowth = [], sipYears = [];
+      for (let i = 1; i <= n; i++) {
+        sipCorpus = (sipCorpus + sip) * (1 + r);
+        if (i % 12 === 0) {
+          sipGrowth.push(Math.round(sipCorpus));
+          sipYears.push(`Year ${i / 12}`);
+        }
+      }
+
+      if (window.sipChart) window.sipChart.destroy();
+      window.sipChart = new Chart(document.getElementById('sipChart').getContext('2d'), {
+        type: 'line',
+        data: {
+          labels: sipYears,
+          datasets: [{
+            label: 'SIP Corpus (₹)',
+            data: sipGrowth,
+            borderColor: '#16a34a',
+            backgroundColor: 'rgba(22,163,74,0.2)',
+            fill: true,
+            tension: 0.3
+          }]
+        },
+        options: { responsive: true }
+      });
+
+      // Table View
+      const tbody = document.getElementById('tableBody');
+      tbody.innerHTML = '';
+      for (let i = 0; i < Math.max(sipYears.length, years.length); i++) {
+        tbody.innerHTML += `
+          <tr>
+            <td class="border px-3 py-1">${i + 1}</td>
+            <td class="border px-3 py-1">${corpusTrend[i] ? '₹' + formatINR(corpusTrend[i]) : '-'}</td>
+            <td class="border px-3 py-1">${sipGrowth[i] ? '₹' + formatINR(sipGrowth[i]) : '-'}</td>
+          </tr>`;
+      }
     }
 
     ['currentAge', 'retirementAge', 'lifeExpectancy', 'monthlyExpense', 'returnRate', 'postReturnRate']
       .forEach(id => document.getElementById(id).addEventListener('input', updateFIRE));
-
-    window.addEventListener('DOMContentLoaded', () => {
-      loadPartial('include-header', '/components/header.html');
-      loadPartial('include-nav', '/components/nav.html');
-      loadPartial('include-footer', '/components/footer.html');
-      updateFIRE();
-    });
-
-    async function loadPartial(id, file) {
-      const res = await fetch(file);
-      const text = await res.text();
-      document.getElementById(id).innerHTML = text;
-    }
+    window.addEventListener('DOMContentLoaded', updateFIRE);
   </script>
 </body>
 </html>
