@@ -1,23 +1,59 @@
-<aside class="w-full sm:w-64 bg-white shadow-lg rounded-xl p-5 border border-blue-100">
-  <h2 class="text-xl font-bold text-blue-600 mb-4 flex items-center">
+<aside class="w-full sm:w-64 bg-white shadow-xl rounded-2xl p-6 border border-blue-100">
+  <h2 class="text-xl font-bold text-blue-600 mb-5 flex items-center">
     <svg class="w-5 h-5 mr-2 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
       <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>
     </svg>
     Blog Topics
   </h2>
-  <ul class="space-y-3">
-    <li><a href="/blogs/build_wealth_with_sip.html" class="block px-3 py-2 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 font-medium transition duration-200">📈 How SIP Can Build Wealth Over Time</a></li>
-    <li><a href="/blogs/lumpsum_vs_sip.html" class="block px-3 py-2 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 font-medium transition duration-200">💰 Lumpsum vs SIP: Which is Better?</a></li>
-    <li><a href="/blogs/swp.html" class="block px-3 py-2 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 font-medium transition duration-200">🧾 Understanding SWP: Systematic Withdrawal Plan</a></li>
-    <li><a href="/blogs/fire-retire-early.html" class="block px-3 py-2 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 font-medium transition duration-200">🔥 FIRE: Retire Early With Smart Planning</a></li>
-    <li><a href="/blogs/delaying-costs-more.html" class="block px-3 py-2 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 font-medium transition duration-200">⏳ Why Delaying Investment Costs You More</a></li>
-    <li><a href="/blogs/what-is-sip.html" class="block px-3 py-2 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 font-medium transition duration-200">💡 What is SIP and Why Every Investor Should Know It</a></li>
-    <li><a href="/blogs/compound-interest-explained.html" class="block px-3 py-2 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 font-medium transition duration-200">🧠 How Compound Interest Works (with Examples)</a></li>
-    <li><a href="/blogs/mutual-fund-vs-fd.html" class="block px-3 py-2 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 font-medium transition duration-200">🏦 Mutual Funds vs Fixed Deposits</a></li>
-    <li><a href="/blogs/salary-saving-rule.html" class="block px-3 py-2 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 font-medium transition duration-200">📊 How Much Should I Save From My Salary?</a></li>
-    <li><a href="/blogs/retire-by-40-india.html" class="block px-3 py-2 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 font-medium transition duration-200">🧓 How to Retire by 40: Indian Case Study</a></li>
-    <li><a href="/blogs/family-fire-planning.html" class="block px-3 py-2 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 font-medium transition duration-200">👨‍👩‍👧 FIRE Planning for Families</a></li>
-    <li><a href="/blogs/1cr-with-5000-sip.html" class="block px-3 py-2 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 font-medium transition duration-200">📈 Plan ₹1 Cr with Just ₹5000/month SIP</a></li>
-    <li><a href="/blogs/sip-for-1cr-in-15-years.html" class="block px-3 py-2 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 font-medium transition duration-200">🧮 SIP Needed for ₹1 Cr in 15 Years</a></li>
+  <ul class="space-y-3" id="blogLinks">
+    <li><a href="/blogs/build_wealth_with_sip.html">📈 How SIP Can Build Wealth Over Time</a></li>
+    <li><a href="/blogs/lumpsum_vs_sip.html">💰 Lumpsum vs SIP: Which is Better?</a></li>
+    <li><a href="/blogs/swp.html">🧾 Understanding SWP: Systematic Withdrawal Plan</a></li>
+    <li><a href="/blogs/fire-retire-early.html">🔥 FIRE: Retire Early With Smart Planning</a></li>
+    <li><a href="/blogs/delaying-costs-more.html">⏳ Why Delaying Investment Costs You More</a></li>
+    <li><a href="/blogs/what-is-sip.html">💡 What is SIP and Why Every Investor Should Know It</a></li>
+    <li><a href="/blogs/compound-interest-explained.html">🧠 How Compound Interest Works (with Examples)</a></li>
+    <li><a href="/blogs/mutual-fund-vs-fd.html">🏦 Mutual Funds vs Fixed Deposits</a></li>
+    <li><a href="/blogs/salary-saving-rule.html">📊 How Much Should I Save From My Salary?</a></li>
+    <li><a href="/blogs/retire-by-40-india.html">🧓 How to Retire by 40: Indian Case Study</a></li>
+    <li><a href="/blogs/family-fire-planning.html">👨‍👩‍👧 FIRE Planning for Families</a></li>
+    <li><a href="/blogs/1cr-with-5000-sip.html">📈 Plan ₹1 Cr with Just ₹5000/month SIP</a></li>
+    <li><a href="/blogs/sip-for-1cr-in-15-years.html">🧮 SIP Needed for ₹1 Cr in 15 Years</a></li>
   </ul>
 </aside>
+
+<style>
+  #blogLinks a {
+    display: block;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-weight: 500;
+    color: #1d4ed8; /* Tailwind blue-700 */
+    background-color: #eff6ff; /* Tailwind blue-50 */
+    transition: all 0.2s ease-in-out;
+  }
+
+  #blogLinks a:hover {
+    background-color: #dbeafe; /* Tailwind blue-100 */
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+  }
+
+  #blogLinks a.active {
+    background-color: #1d4ed8; /* Tailwind blue-700 */
+    color: white;
+    font-weight: 600;
+  }
+</style>
+
+<script>
+  // Highlight the current page's blog topic
+  document.addEventListener("DOMContentLoaded", () => {
+    const links = document.querySelectorAll("#blogLinks a");
+    const current = window.location.pathname;
+    links.forEach(link => {
+      if (link.getAttribute("href") === current) {
+        link.classList.add("active");
+      }
+    });
+  });
+</script>
