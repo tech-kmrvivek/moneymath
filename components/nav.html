@@ -1,13 +1,44 @@
-<nav class="bg-white shadow-md border-b border-gray-200">
+<nav class="bg-white/60 backdrop-blur shadow-md border-b border-gray-200 sticky top-0 z-50">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex flex-wrap justify-between items-center h-auto py-4 gap-y-2">
-      <div class="flex flex-wrap gap-2">
-        <a href="/" class="text-sm font-semibold text-gray-700 hover:text-blue-600 px-3 py-1 rounded-md transition flex items-center gap-1">🏠 Home</a>
-        <a href="/calculator/sip.html" class="text-sm font-semibold text-gray-700 hover:text-blue-600 px-3 py-1 rounded-md transition">SIP Calculator</a>
-        <a href="/calculator/swp.html" class="text-sm font-semibold text-gray-700 hover:text-blue-600 px-3 py-1 rounded-md transition">SWP Calculator</a>
-        <a href="/calculator/lumpsum.html" class="text-sm font-semibold text-gray-700 hover:text-blue-600 px-3 py-1 rounded-md transition">Lumpsum Calculator</a>
-        <a href="/calculator/fire-calculator.html" class="text-sm font-semibold text-gray-700 hover:text-blue-600 px-3 py-1 rounded-md transition">FIRE Calculator</a>
+    <div class="flex items-center justify-between h-16">
+      <!-- Logo or Site Name -->
+      <div class="flex-shrink-0 text-lg font-bold text-blue-700">💸 MoneyMath</div>
+
+      <!-- Menu -->
+      <div class="hidden md:flex gap-4">
+        <a href="/" class="text-sm font-medium text-gray-700 hover:text-blue-600 transition duration-200">🏠 Home</a>
+        <a href="/calculator/sip.html" class="text-sm font-medium text-gray-700 hover:text-blue-600 transition duration-200">📈 SIP Calculator</a>
+        <a href="/calculator/swp.html" class="text-sm font-medium text-gray-700 hover:text-blue-600 transition duration-200">💸 SWP Calculator</a>
+        <a href="/calculator/lumpsum.html" class="text-sm font-medium text-gray-700 hover:text-blue-600 transition duration-200">💰 Lumpsum Calculator</a>
+        <a href="/calculator/fire-calculator.html" class="text-sm font-medium text-gray-700 hover:text-blue-600 transition duration-200">🔥 FIRE Calculator</a>
       </div>
+
+      <!-- Optional search input or menu toggle for mobile -->
+      <div class="flex items-center md:hidden">
+        <button id="menuToggle" class="text-gray-700 hover:text-blue-600 focus:outline-none">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
+               viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="md:hidden hidden flex-col gap-2 py-3">
+      <a href="/" class="block text-sm text-gray-700 hover:text-blue-600 px-2">🏠 Home</a>
+      <a href="/calculator/sip.html" class="block text-sm text-gray-700 hover:text-blue-600 px-2">📈 SIP Calculator</a>
+      <a href="/calculator/swp.html" class="block text-sm text-gray-700 hover:text-blue-600 px-2">💸 SWP Calculator</a>
+      <a href="/calculator/lumpsum.html" class="block text-sm text-gray-700 hover:text-blue-600 px-2">💰 Lumpsum Calculator</a>
+      <a href="/calculator/fire-calculator.html" class="block text-sm text-gray-700 hover:text-blue-600 px-2">🔥 FIRE Calculator</a>
     </div>
   </div>
 </nav>
+
+<script>
+  // Toggle mobile menu
+  document.getElementById("menuToggle").addEventListener("click", function () {
+    const menu = document.getElementById("mobileMenu");
+    menu.classList.toggle("hidden");
+  });
+</script>
