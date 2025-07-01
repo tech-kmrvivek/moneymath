@@ -1,62 +1,77 @@
-<nav class="bg-white/70 backdrop-blur-md text-gray-800 dark:bg-gray-800/80 dark:text-white shadow-md sticky top-0 z-50 border-b border-gray-200 dark:border-gray-700">
+<!-- Navigation Bar -->
+<nav class="bg-white/70 backdrop-blur-md text-gray-800 dark:bg-gray-900/90 dark:text-white border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50 shadow-md">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center h-16">
       <!-- Logo -->
       <div class="text-xl font-bold text-blue-700 dark:text-blue-400">💸 MoneyMath</div>
 
-      <!-- Desktop Menu -->
+      <!-- Desktop Links -->
       <div class="hidden md:flex items-center gap-6">
-        <a href="/" class="hover:text-blue-600 dark:hover:text-blue-400 text-sm font-medium transition">🏠 Home</a>
-
-        <!-- Dropdown -->
+        <a href="/" class="hover:text-blue-600 dark:hover:text-blue-400 text-sm font-medium">🏠 Home</a>
         <div class="relative group">
-          <button class="text-sm font-medium hover:text-blue-600 dark:hover:text-blue-400 transition">
-            📊 Calculators
-          </button>
+          <button class="text-sm font-medium hover:text-blue-600 dark:hover:text-blue-400">📊 Calculators</button>
           <div class="absolute hidden group-hover:flex flex-col bg-white dark:bg-gray-800 shadow-md border border-gray-200 dark:border-gray-700 mt-2 rounded-md w-56 z-10">
-            <a href="/calculator/sip.html" class="px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2">📈 SIP Calculator</a>
-            <a href="/calculator/swp.html" class="px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2">💸 SWP Calculator</a>
-            <a href="/calculator/lumpsum.html" class="px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2">💰 Lumpsum Calculator</a>
-            <a href="/calculator/fire-calculator.html" class="px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2">🔥 FIRE Calculator</a>
+            <a href="/calculator/sip.html" class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">📈 SIP Calculator</a>
+            <a href="/calculator/swp.html" class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">💸 SWP Calculator</a>
+            <a href="/calculator/lumpsum.html" class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">💰 Lumpsum Calculator</a>
+            <a href="/calculator/fire-calculator.html" class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">🔥 FIRE Calculator</a>
           </div>
         </div>
-
-        <a href="/about.html" class="hover:text-blue-600 dark:hover:text-blue-400 text-sm font-medium transition">ℹ️ About</a>
-        <a href="/contact.html" class="hover:text-blue-600 dark:hover:text-blue-400 text-sm font-medium transition">📞 Contact</a>
+        <a href="/about.html" class="hover:text-blue-600 dark:hover:text-blue-400 text-sm font-medium">ℹ️ About</a>
+        <a href="/contact.html" class="hover:text-blue-600 dark:hover:text-blue-400 text-sm font-medium">📞 Contact</a>
       </div>
 
-      <!-- Mobile Toggle Button -->
+      <!-- Mobile Toggle -->
       <div class="md:hidden">
         <button id="mobileToggle" class="text-gray-700 dark:text-gray-200 focus:outline-none">
-          <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2"
+          <svg class="h-7 w-7" fill="none" stroke="currentColor" stroke-width="2"
                viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 6h16M4 12h16M4 18h16" />
+            <path d="M4 6h16M4 12h16M4 18h16"/>
           </svg>
         </button>
       </div>
     </div>
+  </div>
 
-    <!-- Mobile Menu -->
-    <div id="mobileMenu" class="hidden flex-col py-3 text-sm md:hidden">
-      <a href="/" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">🏠 Home</a>
+  <!-- Mobile Fullscreen Menu -->
+  <div id="mobileMenu" class="fixed inset-0 bg-white dark:bg-gray-900 transform translate-x-full transition-transform duration-300 z-40 p-6 md:hidden">
+    <div class="flex justify-between items-center mb-6">
+      <div class="text-xl font-bold text-blue-700 dark:text-blue-400">💸 MoneyMath</div>
+      <button id="mobileClose" class="text-gray-700 dark:text-gray-300 focus:outline-none">
+        <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2"
+             viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+    <nav class="flex flex-col gap-4 text-lg">
+      <a href="/" class="hover:text-blue-600 dark:hover:text-blue-400">🏠 Home</a>
       <details class="group">
-        <summary class="px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700">📊 Calculators</summary>
-        <div class="pl-4 pb-2">
-          <a href="/calculator/sip.html" class="block px-4 py-1 hover:text-blue-600 dark:hover:text-blue-400">📈 SIP</a>
-          <a href="/calculator/swp.html" class="block px-4 py-1 hover:text-blue-600 dark:hover:text-blue-400">💸 SWP</a>
-          <a href="/calculator/lumpsum.html" class="block px-4 py-1 hover:text-blue-600 dark:hover:text-blue-400">💰 Lumpsum</a>
-          <a href="/calculator/fire-calculator.html" class="block px-4 py-1 hover:text-blue-600 dark:hover:text-blue-400">🔥 FIRE</a>
+        <summary class="cursor-pointer hover:text-blue-600 dark:hover:text-blue-400">📊 Calculators</summary>
+        <div class="pl-4 mt-2 flex flex-col gap-1 text-base">
+          <a href="/calculator/sip.html" class="hover:text-blue-600 dark:hover:text-blue-400">📈 SIP Calculator</a>
+          <a href="/calculator/swp.html" class="hover:text-blue-600 dark:hover:text-blue-400">💸 SWP Calculator</a>
+          <a href="/calculator/lumpsum.html" class="hover:text-blue-600 dark:hover:text-blue-400">💰 Lumpsum Calculator</a>
+          <a href="/calculator/fire-calculator.html" class="hover:text-blue-600 dark:hover:text-blue-400">🔥 FIRE Calculator</a>
         </div>
       </details>
-      <a href="/about.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">ℹ️ About</a>
-      <a href="/contact.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">📞 Contact</a>
-    </div>
+      <a href="/about.html" class="hover:text-blue-600 dark:hover:text-blue-400">ℹ️ About</a>
+      <a href="/contact.html" class="hover:text-blue-600 dark:hover:text-blue-400">📞 Contact</a>
+    </nav>
   </div>
 </nav>
 
+<!-- JS to toggle mobile menu -->
 <script>
-  // Toggle mobile menu
-  document.getElementById('mobileToggle').addEventListener('click', () => {
-    document.getElementById('mobileMenu').classList.toggle('hidden');
+  const toggle = document.getElementById('mobileToggle');
+  const close = document.getElementById('mobileClose');
+  const menu = document.getElementById('mobileMenu');
+
+  toggle.addEventListener('click', () => {
+    menu.classList.remove('translate-x-full');
+  });
+
+  close.addEventListener('click', () => {
+    menu.classList.add('translate-x-full');
   });
 </script>
