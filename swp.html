@@ -18,7 +18,7 @@
       <div>
         <label class="block text-sm font-semibold mb-1">Total Corpus (₹)</label>
         <input id="swpPrincipal" type="range" min="10000" max="10000000" step="10000" value="500000" class="w-full">
-        <div class="text-right text-sm text-gray-500">₹<span id="valSwpPrincipal">500000</span></div>
+        <div class="text-right text-sm text-gray-500">₹<span id="valSwpPrincipal">500000</span> (<span id="wordsPrincipal"></span>)</div>
       </div>
 
       <div>
@@ -45,6 +45,7 @@
         <h3 class="text-lg font-semibold mb-2 text-blue-700">Projection</h3>
         <canvas id="swpChart" height="300"></canvas>
         <div id="swpMessage" class="text-center text-indigo-600 font-semibold text-lg mt-4"></div>
+        <div id="swpSummary" class="text-center mt-4 text-gray-700"></div>
       </div>
     </section>
   </main>
@@ -75,9 +76,25 @@
     const valSwpWithdrawal = document.getElementById('valSwpWithdrawal');
     const valSwpRate = document.getElementById('valSwpRate');
     const valSwpInflation = document.getElementById('valSwpInflation');
+    const wordsPrincipal = document.getElementById('wordsPrincipal');
 
     function formatINR(num) {
       return parseFloat(num).toLocaleString('en-IN');
+    }
+
+    function numberToWords(n) {
+      const a = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"];
+      const b = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
+      function inWords(num) {
+        if (num === 0) return "Zero";
+        if (num < 20) return a[num];
+        if (num < 100) return b[Math.floor(num / 10)] + (num % 10 !== 0 ? " " + a[num % 10] : "");
+        if (num < 1000) return a[Math.floor(num / 100)] + " Hundred" + (num % 100 !== 0 ? " and " + inWords(num % 100) : "");
+        if (num < 100000) return inWords(Math.floor(num / 1000)) + " Thousand" + (num % 1000 !== 0 ? " " + inWords(num % 1000) : "");
+        if (num < 10000000) return inWords(Math.floor(num / 100000)) + " Lakh" + (num % 100000 !== 0 ? " " + inWords(num % 100000) : "");
+        return inWords(Math.floor(num / 10000000)) + " Crore" + (num % 10000000 !== 0 ? " " + inWords(num % 10000000) : "");
+      }
+      return inWords(n);
     }
 
     function calculateSWP(P, W, r, inflation) {
@@ -85,20 +102,20 @@
       const monthlyInflation = inflation / 100 / 12;
       let month = 0;
       let balance = P;
-      const data = [];
+      let totalWithdrawn = 0;
+      const data = [], realData = [];
 
       while (balance > 0 && month < 600) {
         const adjWithdrawal = W * Math.pow(1 + monthlyInflation, month);
+        totalWithdrawn += adjWithdrawal;
         balance = (balance - adjWithdrawal) * (1 + monthlyRate);
         if (month % 12 === 0) {
-          data.push({
-            year: `Year ${month / 12 + 1}`,
-            value: balance > 0 ? parseFloat(balance.toFixed(0)) : 0
-          });
+          data.push({ year: `Year ${month / 12 + 1}`, value: Math.max(balance, 0) });
+          realData.push({ year: `Year ${month / 12 + 1}`, value: Math.max(balance / Math.pow(1 + inflation / 100, month / 12), 0) });
         }
         month++;
       }
-      return { data, duration: month, finalBalance: balance };
+      return { data, realData, duration: month, finalBalance: balance, totalWithdrawn };
     }
 
     function updateSWP() {
@@ -111,8 +128,9 @@
       valSwpWithdrawal.textContent = formatINR(W);
       valSwpRate.textContent = r;
       valSwpInflation.textContent = inflation;
+      wordsPrincipal.textContent = numberToWords(P);
 
-      const { data, duration, finalBalance } = calculateSWP(P, W, r, inflation);
+      const { data, realData, duration, finalBalance, totalWithdrawn } = calculateSWP(P, W, r, inflation);
 
       if (window.mySwpChart) window.mySwpChart.destroy();
       const ctx = document.getElementById('swpChart').getContext('2d');
@@ -120,14 +138,24 @@
         type: 'line',
         data: {
           labels: data.map(d => d.year),
-          datasets: [{
-            label: 'Balance (₹)',
-            data: data.map(d => d.value),
-            borderColor: '#1d4ed8',
-            backgroundColor: 'rgba(29,78,216,0.1)',
-            fill: true,
-            tension: 0.4
-          }]
+          datasets: [
+            {
+              label: 'Nominal Balance (₹)',
+              data: data.map(d => d.value),
+              borderColor: '#1d4ed8',
+              backgroundColor: 'rgba(29,78,216,0.1)',
+              fill: true,
+              tension: 0.4
+            },
+            {
+              label: 'Real Balance (₹)',
+              data: realData.map(d => d.value),
+              borderColor: '#16a34a',
+              backgroundColor: 'rgba(22,163,74,0.1)',
+              fill: true,
+              tension: 0.4
+            }
+          ]
         },
         options: {
           responsive: true,
@@ -146,8 +174,10 @@
       const message = finalBalance > 0 ?
         `Your corpus lasts more than ${years} years.` :
         `Your corpus will be exhausted in ${years} years and ${months} months.`;
+      const summary = `Total Withdrawn: ₹${formatINR(totalWithdrawn.toFixed(0))} | Interest Earned: ₹${formatINR((finalBalance + totalWithdrawn - P).toFixed(0))}`;
 
       document.getElementById('swpMessage').textContent = message;
+      document.getElementById('swpSummary').textContent = summary;
     }
 
     ['input', 'change'].forEach(evt => {
