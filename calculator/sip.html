@@ -9,7 +9,7 @@
 </head>
 <body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
 
-  <!-- Only Header & Footer -->
+  <!-- ✅ Include header (with nav inside) -->
   <div id="include-header"></div>
 
   <main class="flex-1 flex flex-col lg:flex-row p-4 sm:p-6 gap-6">
@@ -51,6 +51,7 @@
     </section>
   </main>
 
+  <!-- ✅ Include footer -->
   <div id="include-footer"></div>
 
   <script>
@@ -61,7 +62,7 @@
     }
 
     window.addEventListener("DOMContentLoaded", () => {
-      loadPartial("include-header", "/components/header.html");
+      loadPartial("include-header", "/components/header.html");  // header includes nav
       loadPartial("include-footer", "/components/footer.html");
     });
   </script>
