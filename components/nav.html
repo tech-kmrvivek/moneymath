@@ -1,27 +1,32 @@
-<nav class="bg-gray-800 dark:bg-gray-900 border-b border-gray-700 dark:border-gray-800 shadow-sm sticky top-0 z-50">
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Navigation -->
+<nav class="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50 font-semibold">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center h-16">
       <!-- Logo -->
-      <a href="/" class="text-xl font-bold text-white">💸 MoneyMath</a>
+      <a href="/" class="text-2xl font-bold text-blue-700 hover:text-blue-800 transition">💸 MoneyMath</a>
 
-      <!-- Desktop Nav -->
-      <div class="hidden md:flex items-center gap-6 text-sm font-bold">
+      <!-- Desktop Menu -->
+      <div class="hidden md:flex items-center gap-6 text-sm">
         <a href="/" class="nav-link">🏠 Home</a>
 
-        <!-- Dropdown for Calculators -->
+        <!-- Desktop Dropdown -->
         <div class="relative group">
           <button class="nav-link inline-flex items-center gap-1">
             📊 Calculators
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"
+            <svg class="w-4 h-4 mt-0.5" fill="none" stroke="currentColor" stroke-width="2"
               viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
               <path d="M19 9l-7 7-7-7" />
             </svg>
           </button>
-          <div class="absolute left-0 mt-2 w-48 bg-gray-800 dark:bg-gray-800 border border-gray-700 dark:border-gray-700 rounded-md shadow-lg opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition duration-150 z-50">
-            <a href="/calculator/sip.html" class="block px-4 py-2 nav-link">📈 SIP</a>
-            <a href="/calculator/swp.html" class="block px-4 py-2 nav-link">💸 SWP</a>
-            <a href="/calculator/lumpsum.html" class="block px-4 py-2 nav-link">💰 Lumpsum</a>
-            <a href="/calculator/fire-calculator.html" class="block px-4 py-2 nav-link">🔥 FIRE</a>
+
+          <!-- Dropdown -->
+          <div class="absolute left-0 mt-2 w-52 bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 scale-95 transform transition-all duration-200 ease-out group-hover:opacity-100 group-hover:scale-100 z-50">
+            <a href="/calculator/sip.html" class="dropdown-item">📈 SIP Calculator</a>
+            <a href="/calculator/swp.html" class="dropdown-item">💸 SWP Calculator</a>
+            <a href="/calculator/lumpsum.html" class="dropdown-item">💰 Lumpsum Calculator</a>
+            <a href="/calculator/fire-calculator.html" class="dropdown-item">🔥 FIRE Calculator</a>
           </div>
         </div>
 
@@ -32,34 +37,85 @@
   </div>
 </nav>
 
-<!-- Bottom Sheet Navigation for Mobile -->
-<div class="fixed bottom-0 left-0 right-0 z-50 bg-gray-800 dark:bg-gray-900 border-t border-gray-700 dark:border-gray-700 shadow md:hidden">
-  <div class="flex justify-around text-xs font-bold py-2">
+<!-- 📱 Bottom Sheet Navigation (Mobile Only) -->
+<div class="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 shadow md:hidden">
+  <div class="flex justify-around text-xs font-bold py-2 relative">
     <a href="/" class="nav-link flex flex-col items-center gap-0.5">🏠<span>Home</span></a>
-    <a href="/calculator/sip.html" class="nav-link flex flex-col items-center gap-0.5">📈<span>SIP</span></a>
-    <a href="/calculator/swp.html" class="nav-link flex flex-col items-center gap-0.5">💸<span>SWP</span></a>
-    <a href="/calculator/lumpsum.html" class="nav-link flex flex-col items-center gap-0.5">💰<span>Lumpsum</span></a>
-    <a href="/calculator/fire-calculator.html" class="nav-link flex flex-col items-center gap-0.5">🔥<span>FIRE</span></a>
+
+    <!-- Mobile Calculators Menu Toggle -->
+    <button id="mobileCalcToggle" class="nav-link flex flex-col items-center gap-0.5 focus:outline-none">
+      📊<span>Calculators</span>
+    </button>
+
     <a href="/about.html" class="nav-link flex flex-col items-center gap-0.5">ℹ️<span>About</span></a>
+    <a href="/contact.html" class="nav-link flex flex-col items-center gap-0.5">📞<span>Contact</span></a>
+
+    <!-- Mobile Dropdown Menu -->
+    <div id="mobileCalcMenu" class="hidden absolute bottom-12 left-1/2 -translate-x-1/2 w-60 bg-white border border-gray-200 rounded-lg shadow-lg p-2 space-y-1 z-50">
+      <a href="/calculator/sip.html" class="dropdown-item">📈 SIP</a>
+      <a href="/calculator/swp.html" class="dropdown-item">💸 SWP</a>
+      <a href="/calculator/lumpsum.html" class="dropdown-item">💰 Lumpsum</a>
+      <a href="/calculator/fire-calculator.html" class="dropdown-item">🔥 FIRE</a>
+    </div>
   </div>
 </div>
 
-<!-- Highlight current page -->
+<!-- JS -->
 <script>
   document.addEventListener("DOMContentLoaded", function () {
+    // Highlight current nav item
     const currentPath = window.location.pathname.replace(/\/+$/, '');
     document.querySelectorAll('.nav-link').forEach(link => {
       const href = link.getAttribute('href')?.replace(/\/+$/, '');
       if (href === currentPath) {
-        link.classList.add('text-blue-400');
+        link.classList.add('text-blue-700');
+      }
+    });
+
+    // Mobile dropdown toggle
+    const toggleBtn = document.getElementById('mobileCalcToggle');
+    const menu = document.getElementById('mobileCalcMenu');
+
+    toggleBtn?.addEventListener('click', () => {
+      menu.classList.toggle('hidden');
+      menu.classList.toggle('animate-dropdown');
+    });
+
+    // Optional: Close dropdown when clicking outside
+    document.addEventListener('click', function (e) {
+      if (!toggleBtn.contains(e.target) && !menu.contains(e.target)) {
+        menu.classList.add('hidden');
       }
     });
   });
 </script>
 
-<!-- White + Bold Text Styles -->
+<!-- Tailwind Custom Styles -->
 <style>
   .nav-link {
-    @apply text-white font-bold hover:text-blue-300 transition;
+    @apply text-gray-900 font-bold px-3 py-2 rounded-md hover:bg-blue-50 hover:text-blue-700 transition;
+  }
+
+  .dropdown-item {
+    @apply block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded transition;
+  }
+
+  .animate-dropdown {
+    @apply animate-fadeIn;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fadeIn {
+    animation: fadeIn 0.2s ease-out;
   }
 </style>
