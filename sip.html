@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SIP Calculator - MoneyMath</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="bg-white shadow p-4 text-center font-bold text-2xl text-blue-700">
+    MoneyMath 💸
+  </header>
+
+  <div class="flex flex-1">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white p-4 shadow-md hidden md:block">
+      <nav class="space-y-4">
+        <a href="index.html" class="block text-lg font-medium hover:text-blue-600">🏠 Home</a>
+        <a href="sip.html" class="block text-lg font-medium text-blue-600">📈 SIP Calculator</a>
+        <a href="swp.html" class="block text-lg font-medium hover:text-blue-600">💸 SWP Calculator</a>
+        <a href="lumpsum.html" class="block text-lg font-medium hover:text-blue-600">💰 Lumpsum Calculator</a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-6">
+      <h1 class="text-2xl font-bold mb-4">📈 SIP Calculator</h1>
+      <div class="bg-white p-6 rounded shadow-md max-w-lg mx-auto space-y-4">
+        <input id="sipAmount" type="number" placeholder="Monthly SIP (₹)" class="w-full border p-2 rounded">
+        <input id="sipYears" type="number" placeholder="Investment Duration (Years)" class="w-full border p-2 rounded">
+        <input id="sipRate" type="number" placeholder="Expected Return (% p.a.)" class="w-full border p-2 rounded">
+        <button onclick="runSIP()" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">Calculate</button>
+        <div id="sipResult" class="text-center text-lg font-semibold hidden"></div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-white text-center text-sm p-4 shadow mt-4">
+    © 2025 MoneyMath — Simplifying Your Finances 💡
+  </footer>
+
+  <script>
+    function calculateSIP(P, rate, years) {
+      const r = rate / 12 / 100;
+      const n = years * 12;
+      const fv = P * (((Math.pow(1 + r, n) - 1) / r) * (1 + r));
+      return {
+        invested: P * n,
+        gain: fv - (P * n),
+        maturity: fv
+      };
+    }
+
+    function runSIP() {
+      const P = parseFloat(document.getElementById('sipAmount').value);
+      const y = parseFloat(document.getElementById('sipYears').value);
+      const r = parseFloat(document.getElementById('sipRate').value);
+      if (!P || !y || !r) return;
+      const result = calculateSIP(P, r, y);
+      document.getElementById('sipResult').innerHTML = `
+        Invested: ₹${result.invested.toFixed(0)}<br>
+        Gain: ₹${result.gain.toFixed(0)}<br>
+        Maturity: ₹${result.maturity.toFixed(0)}
+      `;
+      document.getElementById('sipResult').classList.remove('hidden');
+    }
+  </script>
+
+</body>
+</html>
