@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FIRE Calculator - MoneyMath</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
+  <div id="include-header"></div>
+  <div id="include-nav"></div>
+
+  <main class="flex-1 flex flex-col lg:flex-row p-4 sm:p-6 gap-6">
+    <!-- Input Panel -->
+    <section class="bg-white p-4 sm:p-6 rounded shadow-md w-full lg:w-1/3 space-y-6">
+      <h2 class="text-xl font-bold text-blue-600 mb-2">🔥 FIRE Calculator</h2>
+
+      <!-- Age Inputs -->
+      <div>
+        <label class="block font-semibold mb-1">🎂 Current Age</label>
+        <input type="range" id="currentAge" min="20" max="60" value="30" class="w-full">
+        <div class="text-sm text-right">Age: <span id="valCurrentAge">30</span></div>
+      </div>
+      <div>
+        <label class="block font-semibold mb-1">🏁 Retirement Age</label>
+        <input type="range" id="retirementAge" min="30" max="60" value="50" class="w-full">
+        <div class="text-sm text-right">Age: <span id="valRetirementAge">50</span></div>
+      </div>
+      <div>
+        <label class="block font-semibold mb-1">🌱 Life Expectancy</label>
+        <input type="range" id="lifeExpectancy" min="60" max="100" value="85" class="w-full">
+        <div class="text-sm text-right">Age: <span id="valLifeExpectancy">85</span></div>
+      </div>
+
+      <!-- Monthly Expense Input -->
+      <div>
+        <label class="block font-semibold mb-1">💰 Monthly Expenses Post Retirement (₹)</label>
+        <input id="monthlyExpense" type="range" min="10000" max="300000" step="1000" value="40000" class="w-full">
+        <div class="text-sm text-right">₹<span id="valMonthlyExpense">40000</span></div>
+        <div class="text-xs italic text-gray-500 mt-1 text-right" id="expenseInWords"></div>
+      </div>
+
+      <!-- Pre-Retirement Return Input -->
+      <div>
+        <label class="block font-semibold mb-1">📊 Pre-Retirement Return %</label>
+        <input id="returnRate" type="range" min="4" max="20" step="0.5" value="12" class="w-full">
+        <div class="text-sm text-right"><span id="valReturnRate">12</span>% annually</div>
+      </div>
+
+      <!-- Post-Retirement Return Input -->
+      <div>
+        <label class="block font-semibold mb-1">🏦 Post-Retirement Return %</label>
+        <input id="postReturnRate" type="range" min="1" max="15" step="0.5" value="5" class="w-full">
+        <div class="text-sm text-right"><span id="valPostReturnRate">5</span>% annually</div>
+      </div>
+    </section>
+
+    <!-- Summary & Chart Panel -->
+    <section class="w-full lg:w-2/3 space-y-6">
+      <div class="bg-gradient-to-r from-sky-100 to-indigo-100 p-4 rounded shadow-md">
+        <h3 class="text-lg font-semibold text-blue-700 mb-2">📋 FIRE Plan Summary</h3>
+        <div id="fireResult" class="grid sm:grid-cols-3 gap-4 text-center font-medium"></div>
+        <div class="mt-4 text-sm text-gray-700">
+          <p>📌 Your FIRE number is calculated based on expected expenses and a 7% assumed inflation rate.</p>
+          <p>📌 This projection assumes post-retirement return of <span id="valPostReturnRateClone">5</span>% and expenses till age <span id="valLifeExpectancyClone">85</span>.</p>
+        </div>
+      </div>
+
+      <div class="bg-white p-4 sm:p-6 rounded shadow-md">
+        <h3 class="text-lg font-semibold text-blue-700 mb-2">📊 Projection</h3>
+        <canvas id="fireChart" height="300"></canvas>
+      </div>
+    </section>
+  </main>
+
+  <div id="include-footer"></div>
+
+  <script>
+    function formatINR(num) {
+      return parseFloat(num).toLocaleString('en-IN');
+    }
+
+    function numberToWords(num) {
+      const a = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten',
+        'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
+      const b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+      const inWords = (n) => {
+        if (n < 20) return a[n];
+        if (n < 100) return b[Math.floor(n / 10)] + (n % 10 ? ' ' + a[n % 10] : '');
+        if (n < 1000) return a[Math.floor(n / 100)] + ' Hundred' + (n % 100 ? ' ' + inWords(n % 100) : '');
+        if (n < 100000) return inWords(Math.floor(n / 1000)) + ' Thousand' + (n % 1000 ? ' ' + inWords(n % 1000) : '');
+        if (n < 10000000) return inWords(Math.floor(n / 100000)) + ' Lakh' + (n % 100000 ? ' ' + inWords(n % 100000) : '');
+        return inWords(Math.floor(n / 10000000)) + ' Crore' + (n % 10000000 ? ' ' + inWords(n % 10000000) : '');
+      }
+      return inWords(num);
+    }
+
+    function updateFIRE() {
+      const currentAge = parseInt(document.getElementById('currentAge').value);
+      const retirementAge = parseInt(document.getElementById('retirementAge').value);
+      const lifeExpectancy = parseInt(document.getElementById('lifeExpectancy').value);
+      const monthlyExpense = parseInt(document.getElementById('monthlyExpense').value);
+      const returnRate = parseFloat(document.getElementById('returnRate').value);
+      const postReturnRate = parseFloat(document.getElementById('postReturnRate').value);
+      const inflation = 0.07;
+
+      document.getElementById('valCurrentAge').textContent = currentAge;
+      document.getElementById('valRetirementAge').textContent = retirementAge;
+      document.getElementById('valLifeExpectancy').textContent = lifeExpectancy;
+      document.getElementById('valLifeExpectancyClone').textContent = lifeExpectancy;
+      document.getElementById('valPostReturnRate').textContent = postReturnRate;
+      document.getElementById('valPostReturnRateClone').textContent = postReturnRate;
+      document.getElementById('valMonthlyExpense').textContent = monthlyExpense;
+      document.getElementById('valReturnRate').textContent = returnRate;
+      document.getElementById('expenseInWords').textContent = numberToWords(monthlyExpense) + ' Rupees';
+
+      const annualExpense = monthlyExpense * 12;
+      const retirementYears = lifeExpectancy - retirementAge;
+      const yearsToInvest = retirementAge - currentAge;
+      const inflatedExpense = annualExpense * Math.pow(1 + inflation, yearsToInvest);
+      const fireCorpus = inflatedExpense * ((1 - Math.pow(1 + postReturnRate / 100, -retirementYears)) / (postReturnRate / 100));
+
+      // Calculate SIP required to reach FIRE corpus
+      const r = returnRate / 100 / 12;
+      const n = yearsToInvest * 12;
+      const sip = fireCorpus * r / ((Math.pow(1 + r, n) - 1) * (1 + r));
+
+      document.getElementById('fireResult').innerHTML = `
+        <div class="bg-blue-100 text-blue-700 rounded p-3 shadow">🔥 FIRE Corpus Needed: ₹${formatINR(fireCorpus)}</div>
+        <div class="bg-green-100 text-green-700 rounded p-3 shadow">📆 Years to Invest: ${yearsToInvest}</div>
+        <div class="bg-purple-100 text-purple-700 rounded p-3 shadow">🧾 Annual Expense at Retirement: ₹${formatINR(inflatedExpense)}</div>
+        <div class="bg-yellow-100 text-yellow-700 rounded p-3 shadow">📈 SIP Required/Month: ₹${formatINR(sip)}</div>
+        <div class="bg-rose-100 text-rose-700 rounded p-3 shadow">🏖️ Retirement Duration: ${retirementYears} years</div>
+      `;
+
+      const ctx = document.getElementById('fireChart').getContext('2d');
+      if (window.fireChart && typeof window.fireChart.destroy === 'function') window.fireChart.destroy();
+      window.fireChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: Array.from({ length: retirementYears }, (_, i) => `Year ${i + 1}`),
+          datasets: [{
+            label: 'Annual Withdrawal (₹)',
+            data: Array(retirementYears).fill(inflatedExpense),
+            borderColor: '#2563eb',
+            backgroundColor: 'rgba(37,99,235,0.2)',
+            fill: true,
+            tension: 0.4
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { position: 'top' } },
+          scales: {
+            y: {
+              ticks: { callback: value => '₹' + value.toLocaleString('en-IN') }
+            }
+          }
+        }
+      });
+    }
+
+    ['currentAge', 'retirementAge', 'lifeExpectancy', 'monthlyExpense', 'returnRate', 'postReturnRate']
+      .forEach(id => document.getElementById(id).addEventListener('input', updateFIRE));
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadPartial('include-header', '/components/header.html');
+      loadPartial('include-nav', '/components/nav.html');
+      loadPartial('include-footer', '/components/footer.html');
+      updateFIRE();
+    });
+
+    async function loadPartial(id, file) {
+      const res = await fetch(file);
+      const text = await res.text();
+      document.getElementById(id).innerHTML = text;
+    }
+  </script>
+</body>
+</html>
