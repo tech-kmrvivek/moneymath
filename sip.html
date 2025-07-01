@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>SIP Calculator - MoneyMath</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col">
 
@@ -26,13 +27,24 @@
 
     <!-- Main Content -->
     <main class="flex-1 p-6">
-      <h1 class="text-2xl font-bold mb-4">📈 SIP Calculator</h1>
-      <div class="bg-white p-6 rounded shadow-md max-w-lg mx-auto space-y-4">
+      <h1 class="text-2xl font-bold mb-6">📈 SIP Calculator</h1>
+      <div class="bg-white p-6 rounded shadow-md max-w-2xl mx-auto space-y-4">
         <input id="sipAmount" type="number" placeholder="Monthly SIP (₹)" class="w-full border p-2 rounded">
         <input id="sipYears" type="number" placeholder="Investment Duration (Years)" class="w-full border p-2 rounded">
         <input id="sipRate" type="number" placeholder="Expected Return (% p.a.)" class="w-full border p-2 rounded">
         <button onclick="runSIP()" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">Calculate</button>
-        <div id="sipResult" class="text-center text-lg font-semibold hidden"></div>
+      </div>
+
+      <div id="sipResult" class="max-w-2xl mx-auto mt-8 hidden">
+        <div class="bg-white p-6 rounded shadow-md text-center">
+          <h2 class="text-xl font-bold mb-4">📊 Results Summary</h2>
+          <p id="sipSummary" class="text-lg"></p>
+        </div>
+
+        <div class="bg-white mt-6 p-6 rounded shadow-md">
+          <h3 class="text-lg font-semibold mb-2">Yearly Projection</h3>
+          <canvas id="sipChart" height="300"></canvas>
+        </div>
       </div>
     </main>
   </div>
@@ -54,18 +66,66 @@
       };
     }
 
+    function generateProjection(P, rate, years) {
+      const yearlyData = [];
+      const labels = [];
+      const r = rate / 12 / 100;
+      let total = 0;
+
+      for (let year = 1; year <= years; year++) {
+        const months = year * 12;
+        const value = P * (((Math.pow(1 + r, months) - 1) / r) * (1 + r));
+        yearlyData.push(value.toFixed(0));
+        labels.push(`Year ${year}`);
+      }
+
+      return { labels, data: yearlyData };
+    }
+
+    function renderChart(labels, data) {
+      const ctx = document.getElementById('sipChart').getContext('2d');
+      if (window.myChart) window.myChart.destroy();
+
+      window.myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Projected Value (₹)',
+            data: data,
+            borderColor: '#2563eb',
+            backgroundColor: 'rgba(37, 99, 235, 0.2)',
+            fill: true,
+            tension: 0.3
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { position: 'top' },
+            title: { display: false }
+          }
+        }
+      });
+    }
+
     function runSIP() {
       const P = parseFloat(document.getElementById('sipAmount').value);
       const y = parseFloat(document.getElementById('sipYears').value);
       const r = parseFloat(document.getElementById('sipRate').value);
       if (!P || !y || !r) return;
+
       const result = calculateSIP(P, r, y);
-      document.getElementById('sipResult').innerHTML = `
-        Invested: ₹${result.invested.toFixed(0)}<br>
-        Gain: ₹${result.gain.toFixed(0)}<br>
-        Maturity: ₹${result.maturity.toFixed(0)}
+      const projection = generateProjection(P, r, y);
+
+      document.getElementById('sipSummary').innerHTML = `
+        Invested: <span class="text-blue-600 font-semibold">₹${result.invested.toFixed(0)}</span><br>
+        Gain: <span class="text-green-600 font-semibold">₹${result.gain.toFixed(0)}</span><br>
+        Maturity: <span class="text-purple-600 font-semibold">₹${result.maturity.toFixed(0)}</span>
       `;
       document.getElementById('sipResult').classList.remove('hidden');
+
+      renderChart(projection.labels, projection.data);
     }
   </script>
 
