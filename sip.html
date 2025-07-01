@@ -2,87 +2,79 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SIP Calculator - MoneyMath</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col">
-
-  <!-- Header -->
   <header class="bg-white shadow p-4 text-center font-bold text-2xl text-blue-700">
-    MoneyMath 💸
+    MoneyMath 💸 - SIP Calculator
   </header>
 
-  <div class="flex flex-1">
-    <!-- Sidebar -->
-    <aside class="w-64 bg-white p-4 shadow-md hidden md:block">
-      <nav class="space-y-4">
-        <a href="index.html" class="block text-lg font-medium hover:text-blue-600">🏠 Home</a>
-        <a href="sip.html" class="block text-lg font-medium text-blue-600">📈 SIP Calculator</a>
-        <a href="swp.html" class="block text-lg font-medium hover:text-blue-600">💸 SWP Calculator</a>
-        <a href="lumpsum.html" class="block text-lg font-medium hover:text-blue-600">💰 Lumpsum Calculator</a>
-      </nav>
-    </aside>
+  <main class="flex flex-1 flex-col md:flex-row p-6 gap-6">
+    <!-- Inputs Section -->
+    <section class="bg-white p-6 rounded shadow-md w-full md:w-1/3 space-y-4">
+      <div>
+        <label for="sipAmount" class="block text-sm font-semibold mb-1">Monthly SIP Amount (₹)</label>
+        <input id="sipAmount" name="sipAmount" type="number" placeholder="Enter SIP amount" class="w-full border p-3 rounded focus:ring focus:ring-blue-300">
+      </div>
+      <div>
+        <label for="sipYears" class="block text-sm font-semibold mb-1">Investment Duration (Years)</label>
+        <input id="sipYears" name="sipYears" type="number" placeholder="Enter duration" class="w-full border p-3 rounded focus:ring focus:ring-blue-300">
+      </div>
+      <div>
+        <label for="sipRate" class="block text-sm font-semibold mb-1">Expected Annual Return (%)</label>
+        <input id="sipRate" name="sipRate" type="number" placeholder="Enter expected return" class="w-full border p-3 rounded focus:ring focus:ring-blue-300">
+      </div>
+    </section>
 
-    <!-- Main Content -->
-    <main class="flex-1 p-6">
-      <h1 class="text-3xl font-bold mb-6 text-center text-blue-700">📈 SIP Calculator</h1>
-      <div class="bg-white p-6 rounded shadow-md max-w-2xl mx-auto space-y-6">
-        <div>
-          <label for="sipAmount" class="block text-sm font-semibold mb-1">Monthly SIP Amount (₹)</label>
-          <input id="sipAmount" name="sipAmount" type="number" placeholder="Enter SIP amount" class="w-full border p-3 rounded focus:ring focus:ring-blue-300">
+    <!-- Results and Charts -->
+    <section id="sipResult" class="hidden w-full md:w-2/3 space-y-6">
+      <div class="flex flex-col md:flex-row gap-6">
+        <!-- Text Summary -->
+        <div class="flex-1 bg-white p-6 rounded shadow-md text-center" id="sipSummary"></div>
+
+        <!-- Doughnut Chart -->
+        <div class="flex-1 bg-white p-6 rounded shadow-md">
+          <h3 class="text-lg font-semibold mb-2 text-blue-700">Breakdown</h3>
+          <canvas id="sipPieChart" height="250"></canvas>
         </div>
-        <div>
-          <label for="sipYears" class="block text-sm font-semibold mb-1">Investment Duration (Years)</label>
-          <input id="sipYears" name="sipYears" type="number" placeholder="Enter duration" class="w-full border p-3 rounded focus:ring focus:ring-blue-300">
-        </div>
-        <div>
-          <label for="sipRate" class="block text-sm font-semibold mb-1">Expected Annual Return (%)</label>
-          <input id="sipRate" name="sipRate" type="number" placeholder="Enter expected return" class="w-full border p-3 rounded focus:ring focus:ring-blue-300">
-        </div>
-        <button onclick="runSIP()" class="w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-3 rounded font-semibold hover:from-blue-600 hover:to-indigo-700 transition">Calculate SIP</button>
       </div>
 
-      <div id="sipResult" class="max-w-2xl mx-auto mt-10 hidden">
-        <div class="bg-white p-6 rounded shadow-md text-center space-y-2">
-          <h2 class="text-2xl font-bold text-blue-700">📊 Results Summary</h2>
-          <p id="sipSummary" class="text-lg"></p>
-        </div>
-
-        <div class="bg-white mt-6 p-6 rounded shadow-md">
-          <h3 class="text-lg font-semibold mb-2 text-blue-700">📉 Yearly Projection</h3>
-          <canvas id="sipChart" height="300"></canvas>
-        </div>
+      <!-- Line Chart -->
+      <div class="bg-white p-6 rounded shadow-md">
+        <h3 class="text-lg font-semibold mb-2 text-blue-700">Yearly Projection</h3>
+        <canvas id="sipChart" height="300"></canvas>
       </div>
-    </main>
-  </div>
+    </section>
+  </main>
 
-  <!-- Footer -->
   <footer class="bg-white text-center text-sm p-4 shadow mt-4">
     © 2025 MoneyMath — Simplifying Your Finances 💡
   </footer>
 
-  <!-- SIP Calculator Script -->
   <script>
     function calculateSIP(P, rate, years) {
-      const r = rate / 12 / 100;
-      const n = years * 12;
-      const fv = P * (((Math.pow(1 + r, n) - 1) / r) * (1 + r));
+      const r = rate / 100;
+      const n = years;
+      const maturity = P * 12 * ((Math.pow(1 + r / 12, n * 12) - 1) / (r / 12)) * (1 + r / 12);
+      const invested = P * 12 * years;
+      const gain = maturity - invested;
       return {
-        invested: P * n,
-        gain: fv - (P * n),
-        maturity: fv
+        invested,
+        gain,
+        maturity
       };
     }
 
     function generateProjection(P, rate, years) {
       const yearlyData = [];
       const labels = [];
-      const r = rate / 12 / 100;
+      const r = rate / 100 / 12;
       for (let year = 1; year <= years; year++) {
-        const months = year * 12;
-        const value = P * (((Math.pow(1 + r, months) - 1) / r) * (1 + r));
+        const n = year * 12;
+        const value = P * ((Math.pow(1 + r, n) - 1) / r) * (1 + r);
         yearlyData.push(parseFloat(value.toFixed(0)));
         labels.push(`Year ${year}`);
       }
@@ -93,10 +85,10 @@
       return value.toLocaleString('en-IN');
     }
 
-    function renderChart(labels, data) {
+    function renderLineChart(labels, data) {
       const ctx = document.getElementById('sipChart').getContext('2d');
-      if (window.myChart) window.myChart.destroy();
-      window.myChart = new Chart(ctx, {
+      if (window.myLineChart) window.myLineChart.destroy();
+      window.myLineChart = new Chart(ctx, {
         type: 'line',
         data: {
           labels: labels,
@@ -128,6 +120,28 @@
       });
     }
 
+    function renderDoughnutChart(invested, gain) {
+      const ctx = document.getElementById('sipPieChart').getContext('2d');
+      if (window.myPieChart) window.myPieChart.destroy();
+      window.myPieChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Invested', 'Gain'],
+          datasets: [{
+            data: [invested, gain],
+            backgroundColor: ['#3b82f6', '#22c55e'],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { position: 'bottom' }
+          }
+        }
+      });
+    }
+
     function runSIP() {
       const P = parseFloat(document.getElementById('sipAmount').value);
       const y = parseFloat(document.getElementById('sipYears').value);
@@ -138,15 +152,21 @@
       const projection = generateProjection(P, r, y);
 
       document.getElementById('sipSummary').innerHTML = `
-        Invested: <span class="text-blue-600 font-semibold">₹${formatINR(result.invested.toFixed(0))}</span><br>
-        Gain: <span class="text-green-600 font-semibold">₹${formatINR(result.gain.toFixed(0))}</span><br>
-        Maturity: <span class="text-purple-600 font-semibold">₹${formatINR(result.maturity.toFixed(0))}</span>
+        <div class="text-blue-600 font-semibold">Invested: ₹${formatINR(result.invested.toFixed(0))}</div>
+        <div class="text-green-600 font-semibold">Gain: ₹${formatINR(result.gain.toFixed(0))}</div>
+        <div class="text-purple-600 font-semibold">Maturity: ₹${formatINR(result.maturity.toFixed(0))}</div>
       `;
       document.getElementById('sipResult').classList.remove('hidden');
 
-      renderChart(projection.labels, projection.data);
+      renderLineChart(projection.labels, projection.data);
+      renderDoughnutChart(result.invested, result.gain);
     }
-</script>
 
+    window.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('input').forEach(input => {
+        input.addEventListener('input', runSIP);
+      });
+    });
+  </script>
 </body>
 </html>
