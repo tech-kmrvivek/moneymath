@@ -4,19 +4,19 @@
       <!-- Logo -->
       <a href="/" class="text-xl font-bold text-blue-700 dark:text-blue-400">💸 MoneyMath</a>
 
-      <!-- Desktop Links -->
-      <div class="hidden md:flex space-x-6 text-sm font-medium text-gray-700 dark:text-gray-200">
-        <a href="/" class="nav-link">Home</a>
-        <a href="/calculator/sip.html" class="nav-link">SIP</a>
-        <a href="/calculator/swp.html" class="nav-link">SWP</a>
-        <a href="/calculator/lumpsum.html" class="nav-link">Lumpsum</a>
-        <a href="/calculator/fire-calculator.html" class="nav-link">FIRE</a>
-        <a href="/about.html" class="nav-link">About</a>
-        <a href="/contact.html" class="nav-link">Contact</a>
+      <!-- Desktop Menu -->
+      <div class="hidden md:flex items-center gap-6 text-sm font-medium">
+        <a href="/" class="nav-link">🏠 Home</a>
+        <a href="/calculator/sip.html" class="nav-link">📈 SIP</a>
+        <a href="/calculator/swp.html" class="nav-link">💸 SWP</a>
+        <a href="/calculator/lumpsum.html" class="nav-link">💰 Lumpsum</a>
+        <a href="/calculator/fire-calculator.html" class="nav-link">🔥 FIRE</a>
+        <a href="/about.html" class="nav-link">ℹ️ About</a>
+        <a href="/contact.html" class="nav-link">📞 Contact</a>
       </div>
 
-      <!-- Mobile Menu Button -->
-      <button id="mobileMenuBtn" class="md:hidden text-gray-700 dark:text-gray-200 focus:outline-none">
+      <!-- Mobile Button -->
+      <button id="mobileMenuBtn" class="md:hidden text-gray-700 dark:text-gray-300 focus:outline-none">
         <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2"
              viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
           <path d="M4 6h16M4 12h16M4 18h16" />
@@ -25,33 +25,36 @@
     </div>
 
     <!-- Mobile Menu -->
-    <div id="mobileMenu" class="md:hidden hidden border-t border-gray-100 dark:border-gray-700 py-4">
-      <div class="flex flex-col space-y-3 text-sm font-medium text-gray-700 dark:text-gray-200">
-        <a href="/" class="nav-link px-2">Home</a>
-        <a href="/calculator/sip.html" class="nav-link px-2">SIP</a>
-        <a href="/calculator/swp.html" class="nav-link px-2">SWP</a>
-        <a href="/calculator/lumpsum.html" class="nav-link px-2">Lumpsum</a>
-        <a href="/calculator/fire-calculator.html" class="nav-link px-2">FIRE</a>
-        <a href="/about.html" class="nav-link px-2">About</a>
-        <a href="/contact.html" class="nav-link px-2">Contact</a>
-      </div>
+    <div id="mobileMenu" class="md:hidden hidden py-4 border-t border-gray-100 dark:border-gray-800 text-sm font-medium space-y-2">
+      <a href="/" class="nav-link block px-4 py-2">🏠 Home</a>
+      <a href="/calculator/sip.html" class="nav-link block px-4 py-2">📈 SIP</a>
+      <a href="/calculator/swp.html" class="nav-link block px-4 py-2">💸 SWP</a>
+      <a href="/calculator/lumpsum.html" class="nav-link block px-4 py-2">💰 Lumpsum</a>
+      <a href="/calculator/fire-calculator.html" class="nav-link block px-4 py-2">🔥 FIRE</a>
+      <a href="/about.html" class="nav-link block px-4 py-2">ℹ️ About</a>
+      <a href="/contact.html" class="nav-link block px-4 py-2">📞 Contact</a>
     </div>
   </div>
 </nav>
 
 <script>
   // Toggle mobile menu
-  document.getElementById('mobileMenuBtn').addEventListener('click', () => {
-    document.getElementById('mobileMenu').classList.toggle('hidden');
-  });
-
-  // Highlight active nav link
-  const currentPath = window.location.pathname;
-  document.querySelectorAll('.nav-link').forEach(link => {
-    if (link.getAttribute('href') === currentPath) {
-      link.classList.add('text-blue-600', 'font-semibold');
-    } else {
-      link.classList.remove('text-blue-600', 'font-semibold');
+  document.addEventListener("DOMContentLoaded", function () {
+    const btn = document.getElementById("mobileMenuBtn");
+    const menu = document.getElementById("mobileMenu");
+    if (btn) {
+      btn.addEventListener("click", () => {
+        menu.classList.toggle("hidden");
+      });
     }
+
+    // Highlight current nav link
+    const currentPath = window.location.pathname.replace(/\/+$/, ''); // Trim trailing slash
+    document.querySelectorAll('.nav-link').forEach(link => {
+      const href = link.getAttribute('href').replace(/\/+$/, '');
+      if (href === currentPath) {
+        link.classList.add('text-blue-600', 'font-semibold');
+      }
+    });
   });
 </script>
