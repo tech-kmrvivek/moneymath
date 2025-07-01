@@ -63,6 +63,7 @@
     © 2025 MoneyMath — Simplifying Your Finances 💡
   </footer>
 
+  <!-- SIP Calculator Script -->
   <script>
     function calculateSIP(P, rate, years) {
       const r = rate / 12 / 100;
@@ -82,10 +83,14 @@
       for (let year = 1; year <= years; year++) {
         const months = year * 12;
         const value = P * (((Math.pow(1 + r, months) - 1) / r) * (1 + r));
-        yearlyData.push(value.toFixed(0));
+        yearlyData.push(parseFloat(value.toFixed(0)));
         labels.push(`Year ${year}`);
       }
       return { labels, data: yearlyData };
+    }
+
+    function formatINR(value) {
+      return value.toLocaleString('en-IN');
     }
 
     function renderChart(labels, data) {
@@ -109,6 +114,15 @@
           plugins: {
             legend: { position: 'top' },
             title: { display: false }
+          },
+          scales: {
+            y: {
+              ticks: {
+                callback: function(value) {
+                  return '₹' + formatINR(value);
+                }
+              }
+            }
           }
         }
       });
@@ -124,9 +138,9 @@
       const projection = generateProjection(P, r, y);
 
       document.getElementById('sipSummary').innerHTML = `
-        Invested: <span class="text-blue-600 font-semibold">₹${result.invested.toFixed(0)}</span><br>
-        Gain: <span class="text-green-600 font-semibold">₹${result.gain.toFixed(0)}</span><br>
-        Maturity: <span class="text-purple-600 font-semibold">₹${result.maturity.toFixed(0)}</span>
+        Invested: <span class="text-blue-600 font-semibold">₹${formatINR(result.invested.toFixed(0))}</span><br>
+        Gain: <span class="text-green-600 font-semibold">₹${formatINR(result.gain.toFixed(0))}</span><br>
+        Maturity: <span class="text-purple-600 font-semibold">₹${formatINR(result.maturity.toFixed(0))}</span>
       `;
       document.getElementById('sipResult').classList.remove('hidden');
 
