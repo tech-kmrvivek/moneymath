@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Us | MoneyMath</title>
+  <meta name="description" content="Discover MoneyMath – the ultimate finance companion for calculators, blogs, and personal finance mastery.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          animation: {
+            fadeInUp: 'fadeInUp 0.6s ease-out both',
+          },
+          keyframes: {
+            fadeInUp: {
+              '0%': { opacity: 0, transform: 'translateY(20px)' },
+              '100%': { opacity: 1, transform: 'translateY(0)' },
+            },
+          },
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-gradient-to-b from-blue-50 via-white to-white text-gray-800 min-h-screen flex flex-col">
+  <div id="include-header"></div>
+  <div id="include-nav"></div>
+
+  <main class="flex-1 px-6 py-12 max-w-5xl mx-auto space-y-10 animate-fadeInUp">
+    <!-- Hero Section -->
+    <section class="text-center space-y-4">
+      <h1 class="text-4xl font-extrabold text-blue-700 tracking-tight">💼 About MoneyMath</h1>
+      <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+        Empowering you with smart tools and insights to master your money — one calculation at a time.
+      </p>
+    </section>
+
+    <!-- Our Mission -->
+    <section class="bg-white p-6 rounded-2xl shadow-md border-l-4 border-blue-500 transition hover:shadow-xl">
+      <h2 class="text-2xl font-semibold text-blue-600 mb-3 flex items-center gap-2">
+        <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" stroke-width="2"
+          viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round"
+          d="M12 6v6l4 2"></path></svg>
+        Our Mission
+      </h2>
+      <p class="text-gray-700 text-lg leading-relaxed">
+        At <strong>MoneyMath</strong>, we believe that financial literacy is the foundation of freedom. We're here to simplify finance with clean, intuitive tools and educational content — so that anyone can take control of their money and plan a better future.
+      </p>
+    </section>
+
+    <!-- What We Offer -->
+    <section class="grid md:grid-cols-2 gap-6">
+      <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition space-y-3 border-t-4 border-indigo-500">
+        <h3 class="text-xl font-semibold text-indigo-700 flex items-center gap-2">
+          📊 Smart Calculators
+        </h3>
+        <p class="text-gray-700">From SIP to FIRE, our calculators are accurate, fast, and beautiful — designed to help you make smarter decisions.</p>
+      </div>
+      <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition space-y-3 border-t-4 border-teal-500">
+        <h3 class="text-xl font-semibold text-teal-700 flex items-center gap-2">
+          🧠 Financial Insights
+        </h3>
+        <p class="text-gray-700">We decode personal finance concepts into simple language with actionable takeaways via our blog.</p>
+      </div>
+      <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition space-y-3 border-t-4 border-yellow-500">
+        <h3 class="text-xl font-semibold text-yellow-700 flex items-center gap-2">
+          📈 Visual Charts
+        </h3>
+        <p class="text-gray-700">Track your goals visually and stay motivated with interactive graphs and summaries.</p>
+      </div>
+      <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition space-y-3 border-t-4 border-rose-500">
+        <h3 class="text-xl font-semibold text-rose-700 flex items-center gap-2">
+          🔐 100% Free & Private
+        </h3>
+        <p class="text-gray-700">No sign-ups. No ads. No data tracking. Just pure, helpful finance tools.</p>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="text-center mt-10">
+      <h2 class="text-2xl font-semibold text-blue-700 mb-3">📬 Get in Touch</h2>
+      <p class="text-gray-700 text-lg">Have feedback or ideas? We'd love to hear from you!</p>
+      <a href="mailto:support@moneymath.in" class="inline-block mt-4 px-6 py-2 text-white bg-blue-600 rounded-full hover:bg-blue-700 transition">
+        ✉️ support@moneymath.in
+      </a>
+    </section>
+  </main>
+
+  <div id="include-footer"></div>
+
+  <script>
+    async function loadPartial(id, file) {
+      const res = await fetch(file);
+      const text = await res.text();
+      document.getElementById(id).innerHTML = text;
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      loadPartial("include-header", "/components/header.html");
+      loadPartial("include-nav", "/components/nav.html");
+      loadPartial("include-footer", "/components/footer.html");
+    });
+  </script>
+</body>
+</html>
