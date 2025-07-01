@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>How Compound Interest Works | MoneyMath Blog</title>
+  <meta name="description" content="Understand the power of compound interest with simple ₹ examples and learn how it helps grow your wealth faster than simple interest.">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
+  <div id="include-header"></div>
+  <div id="include-nav"></div>
+
+  <main class="flex-1 p-6 max-w-3xl mx-auto space-y-6">
+    <h1 class="text-3xl font-bold text-blue-700">📘 How Compound Interest Works (with Simple Examples)</h1>
+    <p class="text-sm text-gray-500">Published on July 2, 2025 • 4 min read</p>
+
+    <p class="text-lg text-gray-700">
+      Compound interest is one of the most powerful concepts in personal finance. It helps your money grow faster because you earn interest on your interest. Let’s break it down with real-world numbers.
+    </p>
+
+    <h2 class="text-2xl font-semibold text-indigo-700 mt-6">💡 Simple vs Compound Interest</h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+      <div class="bg-white p-4 border-l-4 border-blue-600 rounded shadow">
+        <h3 class="text-lg font-semibold text-blue-600">Simple Interest</h3>
+        <p class="text-sm text-gray-600 mt-2">Interest is calculated only on the principal.</p>
+        <p class="mt-2"><strong>Formula:</strong> SI = (P × R × T) / 100</p>
+      </div>
+      <div class="bg-white p-4 border-l-4 border-green-600 rounded shadow">
+        <h3 class="text-lg font-semibold text-green-600">Compound Interest</h3>
+        <p class="text-sm text-gray-600 mt-2">Interest is calculated on principal + past interest.</p>
+        <p class="mt-2"><strong>Formula:</strong> A = P × (1 + R/100)<sup>T</sup></p>
+        <p class="text-sm mt-1">CI = A − P</p>
+      </div>
+    </div>
+
+    <h2 class="text-2xl font-semibold text-indigo-700 mt-6">📊 Example 1: ₹10,000 at 10% for 5 Years</h2>
+
+    <div class="bg-white p-4 rounded shadow">
+      <p><strong>Simple Interest:</strong> ₹10,000 × 10% × 5 = ₹5,000</p>
+      <p><strong>Total Amount:</strong> ₹15,000</p>
+      <hr class="my-2">
+      <p><strong>Compound Interest:</strong></p>
+      <p>A = 10,000 × (1 + 0.10)<sup>5</sup> = ₹16,105</p>
+      <p><strong>Compound Interest:</strong> ₹6,105</p>
+    </div>
+
+    <p class="mt-2">
+      ✅ Compound interest gives you ₹1,105 more than simple interest in 5 years — because interest is reinvested every year.
+    </p>
+
+    <h2 class="text-2xl font-semibold text-indigo-700 mt-6">📈 Example 2: ₹1 Lakh at 12% for 15 Years</h2>
+    <div class="bg-gray-100 p-4 rounded shadow">
+      <p><strong>Final Amount:</strong> ₹1,00,000 × (1 + 0.12)<sup>15</sup> = ₹5.47 Lakhs</p>
+      <p><strong>Wealth Gain:</strong> ₹4.47 Lakhs (Over 4.5x your investment!)</p>
+    </div>
+
+    <h2 class="text-xl font-bold text-blue-700 mt-10">💬 Why Compound Interest Matters</h2>
+    <ul class="list-disc pl-6 mt-2 text-gray-700">
+      <li>It rewards long-term investing</li>
+      <li>Works best when you reinvest your gains (like SIPs in mutual funds)</li>
+      <li>The earlier you start, the more you gain</li>
+    </ul>
+
+    <div class="bg-green-100 p-4 rounded mt-4">
+      📌 Start investing early → stay invested long → watch compounding do the heavy lifting 💰
+    </div>
+
+    <h2 class="text-lg font-semibold text-blue-700 mt-6">📲 Try It Yourself</h2>
+    <p>Use our <a href="/calculators/compound-calculator.html" class="text-blue-600 hover:underline font-medium">Compound Interest Calculator</a> to estimate how your money can grow over time.</p>
+  </main>
+
+  <div id="include-footer"></div>
+
+  <script>
+    async function loadPartial(id, file) {
+      const res = await fetch(file);
+      const text = await res.text();
+      document.getElementById(id).innerHTML = text;
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      loadPartial("include-header", "/components/header.html");
+      loadPartial("include-nav", "/components/nav.html");
+      loadPartial("include-footer", "/components/footer.html");
+    });
+  </script>
+</body>
+</html>
