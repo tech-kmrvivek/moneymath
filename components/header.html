@@ -1,10 +1,26 @@
-<div id="nav-container"></div>
+<div id="nav-placeholder"></div>
 
 <script>
-  // Dynamically load nav.html inside header.html
+  // Load nav.html and execute its scripts
   fetch('/components/nav.html')
     .then(res => res.text())
     .then(html => {
-      document.getElementById('nav-container').innerHTML = html;
-    });
+      const container = document.getElementById('nav-placeholder');
+      container.innerHTML = html;
+
+      // Execute all <script> tags inside nav.html
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = html;
+
+      tempDiv.querySelectorAll('script').forEach(script => {
+        const newScript = document.createElement('script');
+        if (script.src) {
+          newScript.src = script.src;
+        } else {
+          newScript.textContent = script.textContent;
+        }
+        document.body.appendChild(newScript);
+      });
+    })
+    .catch(err => console.error("Failed to load nav:", err));
 </script>
