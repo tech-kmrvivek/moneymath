@@ -2,61 +2,52 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SIP Calculator - MoneyMath</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MoneyMath - Finance Tools</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex items-center justify-center p-4">
-  <div class="bg-white shadow-2xl rounded-2xl p-6 w-full max-w-md">
-    <h1 class="text-2xl font-bold mb-4 text-center">SIP Calculator</h1>
-    
-    <div class="space-y-4">
-      <div>
-        <label class="block text-sm font-medium">Monthly SIP (₹)</label>
-        <input id="sipAmount" type="number" class="w-full border p-2 rounded" placeholder="e.g., 10000" />
-      </div>
-      <div>
-        <label class="block text-sm font-medium">Investment Duration (Years)</label>
-        <input id="duration" type="number" class="w-full border p-2 rounded" placeholder="e.g., 10" />
-      </div>
-      <div>
-        <label class="block text-sm font-medium">Expected Return Rate (% p.a.)</label>
-        <input id="rate" type="number" class="w-full border p-2 rounded" placeholder="e.g., 12" />
-      </div>
+<body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col">
 
-      <button onclick="calculateSIP()" class="w-full bg-blue-600 text-white font-semibold py-2 rounded hover:bg-blue-700">
-        Calculate
-      </button>
+  <!-- Header -->
+  <header class="bg-white shadow p-4 text-center font-bold text-2xl text-blue-700">
+    MoneyMath 💸
+  </header>
 
-      <div id="result" class="mt-4 text-center text-lg font-semibold hidden"></div>
-    </div>
+  <div class="flex flex-1">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white p-4 shadow-md hidden md:block">
+      <nav class="space-y-4">
+        <a href="index.html" class="block text-lg font-medium hover:text-blue-600">🏠 Home</a>
+        <a href="sip.html" class="block text-lg font-medium hover:text-blue-600">📈 SIP Calculator</a>
+        <a href="swp.html" class="block text-lg font-medium hover:text-blue-600">💸 SWP Calculator</a>
+        <a href="lumpsum.html" class="block text-lg font-medium hover:text-blue-600">💰 Lumpsum Calculator</a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-6">
+      <h2 class="text-2xl font-semibold mb-4">📅 Daily Blogs & Tips</h2>
+      <div class="grid gap-4">
+        <div class="bg-white p-4 rounded shadow">
+          <h3 class="text-xl font-bold">Why SIPs Work Better in Volatile Markets</h3>
+          <p class="text-sm text-gray-600">SIPs average out market fluctuations. Learn how...</p>
+        </div>
+        <div class="bg-white p-4 rounded shadow">
+          <h3 class="text-xl font-bold">How to Plan for FIRE (Financial Independence)</h3>
+          <p class="text-sm text-gray-600">Retire early with goal-based investing strategies...</p>
+        </div>
+        <div class="bg-white p-4 rounded shadow">
+          <h3 class="text-xl font-bold">SWP: Retire Smart by Withdrawing Monthly</h3>
+          <p class="text-sm text-gray-600">What is SWP and how to use it wisely?</p>
+        </div>
+      </div>
+    </main>
   </div>
 
-  <script>
-    function calculateSIP() {
-      const P = parseFloat(document.getElementById('sipAmount').value);
-      const years = parseFloat(document.getElementById('duration').value);
-      const annualRate = parseFloat(document.getElementById('rate').value);
+  <!-- Footer -->
+  <footer class="bg-white text-center text-sm p-4 shadow mt-4">
+    © 2025 MoneyMath — Simplifying Your Finances 💡
+  </footer>
 
-      if (isNaN(P) || isNaN(years) || isNaN(annualRate)) {
-        alert('Please fill in all fields correctly.');
-        return;
-      }
-
-      const r = annualRate / 12 / 100;
-      const n = years * 12;
-
-      const maturity = P * (((Math.pow(1 + r, n) - 1) / r) * (1 + r));
-      const invested = P * n;
-      const gain = maturity - invested;
-
-      document.getElementById('result').innerHTML = `
-        Invested: ₹${invested.toLocaleString()}<br/>
-        Estimated Returns: ₹${gain.toLocaleString()}<br/>
-        Maturity Value: ₹${maturity.toLocaleString()}
-      `;
-      document.getElementById('result').classList.remove('hidden');
-    }
-  </script>
 </body>
 </html>
