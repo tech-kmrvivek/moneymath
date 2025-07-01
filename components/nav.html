@@ -7,26 +7,17 @@
 
       <!-- Navigation Links -->
       <div class="flex flex-wrap gap-2 text-sm font-semibold justify-start sm:justify-end">
-        <a href="/" class="nav-link">🏠 Home</a>
-        <a href="/calculator/sip.html" class="nav-link">📈 SIP</a>
-        <a href="/calculator/swp.html" class="nav-link">💸 SWP</a>
-        <a href="/calculator/lumpsum.html" class="nav-link">💰 Lumpsum</a>
-        <a href="/calculator/fire-calculator.html" class="nav-link">🔥 FIRE</a>
-        <a href="/about.html" class="nav-link">ℹ️ About</a>
-        <a href="/contact.html" class="nav-link">📞 Contact</a>
+        <a href="/" class="nav-link px-3 py-1 rounded-full transition-all duration-300 ease-in-out hover:bg-white/10">🏠 Home</a>
+        <a href="/calculator/sip.html" class="nav-link px-3 py-1 rounded-full transition-all duration-300 ease-in-out hover:bg-white/10">📈 SIP</a>
+        <a href="/calculator/swp.html" class="nav-link px-3 py-1 rounded-full transition-all duration-300 ease-in-out hover:bg-white/10">💸 SWP</a>
+        <a href="/calculator/lumpsum.html" class="nav-link px-3 py-1 rounded-full transition-all duration-300 ease-in-out hover:bg-white/10">💰 Lumpsum</a>
+        <a href="/calculator/fire-calculator.html" class="nav-link px-3 py-1 rounded-full transition-all duration-300 ease-in-out hover:bg-white/10">🔥 FIRE</a>
+        <a href="/about.html" class="nav-link px-3 py-1 rounded-full transition-all duration-300 ease-in-out hover:bg-white/10">ℹ️ About</a>
+        <a href="/contact.html" class="nav-link px-3 py-1 rounded-full transition-all duration-300 ease-in-out hover:bg-white/10">📞 Contact</a>
       </div>
     </div>
   </div>
 </nav>
-
-<style>
-  .nav-link {
-    @apply text-white px-3 py-1 rounded-full transition-all duration-300 ease-in-out hover:bg-white/10;
-  }
-  .nav-link.active {
-    @apply bg-blue-900/80 font-bold;
-  }
-</style>
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
@@ -34,7 +25,7 @@
     document.querySelectorAll('.nav-link').forEach(link => {
       const href = link.getAttribute('href')?.replace(/\/+$/, '');
       if (href === currentPath) {
-        link.classList.add('active');
+        link.classList.add('bg-blue-900/80', 'font-bold');
       }
     });
   });
