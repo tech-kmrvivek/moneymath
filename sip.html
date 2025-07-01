@@ -170,7 +170,7 @@
         <div class="bg-green-50 text-green-800 text-lg font-semibold p-3 rounded mb-2 shadow">Gain: ₹${formatINR(result.gain.toFixed(0))}</div>
         <div class="bg-purple-50 text-purple-800 text-lg font-semibold p-3 rounded mb-2 shadow">Maturity: ₹${formatINR(result.maturity.toFixed(0))}</div>
       `;
-      document.getElementById('sipMessage').innerHTML = `📅 <span>\${$1}</span>`;
+      document.getElementById('sipMessage').innerHTML = `📅 <span>Your total corpus will be ₹${formatINR(result.maturity.toFixed(0))} after ${y} years.</span>`;
   </script>
 </body>
 </html>
