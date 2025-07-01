@@ -101,10 +101,7 @@
   }
 
   return projection;
-}, (_, i) => {
-        const n = (i + 1) * 12;
-        const val = P * ((Math.pow(1 + r, n) - 1) / r) * (1 + r);
-        return { year: `Year ${i + 1}`, value: parseFloat(val.toFixed(0)) };
+}
       });
     }
 
