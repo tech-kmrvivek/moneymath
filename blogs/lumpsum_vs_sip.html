@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lumpsum vs SIP: Which is Better? | MoneyMath</title>
+  <meta name="description" content="Explore the key differences between Lumpsum and SIP investments. Learn which method is right for your financial goals with our clear comparison and tools.">
+  <meta name="keywords" content="Lumpsum vs SIP, mutual fund investment, systematic investment plan, investing strategy, financial planning">
+  <meta name="author" content="MoneyMath">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
+  <div id="include-header"></div>
+  <div id="include-nav"></div>
+
+  <main class="max-w-3xl mx-auto p-6 bg-white shadow rounded mt-6 mb-12">
+    <h1 class="text-3xl font-bold text-blue-600 mb-4">Lumpsum Investment vs SIP: Which is Better?</h1>
+
+    <p class="mb-4">Investing in mutual funds offers flexibility in how you put your money to work. The two most popular methods are Lumpsum and SIP (Systematic Investment Plan). But which one is better for you? Let's explore.</p>
+
+    <h2 class="text-xl font-semibold text-gray-800 mt-6 mb-2">What is Lumpsum Investment?</h2>
+    <p class="mb-4">A Lumpsum investment means investing a large amount of money in one go. It’s suitable for investors who have a significant amount of idle cash and are confident about market timing.</p>
+
+    <h2 class="text-xl font-semibold text-gray-800 mt-6 mb-2">What is SIP?</h2>
+    <p class="mb-4">Systematic Investment Plan (SIP) allows you to invest a fixed amount regularly (monthly or quarterly). SIPs are ideal for salaried individuals and help build wealth gradually.</p>
+
+    <h2 class="text-xl font-semibold text-gray-800 mt-6 mb-2">Key Differences</h2>
+    <img src="/assets/images/sip-vs-lumpsum-chart.png" alt="SIP vs Lumpsum Comparison Chart" class="my-4 w-full rounded shadow-md">
+    <div class="overflow-x-auto mb-4">
+      <table class="table-auto w-full border border-gray-300">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="px-4 py-2 text-left">Factor</th>
+            <th class="px-4 py-2 text-left">Lumpsum Investment</th>
+            <th class="px-4 py-2 text-left">SIP</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-t">
+            <td class="px-4 py-2">Investment Style</td>
+            <td class="px-4 py-2">One-time</td>
+            <td class="px-4 py-2">Recurring</td>
+          </tr>
+          <tr class="border-t">
+            <td class="px-4 py-2">Market Timing</td>
+            <td class="px-4 py-2">Critical</td>
+            <td class="px-4 py-2">Less Relevant</td>
+          </tr>
+          <tr class="border-t">
+            <td class="px-4 py-2">Risk</td>
+            <td class="px-4 py-2">Higher (if poorly timed)</td>
+            <td class="px-4 py-2">Lower (rupee cost averaging)</td>
+          </tr>
+          <tr class="border-t">
+            <td class="px-4 py-2">Discipline</td>
+            <td class="px-4 py-2">Requires self-discipline</td>
+            <td class="px-4 py-2">Enforces discipline</td>
+          </tr>
+          <tr class="border-t">
+            <td class="px-4 py-2">Suitable For</td>
+            <td class="px-4 py-2">Investors with idle funds</td>
+            <td class="px-4 py-2">Regular income earners</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="text-xl font-semibold text-gray-800 mt-6 mb-2">Benefits of Lumpsum</h2>
+    <ul class="list-disc pl-6 space-y-2 mb-4">
+      <li>Potential for high returns if invested during a market dip.</li>
+      <li>No need to monitor and invest monthly.</li>
+    </ul>
+
+    <h2 class="text-xl font-semibold text-gray-800 mt-6 mb-2">Benefits of SIP</h2>
+    <ul class="list-disc pl-6 space-y-2 mb-4">
+      <li>Reduces risk with rupee cost averaging.</li>
+      <li>Fits well with monthly budgeting.</li>
+      <li>Encourages financial discipline.</li>
+    </ul>
+
+    <h2 class="text-xl font-semibold text-gray-800 mt-6 mb-2">When to Choose Lumpsum?</h2>
+    <ul class="list-disc pl-6 space-y-2 mb-4">
+      <li>You’ve received a bonus or windfall.</li>
+      <li>Market valuations are attractive.</li>
+      <li>You’re confident about market direction.</li>
+    </ul>
+
+    <h2 class="text-xl font-semibold text-gray-800 mt-6 mb-2">When to Choose SIP?</h2>
+    <ul class="list-disc pl-6 space-y-2 mb-4">
+      <li>You want to start small.</li>
+      <li>You’re investing for long-term goals.</li>
+      <li>You’re not confident about market timing.</li>
+    </ul>
+
+    <h2 class="text-xl font-semibold text-gray-800 mt-6 mb-2">Final Verdict</h2>
+    <p class="mb-6">There’s no one-size-fits-all answer. If you have a large corpus and are willing to take some risk, lumpsum can offer better returns. If you prefer consistency and lower risk, SIP is the way to go.</p>
+
+    <div class="flex flex-col sm:flex-row gap-4">
+      <a href="/sip.html" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded text-center">Try SIP Calculator</a>
+      <a href="/lumpsum.html" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded text-center">Try Lumpsum Calculator</a>
+    </div>
+  </main>
+
+  <div id="include-footer"></div>
+
+  <script>
+    async function loadPartial(id, file) {
+      const res = await fetch(file);
+      const text = await res.text();
+      document.getElementById(id).innerHTML = text;
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      loadPartial("include-header", "/components/header.html");
+      loadPartial("include-nav", "/components/nav.html");
+      loadPartial("include-footer", "/components/footer.html");
+    });
+  </script>
+</body>
+</html>
