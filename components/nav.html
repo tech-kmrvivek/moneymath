@@ -28,9 +28,6 @@
         <a href="/about.html" class="nav-link">ℹ️ About</a>
         <a href="/contact.html" class="nav-link">📞 Contact</a>
       </div>
-
-      <!-- Mobile Toggle (invisible for bottom sheet approach) -->
-      <!-- Optional: Remove this if not using dropdown menu on mobile -->
     </div>
   </div>
 </nav>
@@ -47,7 +44,7 @@
   </div>
 </div>
 
-<!-- JS to Highlight Current Link -->
+<!-- Highlight current page -->
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     const currentPath = window.location.pathname.replace(/\/+$/, '');
@@ -60,9 +57,9 @@
   });
 </script>
 
-<!-- Tailwind Custom Nav Styles -->
+<!-- Better Colors for Visibility -->
 <style>
   .nav-link {
-    @apply text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition;
+    @apply text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition;
   }
 </style>
