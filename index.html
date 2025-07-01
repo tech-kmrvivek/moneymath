@@ -18,29 +18,71 @@
     <aside class="w-64 bg-white p-4 shadow-md hidden md:block">
       <nav class="space-y-4">
         <a href="index.html" class="block text-lg font-medium hover:text-blue-600">🏠 Home</a>
-        <a href="sip.html" class="block text-lg font-medium hover:text-blue-600">📈 SIP Calculator</a>
-        <a href="swp.html" class="block text-lg font-medium hover:text-blue-600">💸 SWP Calculator</a>
-        <a href="lumpsum.html" class="block text-lg font-medium hover:text-blue-600">💰 Lumpsum Calculator</a>
+        <a href="#sip" class="block text-lg font-medium hover:text-blue-600">📈 SIP Calculator</a>
+        <a href="#swp" class="block text-lg font-medium hover:text-blue-600">💸 SWP Calculator</a>
+        <a href="#lumpsum" class="block text-lg font-medium hover:text-blue-600">💰 Lumpsum Calculator</a>
       </nav>
     </aside>
 
     <!-- Main Content -->
-    <main class="flex-1 p-6">
-      <h2 class="text-2xl font-semibold mb-4">📅 Daily Blogs & Tips</h2>
-      <div class="grid gap-4">
-        <div class="bg-white p-4 rounded shadow">
-          <h3 class="text-xl font-bold">Why SIPs Work Better in Volatile Markets</h3>
-          <p class="text-sm text-gray-600">SIPs average out market fluctuations. Learn how...</p>
+    <main class="flex-1 p-6 space-y-12">
+
+      <!-- SIP Calculator -->
+      <section id="sip">
+        <h2 class="text-xl font-bold mb-2">📈 SIP Calculator</h2>
+        <div class="bg-white p-4 rounded shadow space-y-4">
+          <input id="sipAmount" type="number" placeholder="Monthly SIP (₹)" class="w-full border p-2 rounded">
+          <input id="sipYears" type="number" placeholder="Investment Duration (Years)" class="w-full border p-2 rounded">
+          <input id="sipRate" type="number" placeholder="Expected Return (% p.a.)" class="w-full border p-2 rounded">
+          <button onclick="runSIP()" class="w-full bg-blue-600 text-white py-2 rounded">Calculate SIP</button>
+          <div id="sipResult" class="text-sm text-center hidden"></div>
         </div>
-        <div class="bg-white p-4 rounded shadow">
-          <h3 class="text-xl font-bold">How to Plan for FIRE (Financial Independence)</h3>
-          <p class="text-sm text-gray-600">Retire early with goal-based investing strategies...</p>
+      </section>
+
+      <!-- SWP Calculator -->
+      <section id="swp">
+        <h2 class="text-xl font-bold mb-2">💸 SWP Calculator</h2>
+        <div class="bg-white p-4 rounded shadow space-y-4">
+          <input id="swpInitial" type="number" placeholder="Initial Investment (₹)" class="w-full border p-2 rounded">
+          <input id="swpWithdrawal" type="number" placeholder="Monthly Withdrawal (₹)" class="w-full border p-2 rounded">
+          <input id="swpYears" type="number" placeholder="Duration (Years)" class="w-full border p-2 rounded">
+          <input id="swpRate" type="number" placeholder="Expected Return (% p.a.)" class="w-full border p-2 rounded">
+          <button onclick="runSWP()" class="w-full bg-blue-600 text-white py-2 rounded">Calculate SWP</button>
+          <div id="swpResult" class="text-sm text-center hidden"></div>
         </div>
-        <div class="bg-white p-4 rounded shadow">
-          <h3 class="text-xl font-bold">SWP: Retire Smart by Withdrawing Monthly</h3>
-          <p class="text-sm text-gray-600">What is SWP and how to use it wisely?</p>
+      </section>
+
+      <!-- Lumpsum Calculator -->
+      <section id="lumpsum">
+        <h2 class="text-xl font-bold mb-2">💰 Lumpsum Calculator</h2>
+        <div class="bg-white p-4 rounded shadow space-y-4">
+          <input id="lumpAmount" type="number" placeholder="One-time Investment (₹)" class="w-full border p-2 rounded">
+          <input id="lumpYears" type="number" placeholder="Investment Duration (Years)" class="w-full border p-2 rounded">
+          <input id="lumpRate" type="number" placeholder="Expected Return (% p.a.)" class="w-full border p-2 rounded">
+          <button onclick="runLumpsum()" class="w-full bg-blue-600 text-white py-2 rounded">Calculate Lumpsum</button>
+          <div id="lumpResult" class="text-sm text-center hidden"></div>
         </div>
-      </div>
+      </section>
+
+      <!-- Daily Blog Section -->
+      <section>
+        <h2 class="text-2xl font-semibold mb-4">📅 Daily Blogs & Tips</h2>
+        <div class="grid gap-4">
+          <div class="bg-white p-4 rounded shadow">
+            <h3 class="text-xl font-bold">Why SIPs Work Better in Volatile Markets</h3>
+            <p class="text-sm text-gray-600">SIPs average out market fluctuations. Learn how...</p>
+          </div>
+          <div class="bg-white p-4 rounded shadow">
+            <h3 class="text-xl font-bold">How to Plan for FIRE (Financial Independence)</h3>
+            <p class="text-sm text-gray-600">Retire early with goal-based investing strategies...</p>
+          </div>
+          <div class="bg-white p-4 rounded shadow">
+            <h3 class="text-xl font-bold">SWP: Retire Smart by Withdrawing Monthly</h3>
+            <p class="text-sm text-gray-600">What is SWP and how to use it wisely?</p>
+          </div>
+        </div>
+      </section>
+
     </main>
   </div>
 
@@ -48,6 +90,59 @@
   <footer class="bg-white text-center text-sm p-4 shadow mt-4">
     © 2025 MoneyMath — Simplifying Your Finances 💡
   </footer>
+
+  <script>
+    function calculateSIP(P, rate, years) {
+      const r = rate / 12 / 100;
+      const n = years * 12;
+      const fv = P * (((Math.pow(1 + r, n) - 1) / r) * (1 + r));
+      return { invested: P * n, gain: fv - (P * n), maturity: fv };
+    }
+
+    function calculateSWP(P, W, rate, years) {
+      const r = rate / 12 / 100;
+      const n = years * 12;
+      const fv = P * Math.pow(1 + r, n) - W * ((Math.pow(1 + r, n) - 1) / r);
+      return { finalCorpus: fv };
+    }
+
+    function calculateLumpsum(P, rate, years) {
+      const r = rate / 100;
+      const fv = P * Math.pow(1 + r, years);
+      return { invested: P, gain: fv - P, maturity: fv };
+    }
+
+    function runSIP() {
+      const P = parseFloat(document.getElementById('sipAmount').value);
+      const y = parseFloat(document.getElementById('sipYears').value);
+      const r = parseFloat(document.getElementById('sipRate').value);
+      if (!P || !y || !r) return;
+      const result = calculateSIP(P, r, y);
+      document.getElementById('sipResult').innerHTML = `Invested: ₹${result.invested.toFixed(0)}<br>Gain: ₹${result.gain.toFixed(0)}<br>Maturity: ₹${result.maturity.toFixed(0)}`;
+      document.getElementById('sipResult').classList.remove('hidden');
+    }
+
+    function runSWP() {
+      const P = parseFloat(document.getElementById('swpInitial').value);
+      const W = parseFloat(document.getElementById('swpWithdrawal').value);
+      const y = parseFloat(document.getElementById('swpYears').value);
+      const r = parseFloat(document.getElementById('swpRate').value);
+      if (!P || !W || !y || !r) return;
+      const result = calculateSWP(P, W, r, y);
+      document.getElementById('swpResult').innerHTML = `Final Corpus: ₹${result.finalCorpus.toFixed(0)}`;
+      document.getElementById('swpResult').classList.remove('hidden');
+    }
+
+    function runLumpsum() {
+      const P = parseFloat(document.getElementById('lumpAmount').value);
+      const y = parseFloat(document.getElementById('lumpYears').value);
+      const r = parseFloat(document.getElementById('lumpRate').value);
+      if (!P || !y || !r) return;
+      const result = calculateLumpsum(P, r, y);
+      document.getElementById('lumpResult').innerHTML = `Invested: ₹${result.invested.toFixed(0)}<br>Gain: ₹${result.gain.toFixed(0)}<br>Maturity: ₹${result.maturity.toFixed(0)}`;
+      document.getElementById('lumpResult').classList.remove('hidden');
+    }
+  </script>
 
 </body>
 </html>
