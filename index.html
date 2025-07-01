@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SIP Calculator - MoneyMath</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex items-center justify-center p-4">
+  <div class="bg-white shadow-2xl rounded-2xl p-6 w-full max-w-md">
+    <h1 class="text-2xl font-bold mb-4 text-center">SIP Calculator</h1>
+    
+    <div class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium">Monthly SIP (₹)</label>
+        <input id="sipAmount" type="number" class="w-full border p-2 rounded" placeholder="e.g., 10000" />
+      </div>
+      <div>
+        <label class="block text-sm font-medium">Investment Duration (Years)</label>
+        <input id="duration" type="number" class="w-full border p-2 rounded" placeholder="e.g., 10" />
+      </div>
+      <div>
+        <label class="block text-sm font-medium">Expected Return Rate (% p.a.)</label>
+        <input id="rate" type="number" class="w-full border p-2 rounded" placeholder="e.g., 12" />
+      </div>
+
+      <button onclick="calculateSIP()" class="w-full bg-blue-600 text-white font-semibold py-2 rounded hover:bg-blue-700">
+        Calculate
+      </button>
+
+      <div id="result" class="mt-4 text-center text-lg font-semibold hidden"></div>
+    </div>
+  </div>
+
+  <script>
+    function calculateSIP() {
+      const P = parseFloat(document.getElementById('sipAmount').value);
+      const years = parseFloat(document.getElementById('duration').value);
+      const annualRate = parseFloat(document.getElementById('rate').value);
+
+      if (isNaN(P) || isNaN(years) || isNaN(annualRate)) {
+        alert('Please fill in all fields correctly.');
+        return;
+      }
+
+      const r = annualRate / 12 / 100;
+      const n = years * 12;
+
+      const maturity = P * (((Math.pow(1 + r, n) - 1) / r) * (1 + r));
+      const invested = P * n;
+      const gain = maturity - invested;
+
+      document.getElementById('result').innerHTML = `
+        Invested: ₹${invested.toLocaleString()}<br/>
+        Estimated Returns: ₹${gain.toLocaleString()}<br/>
+        Maturity Value: ₹${maturity.toLocaleString()}
+      `;
+      document.getElementById('result').classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>
