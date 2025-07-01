@@ -27,22 +27,31 @@
 
     <!-- Main Content -->
     <main class="flex-1 p-6">
-      <h1 class="text-2xl font-bold mb-6">📈 SIP Calculator</h1>
-      <div class="bg-white p-6 rounded shadow-md max-w-2xl mx-auto space-y-4">
-        <input id="sipAmount" type="number" placeholder="Monthly SIP (₹)" class="w-full border p-2 rounded">
-        <input id="sipYears" type="number" placeholder="Investment Duration (Years)" class="w-full border p-2 rounded">
-        <input id="sipRate" type="number" placeholder="Expected Return (% p.a.)" class="w-full border p-2 rounded">
-        <button onclick="runSIP()" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">Calculate</button>
+      <h1 class="text-3xl font-bold mb-6 text-center text-blue-700">📈 SIP Calculator</h1>
+      <div class="bg-white p-6 rounded shadow-md max-w-2xl mx-auto space-y-6">
+        <div>
+          <label for="sipAmount" class="block text-sm font-semibold mb-1">Monthly SIP Amount (₹)</label>
+          <input id="sipAmount" name="sipAmount" type="number" placeholder="Enter SIP amount" class="w-full border p-3 rounded focus:ring focus:ring-blue-300">
+        </div>
+        <div>
+          <label for="sipYears" class="block text-sm font-semibold mb-1">Investment Duration (Years)</label>
+          <input id="sipYears" name="sipYears" type="number" placeholder="Enter duration" class="w-full border p-3 rounded focus:ring focus:ring-blue-300">
+        </div>
+        <div>
+          <label for="sipRate" class="block text-sm font-semibold mb-1">Expected Annual Return (%)</label>
+          <input id="sipRate" name="sipRate" type="number" placeholder="Enter expected return" class="w-full border p-3 rounded focus:ring focus:ring-blue-300">
+        </div>
+        <button onclick="runSIP()" class="w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-3 rounded font-semibold hover:from-blue-600 hover:to-indigo-700 transition">Calculate SIP</button>
       </div>
 
-      <div id="sipResult" class="max-w-2xl mx-auto mt-8 hidden">
-        <div class="bg-white p-6 rounded shadow-md text-center">
-          <h2 class="text-xl font-bold mb-4">📊 Results Summary</h2>
+      <div id="sipResult" class="max-w-2xl mx-auto mt-10 hidden">
+        <div class="bg-white p-6 rounded shadow-md text-center space-y-2">
+          <h2 class="text-2xl font-bold text-blue-700">📊 Results Summary</h2>
           <p id="sipSummary" class="text-lg"></p>
         </div>
 
         <div class="bg-white mt-6 p-6 rounded shadow-md">
-          <h3 class="text-lg font-semibold mb-2">Yearly Projection</h3>
+          <h3 class="text-lg font-semibold mb-2 text-blue-700">📉 Yearly Projection</h3>
           <canvas id="sipChart" height="300"></canvas>
         </div>
       </div>
@@ -70,22 +79,18 @@
       const yearlyData = [];
       const labels = [];
       const r = rate / 12 / 100;
-      let total = 0;
-
       for (let year = 1; year <= years; year++) {
         const months = year * 12;
         const value = P * (((Math.pow(1 + r, months) - 1) / r) * (1 + r));
         yearlyData.push(value.toFixed(0));
         labels.push(`Year ${year}`);
       }
-
       return { labels, data: yearlyData };
     }
 
     function renderChart(labels, data) {
       const ctx = document.getElementById('sipChart').getContext('2d');
       if (window.myChart) window.myChart.destroy();
-
       window.myChart = new Chart(ctx, {
         type: 'line',
         data: {
@@ -96,7 +101,7 @@
             borderColor: '#2563eb',
             backgroundColor: 'rgba(37, 99, 235, 0.2)',
             fill: true,
-            tension: 0.3
+            tension: 0.4
           }]
         },
         options: {
