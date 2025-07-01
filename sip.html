@@ -9,46 +9,60 @@
 </head>
 <body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col">
   <header class="bg-white shadow p-4 text-center font-bold text-2xl text-blue-700">
-    MoneyMath 💸 - SIP Calculator
+    MoneyMath 💸
   </header>
 
-  <main class="flex flex-1 flex-col md:flex-row p-6 gap-6">
-    <!-- Inputs Section -->
-    <section class="bg-white p-6 rounded shadow-md w-full md:w-1/3 space-y-4">
-      <div>
-        <label for="sipAmount" class="block text-sm font-semibold mb-1">Monthly SIP Amount (₹)</label>
-        <input id="sipAmount" name="sipAmount" type="number" placeholder="Enter SIP amount" class="w-full border p-3 rounded focus:ring focus:ring-blue-300">
-      </div>
-      <div>
-        <label for="sipYears" class="block text-sm font-semibold mb-1">Investment Duration (Years)</label>
-        <input id="sipYears" name="sipYears" type="number" placeholder="Enter duration" class="w-full border p-3 rounded focus:ring focus:ring-blue-300">
-      </div>
-      <div>
-        <label for="sipRate" class="block text-sm font-semibold mb-1">Expected Annual Return (%)</label>
-        <input id="sipRate" name="sipRate" type="number" placeholder="Enter expected return" class="w-full border p-3 rounded focus:ring focus:ring-blue-300">
-      </div>
-    </section>
+  <div class="flex flex-1">
+    <!-- Sidebar Navigation -->
+    <aside class="w-64 bg-white p-4 shadow-md hidden md:block">
+      <nav class="space-y-4">
+        <a href="/" class="block text-lg font-medium hover:text-blue-600">🏠 Home</a>
+        <a href="/sip.html" class="block text-lg font-medium text-blue-600">📈 SIP Calculator</a>
+        <a href="/swp.html" class="block text-lg font-medium hover:text-blue-600">💸 SWP Calculator</a>
+        <a href="/lumpsum.html" class="block text-lg font-medium hover:text-blue-600">💰 Lumpsum Calculator</a>
+      </nav>
+    </aside>
 
-    <!-- Results and Charts -->
-    <section id="sipResult" class="hidden w-full md:w-2/3 space-y-6">
-      <div class="flex flex-col md:flex-row gap-6">
-        <!-- Text Summary -->
-        <div class="flex-1 bg-white p-6 rounded shadow-md text-center" id="sipSummary"></div>
-
-        <!-- Doughnut Chart -->
-        <div class="flex-1 bg-white p-6 rounded shadow-md">
-          <h3 class="text-lg font-semibold mb-2 text-blue-700">Breakdown</h3>
-          <canvas id="sipPieChart" height="250"></canvas>
+    <main class="flex-1 flex flex-col md:flex-row p-6 gap-6">
+      <!-- Inputs Section -->
+      <section class="bg-white p-6 rounded shadow-md w-full md:w-1/3 space-y-4">
+        <div>
+          <label for="sipAmount" class="block text-sm font-semibold mb-1">Monthly SIP Amount (₹)</label>
+          <input id="sipAmount" name="sipAmount" type="number" placeholder="Enter SIP amount" class="w-full border p-3 rounded focus:ring focus:ring-blue-300">
         </div>
-      </div>
+        <div>
+          <label for="sipYears" class="block text-sm font-semibold mb-1">Investment Duration (Years)</label>
+          <input id="sipYears" name="sipYears" type="number" placeholder="Enter duration" class="w-full border p-3 rounded focus:ring focus:ring-blue-300">
+        </div>
+        <div>
+          <label for="sipRate" class="block text-sm font-semibold mb-1">Expected Annual Return (%)</label>
+          <input id="sipRate" name="sipRate" type="number" placeholder="Enter expected return" class="w-full border p-3 rounded focus:ring focus:ring-blue-300">
+        </div>
+      </section>
 
-      <!-- Line Chart -->
-      <div class="bg-white p-6 rounded shadow-md">
-        <h3 class="text-lg font-semibold mb-2 text-blue-700">Yearly Projection</h3>
-        <canvas id="sipChart" height="300"></canvas>
-      </div>
-    </section>
-  </main>
+      <!-- Results and Charts -->
+      <section id="sipResult" class="hidden w-full md:w-2/3 space-y-6">
+        <div class="flex flex-col md:flex-row gap-6">
+          <!-- Text Summary -->
+          <div class="flex-1 bg-white p-6 rounded shadow-md text-center" id="sipSummary">
+            <div class="text-xl font-bold mb-4">📊 SIP Summary</div></div>
+<div id="sipMessage" class="mt-6 text-lg font-bold text-indigo-700 bg-indigo-100 p-4 rounded shadow flex items-center justify-center gap-2 border border-indigo-200"></div>
+
+          <!-- Doughnut Chart -->
+          <div class="flex-1 bg-white p-6 rounded shadow-md">
+            <h3 class="text-lg font-semibold mb-2 text-blue-700">Breakdown</h3>
+            <canvas id="sipPieChart" height="250"></canvas>
+          </div>
+        </div>
+
+        <!-- Line Chart -->
+        <div class="bg-white p-6 rounded shadow-md">
+          <h3 class="text-lg font-semibold mb-2 text-blue-700">Yearly Projection</h3>
+          <canvas id="sipChart" height="300"></canvas>
+        </div>
+      </section>
+    </main>
+  </div>
 
   <footer class="bg-white text-center text-sm p-4 shadow mt-4">
     © 2025 MoneyMath — Simplifying Your Finances 💡
@@ -152,21 +166,11 @@
       const projection = generateProjection(P, r, y);
 
       document.getElementById('sipSummary').innerHTML = `
-        <div class="text-blue-600 font-semibold">Invested: ₹${formatINR(result.invested.toFixed(0))}</div>
-        <div class="text-green-600 font-semibold">Gain: ₹${formatINR(result.gain.toFixed(0))}</div>
-        <div class="text-purple-600 font-semibold">Maturity: ₹${formatINR(result.maturity.toFixed(0))}</div>
+        <div class="bg-blue-50 text-blue-800 text-lg font-semibold p-3 rounded mb-2 shadow">Invested: ₹${formatINR(result.invested.toFixed(0))}</div>
+        <div class="bg-green-50 text-green-800 text-lg font-semibold p-3 rounded mb-2 shadow">Gain: ₹${formatINR(result.gain.toFixed(0))}</div>
+        <div class="bg-purple-50 text-purple-800 text-lg font-semibold p-3 rounded mb-2 shadow">Maturity: ₹${formatINR(result.maturity.toFixed(0))}</div>
       `;
-      document.getElementById('sipResult').classList.remove('hidden');
-
-      renderLineChart(projection.labels, projection.data);
-      renderDoughnutChart(result.invested, result.gain);
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-      document.querySelectorAll('input').forEach(input => {
-        input.addEventListener('input', runSIP);
-      });
-    });
+      document.getElementById('sipMessage').innerHTML = `📅 <span>\${$1}</span>`;
   </script>
 </body>
 </html>
