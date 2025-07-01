@@ -92,7 +92,7 @@
         if (n < 100000) return inWords(Math.floor(n / 1000)) + ' Thousand' + (n % 1000 ? ' ' + inWords(n % 1000) : '');
         if (n < 10000000) return inWords(Math.floor(n / 100000)) + ' Lakh' + (n % 100000 ? ' ' + inWords(n % 100000) : '');
         return inWords(Math.floor(n / 10000000)) + ' Crore' + (n % 10000000 ? ' ' + inWords(n % 10000000) : '');
-      }
+      };
       return inWords(num);
     }
 
@@ -121,7 +121,7 @@
       const inflatedExpense = annualExpense * Math.pow(1 + inflation, yearsToInvest);
       const fireCorpus = inflatedExpense * ((1 - Math.pow(1 + postReturnRate / 100, -retirementYears)) / (postReturnRate / 100));
 
-      // Calculate SIP required to reach FIRE corpus
+      // SIP required
       const r = returnRate / 100 / 12;
       const n = yearsToInvest * 12;
       const sip = fireCorpus * r / ((Math.pow(1 + r, n) - 1) * (1 + r));
@@ -134,15 +134,26 @@
         <div class="bg-rose-100 text-rose-700 rounded p-3 shadow">🏖️ Retirement Duration: ${retirementYears} years</div>
       `;
 
+      // Chart: Corpus Depletion Simulation
       const ctx = document.getElementById('fireChart').getContext('2d');
       if (window.fireChart && typeof window.fireChart.destroy === 'function') window.fireChart.destroy();
+
+      let corpus = fireCorpus;
+      let expense = inflatedExpense;
+      const projection = [];
+
+      for (let i = 0; i < retirementYears; i++) {
+        projection.push(Math.round(expense));
+        corpus = (corpus - expense) * (1 + postReturnRate / 100);
+      }
+
       window.fireChart = new Chart(ctx, {
         type: 'line',
         data: {
           labels: Array.from({ length: retirementYears }, (_, i) => `Year ${i + 1}`),
           datasets: [{
             label: 'Annual Withdrawal (₹)',
-            data: Array(retirementYears).fill(inflatedExpense),
+            data: projection,
             borderColor: '#2563eb',
             backgroundColor: 'rgba(37,99,235,0.2)',
             fill: true,
@@ -154,7 +165,9 @@
           plugins: { legend: { position: 'top' } },
           scales: {
             y: {
-              ticks: { callback: value => '₹' + value.toLocaleString('en-IN') }
+              ticks: {
+                callback: value => '₹' + value.toLocaleString('en-IN')
+              }
             }
           }
         }
