@@ -6,16 +6,16 @@
 
       <!-- Desktop Links -->
       <div class="hidden md:flex space-x-6 text-sm font-medium text-gray-700 dark:text-gray-200">
-        <a href="/" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Home</a>
-        <a href="/calculator/sip.html" class="hover:text-blue-600 dark:hover:text-blue-400 transition">SIP</a>
-        <a href="/calculator/swp.html" class="hover:text-blue-600 dark:hover:text-blue-400 transition">SWP</a>
-        <a href="/calculator/lumpsum.html" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Lumpsum</a>
-        <a href="/calculator/fire-calculator.html" class="hover:text-blue-600 dark:hover:text-blue-400 transition">FIRE</a>
-        <a href="/about.html" class="hover:text-blue-600 dark:hover:text-blue-400 transition">About</a>
-        <a href="/contact.html" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Contact</a>
+        <a href="/" class="nav-link">Home</a>
+        <a href="/calculator/sip.html" class="nav-link">SIP</a>
+        <a href="/calculator/swp.html" class="nav-link">SWP</a>
+        <a href="/calculator/lumpsum.html" class="nav-link">Lumpsum</a>
+        <a href="/calculator/fire-calculator.html" class="nav-link">FIRE</a>
+        <a href="/about.html" class="nav-link">About</a>
+        <a href="/contact.html" class="nav-link">Contact</a>
       </div>
 
-      <!-- Mobile Menu Toggle -->
+      <!-- Mobile Menu Button -->
       <button id="mobileMenuBtn" class="md:hidden text-gray-700 dark:text-gray-200 focus:outline-none">
         <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2"
              viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
@@ -27,21 +27,31 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="md:hidden hidden border-t border-gray-100 dark:border-gray-700 py-4">
       <div class="flex flex-col space-y-3 text-sm font-medium text-gray-700 dark:text-gray-200">
-        <a href="/" class="hover:text-blue-600 dark:hover:text-blue-400 transition px-2">Home</a>
-        <a href="/calculator/sip.html" class="hover:text-blue-600 dark:hover:text-blue-400 transition px-2">SIP</a>
-        <a href="/calculator/swp.html" class="hover:text-blue-600 dark:hover:text-blue-400 transition px-2">SWP</a>
-        <a href="/calculator/lumpsum.html" class="hover:text-blue-600 dark:hover:text-blue-400 transition px-2">Lumpsum</a>
-        <a href="/calculator/fire-calculator.html" class="hover:text-blue-600 dark:hover:text-blue-400 transition px-2">FIRE</a>
-        <a href="/about.html" class="hover:text-blue-600 dark:hover:text-blue-400 transition px-2">About</a>
-        <a href="/contact.html" class="hover:text-blue-600 dark:hover:text-blue-400 transition px-2">Contact</a>
+        <a href="/" class="nav-link px-2">Home</a>
+        <a href="/calculator/sip.html" class="nav-link px-2">SIP</a>
+        <a href="/calculator/swp.html" class="nav-link px-2">SWP</a>
+        <a href="/calculator/lumpsum.html" class="nav-link px-2">Lumpsum</a>
+        <a href="/calculator/fire-calculator.html" class="nav-link px-2">FIRE</a>
+        <a href="/about.html" class="nav-link px-2">About</a>
+        <a href="/contact.html" class="nav-link px-2">Contact</a>
       </div>
     </div>
   </div>
 </nav>
 
 <script>
+  // Toggle mobile menu
   document.getElementById('mobileMenuBtn').addEventListener('click', () => {
-    const menu = document.getElementById('mobileMenu');
-    menu.classList.toggle('hidden');
+    document.getElementById('mobileMenu').classList.toggle('hidden');
+  });
+
+  // Highlight active nav link
+  const currentPath = window.location.pathname;
+  document.querySelectorAll('.nav-link').forEach(link => {
+    if (link.getAttribute('href') === currentPath) {
+      link.classList.add('text-blue-600', 'font-semibold');
+    } else {
+      link.classList.remove('text-blue-600', 'font-semibold');
+    }
   });
 </script>
