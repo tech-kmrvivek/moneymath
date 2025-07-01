@@ -8,8 +8,9 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
+
+  <!-- Only Header & Footer -->
   <div id="include-header"></div>
-  <div id="include-nav"></div>
 
   <main class="flex-1 flex flex-col lg:flex-row p-4 sm:p-6 gap-6">
     <section class="bg-white p-4 sm:p-6 rounded shadow-md w-full lg:w-1/3 space-y-6">
@@ -61,7 +62,6 @@
 
     window.addEventListener("DOMContentLoaded", () => {
       loadPartial("include-header", "/components/header.html");
-      loadPartial("include-nav", "/components/nav.html");
       loadPartial("include-footer", "/components/footer.html");
     });
   </script>
