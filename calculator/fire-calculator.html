@@ -56,7 +56,7 @@
         <div class="text-sm text-right">Age: <span id="valLifeExpectancy">85</span></div>
       </div>
       <div>
-        <label class="block font-semibold mb-1">💰 Monthly Expenses Post Retirement (₹)</label>
+        <label class="block font-semibold mb-1">💰 Monthly Expenses Post Retirement (₹) <span class="text-sm italic text-gray-500">(today's value)</span></label>
         <input id="monthlyExpense" type="range" min="10000" max="300000" step="1000" value="40000" class="w-full">
         <div class="text-sm text-right">₹<span id="valMonthlyExpense">40000</span></div>
         <div class="text-xs italic text-gray-500 mt-1 text-right" id="expenseInWords"></div>
@@ -121,8 +121,11 @@
       const annualExpense = monthlyExpense * 12;
       const retirementYears = lifeExpectancy - retirementAge;
       const yearsToInvest = retirementAge - currentAge;
+      const coastInvestYears = coastAge - currentAge;
+
       const inflatedExpense = annualExpense * Math.pow(1 + inflation, yearsToInvest);
       const fireCorpus = inflatedExpense * ((1 - Math.pow(1 + postReturnRate / 100, -retirementYears)) / (postReturnRate / 100));
+
       const r = returnRate / 100 / 12;
       const n = yearsToInvest * 12;
       const sip = fireCorpus * r / ((Math.pow(1 + r, n) - 1) * (1 + r));
@@ -130,10 +133,7 @@
       let sipCorpus = 0;
       for (let i = 1; i <= n; i++) sipCorpus = (sipCorpus + sip) * (1 + r);
 
-      const coastInvestYears = coastAge - currentAge;
-      const coastMonths = coastInvestYears * 12;
-      let coastCorpus = 0;
-      for (let i = 1; i <= coastMonths; i++) coastCorpus = (coastCorpus + sip) * (1 + r);
+      let coastCorpus = fireCorpus / Math.pow(1 + returnRate / 100, retirementAge - coastAge);
 
       document.getElementById('fireSummary').innerHTML = `
         <div class="bg-green-100 text-green-800 rounded p-3 shadow font-semibold">
