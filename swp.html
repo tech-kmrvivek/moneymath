@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SWP Calculator - MoneyMath</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
+  <div id="include-header"></div>
+  <div id="include-nav"></div>
+
+  <main class="flex-1 flex flex-col lg:flex-row p-4 sm:p-6 gap-6">
+    <section class="bg-white p-4 sm:p-6 rounded shadow-md w-full lg:w-1/3 space-y-6">
+      <h2 class="text-xl font-bold text-blue-600 mb-2">SWP Calculator</h2>
+
+      <div>
+        <label class="block text-sm font-semibold mb-1">Total Corpus (₹)</label>
+        <input id="swpPrincipal" type="range" min="10000" max="10000000" step="10000" value="500000" class="w-full">
+        <div class="text-right text-sm text-gray-500">₹<span id="valSwpPrincipal">500000</span></div>
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold mb-1">Monthly Withdrawal (₹)</label>
+        <input id="swpWithdrawal" type="range" min="1000" max="100000" step="500" value="5000" class="w-full">
+        <div class="text-right text-sm text-gray-500">₹<span id="valSwpWithdrawal">5000</span></div>
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold mb-1">Expected Annual Return (%)</label>
+        <input id="swpRate" type="range" min="1" max="15" step="0.5" value="8" class="w-full">
+        <div class="text-right text-sm text-gray-500"><span id="valSwpRate">8</span>%</div>
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold mb-1">Expected Inflation (%)</label>
+        <input id="swpInflation" type="range" min="0" max="10" step="0.5" value="5" class="w-full">
+        <div class="text-right text-sm text-gray-500"><span id="valSwpInflation">5</span>%</div>
+      </div>
+    </section>
+
+    <section class="w-full lg:w-2/3 space-y-6">
+      <div class="bg-white p-4 sm:p-6 rounded shadow-md">
+        <h3 class="text-lg font-semibold mb-2 text-blue-700">Projection</h3>
+        <canvas id="swpChart" height="300"></canvas>
+        <div id="swpMessage" class="text-center text-indigo-600 font-semibold text-lg mt-4"></div>
+      </div>
+    </section>
+  </main>
+
+  <div id="include-footer"></div>
+
+  <script>
+    async function loadPartial(id, file) {
+      const res = await fetch(file);
+      const text = await res.text();
+      document.getElementById(id).innerHTML = text;
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      loadPartial("include-header", "/components/header.html");
+      loadPartial("include-nav", "/components/nav.html");
+      loadPartial("include-footer", "/components/footer.html");
+    });
+  </script>
+
+  <script>
+    const swpPrincipalEl = document.getElementById('swpPrincipal');
+    const swpWithdrawalEl = document.getElementById('swpWithdrawal');
+    const swpRateEl = document.getElementById('swpRate');
+    const swpInflationEl = document.getElementById('swpInflation');
+
+    const valSwpPrincipal = document.getElementById('valSwpPrincipal');
+    const valSwpWithdrawal = document.getElementById('valSwpWithdrawal');
+    const valSwpRate = document.getElementById('valSwpRate');
+    const valSwpInflation = document.getElementById('valSwpInflation');
+
+    function formatINR(num) {
+      return parseFloat(num).toLocaleString('en-IN');
+    }
+
+    function calculateSWP(P, W, r, inflation) {
+      const monthlyRate = r / 100 / 12;
+      const monthlyInflation = inflation / 100 / 12;
+      let month = 0;
+      let balance = P;
+      const data = [];
+
+      while (balance > 0 && month < 600) {
+        const adjWithdrawal = W * Math.pow(1 + monthlyInflation, month);
+        balance = (balance - adjWithdrawal) * (1 + monthlyRate);
+        if (month % 12 === 0) {
+          data.push({
+            year: `Year ${month / 12 + 1}`,
+            value: balance > 0 ? parseFloat(balance.toFixed(0)) : 0
+          });
+        }
+        month++;
+      }
+      return { data, duration: month, finalBalance: balance };
+    }
+
+    function updateSWP() {
+      const P = parseFloat(swpPrincipalEl.value);
+      const W = parseFloat(swpWithdrawalEl.value);
+      const r = parseFloat(swpRateEl.value);
+      const inflation = parseFloat(swpInflationEl.value);
+
+      valSwpPrincipal.textContent = formatINR(P);
+      valSwpWithdrawal.textContent = formatINR(W);
+      valSwpRate.textContent = r;
+      valSwpInflation.textContent = inflation;
+
+      const { data, duration, finalBalance } = calculateSWP(P, W, r, inflation);
+
+      if (window.mySwpChart) window.mySwpChart.destroy();
+      const ctx = document.getElementById('swpChart').getContext('2d');
+      window.mySwpChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: data.map(d => d.year),
+          datasets: [{
+            label: 'Balance (₹)',
+            data: data.map(d => d.value),
+            borderColor: '#1d4ed8',
+            backgroundColor: 'rgba(29,78,216,0.1)',
+            fill: true,
+            tension: 0.4
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              ticks: {
+                callback: value => '₹' + value.toLocaleString('en-IN')
+              }
+            }
+          }
+        }
+      });
+
+      const years = Math.floor(duration / 12);
+      const months = duration % 12;
+      const message = finalBalance > 0 ?
+        `Your corpus lasts more than ${years} years.` :
+        `Your corpus will be exhausted in ${years} years and ${months} months.`;
+
+      document.getElementById('swpMessage').textContent = message;
+    }
+
+    ['input', 'change'].forEach(evt => {
+      swpPrincipalEl.addEventListener(evt, updateSWP);
+      swpWithdrawalEl.addEventListener(evt, updateSWP);
+      swpRateEl.addEventListener(evt, updateSWP);
+      swpInflationEl.addEventListener(evt, updateSWP);
+    });
+
+    window.onload = updateSWP;
+  </script>
+</body>
+</html>
