@@ -1,6 +1,7 @@
+<!-- nav.html -->
 <script src="https://cdn.tailwindcss.com"></script>
 
-<!-- Navigation -->
+<!-- Top Navigation Bar -->
 <nav class="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50 font-semibold">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center h-16">
@@ -11,7 +12,7 @@
       <div class="hidden md:flex items-center gap-6 text-sm">
         <a href="/" class="nav-link">🏠 Home</a>
 
-        <!-- Desktop Dropdown -->
+        <!-- Dropdown -->
         <div class="relative group">
           <button class="nav-link inline-flex items-center gap-1">
             📊 Calculators
@@ -20,13 +21,11 @@
               <path d="M19 9l-7 7-7-7" />
             </svg>
           </button>
-
-          <!-- Dropdown -->
           <div class="absolute left-0 mt-2 w-52 bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 scale-95 transform transition-all duration-200 ease-out group-hover:opacity-100 group-hover:scale-100 z-50">
-            <a href="/calculator/sip.html" class="dropdown-item">📈 SIP Calculator</a>
-            <a href="/calculator/swp.html" class="dropdown-item">💸 SWP Calculator</a>
-            <a href="/calculator/lumpsum.html" class="dropdown-item">💰 Lumpsum Calculator</a>
-            <a href="/calculator/fire-calculator.html" class="dropdown-item">🔥 FIRE Calculator</a>
+            <a href="/calculator/sip.html" class="dropdown-item">📈 SIP</a>
+            <a href="/calculator/swp.html" class="dropdown-item">💸 SWP</a>
+            <a href="/calculator/lumpsum.html" class="dropdown-item">💰 Lumpsum</a>
+            <a href="/calculator/fire-calculator.html" class="dropdown-item">🔥 FIRE</a>
           </div>
         </div>
 
@@ -37,12 +36,12 @@
   </div>
 </nav>
 
-<!-- 📱 Bottom Sheet Navigation (Mobile Only) -->
+<!-- Bottom Sheet Nav (Mobile) -->
 <div class="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 shadow md:hidden">
   <div class="flex justify-around text-xs font-bold py-2 relative">
     <a href="/" class="nav-link flex flex-col items-center gap-0.5">🏠<span>Home</span></a>
 
-    <!-- Mobile Calculators Menu Toggle -->
+    <!-- Mobile Calculators Toggle -->
     <button id="mobileCalcToggle" class="nav-link flex flex-col items-center gap-0.5 focus:outline-none">
       📊<span>Calculators</span>
     </button>
@@ -60,10 +59,9 @@
   </div>
 </div>
 
-<!-- JS -->
+<!-- Highlight Active Page & Mobile Dropdown -->
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    // Highlight current nav item
     const currentPath = window.location.pathname.replace(/\/+$/, '');
     document.querySelectorAll('.nav-link').forEach(link => {
       const href = link.getAttribute('href')?.replace(/\/+$/, '');
@@ -81,7 +79,7 @@
       menu.classList.toggle('animate-dropdown');
     });
 
-    // Optional: Close dropdown when clicking outside
+    // Close dropdown if clicked outside
     document.addEventListener('click', function (e) {
       if (!toggleBtn.contains(e.target) && !menu.contains(e.target)) {
         menu.classList.add('hidden');
@@ -90,7 +88,7 @@
   });
 </script>
 
-<!-- Tailwind Custom Styles -->
+<!-- Styles -->
 <style>
   .nav-link {
     @apply text-gray-900 font-bold px-3 py-2 rounded-md hover:bg-blue-50 hover:text-blue-700 transition;
