@@ -2,52 +2,58 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MoneyMath - Finance Tools</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MoneyMath - Your Finance Companion</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col">
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
+  <div id="include-header"></div>
+  <div id="include-nav"></div>
 
-  <!-- Header -->
-  <header class="bg-white shadow p-4 text-center font-bold text-2xl text-blue-700">
-    MoneyMath 💸
-  </header>
+  <main class="flex-1 p-6 max-w-5xl mx-auto space-y-6">
+    <h2 class="text-2xl font-bold text-blue-700 mb-4">📘 Latest Blog Posts</h2>
 
-  <div class="flex flex-1">
-    <!-- Sidebar -->
-    <aside class="w-64 bg-white p-4 shadow-md hidden md:block">
-      <nav class="space-y-4">
-        <a href="index.html" class="block text-lg font-medium hover:text-blue-600">🏠 Home</a>
-        <a href="sip.html" class="block text-lg font-medium hover:text-blue-600">📈 SIP Calculator</a>
-        <a href="swp.html" class="block text-lg font-medium hover:text-blue-600">💸 SWP Calculator</a>
-        <a href="lumpsum.html" class="block text-lg font-medium hover:text-blue-600">💰 Lumpsum Calculator</a>
-      </nav>
-    </aside>
+    <div class="grid gap-6 md:grid-cols-2">
+      <article class="bg-white p-5 rounded shadow-md hover:shadow-lg transition">
+        <h3 class="text-xl font-semibold text-indigo-700 mb-2">How SIP Can Build Wealth Over Time</h3>
+        <p class="text-sm text-gray-600 mb-3">Understand how compounding and discipline help you grow your investments through SIPs.</p>
+        <a href="#" class="text-blue-600 text-sm font-medium hover:underline">Read more →</a>
+      </article>
 
-    <!-- Main Content -->
-    <main class="flex-1 p-6 space-y-6">
-      <h2 class="text-2xl font-semibold mb-4">📅 Daily Blogs & Tips</h2>
-      <div class="grid gap-4">
-        <a href="#" class="bg-white p-4 rounded shadow block hover:bg-gray-50">
-          <h3 class="text-xl font-bold">Why SIPs Work Better in Volatile Markets</h3>
-          <p class="text-sm text-gray-600">SIPs average out market fluctuations. Learn how...</p>
-        </a>
-        <a href="#" class="bg-white p-4 rounded shadow block hover:bg-gray-50">
-          <h3 class="text-xl font-bold">How to Plan for FIRE (Financial Independence)</h3>
-          <p class="text-sm text-gray-600">Retire early with goal-based investing strategies...</p>
-        </a>
-        <a href="#" class="bg-white p-4 rounded shadow block hover:bg-gray-50">
-          <h3 class="text-xl font-bold">SWP: Retire Smart by Withdrawing Monthly</h3>
-          <p class="text-sm text-gray-600">What is SWP and how to use it wisely?</p>
-        </a>
-      </div>
-    </main>
-  </div>
+      <article class="bg-white p-5 rounded shadow-md hover:shadow-lg transition">
+        <h3 class="text-xl font-semibold text-indigo-700 mb-2">Lumpsum Investment vs SIP: Which is Better?</h3>
+        <p class="text-sm text-gray-600 mb-3">Explore the pros and cons of both approaches to make informed financial decisions.</p>
+        <a href="#" class="text-blue-600 text-sm font-medium hover:underline">Read more →</a>
+      </article>
 
-  <!-- Footer -->
-  <footer class="bg-white text-center text-sm p-4 shadow mt-4">
-    © 2025 MoneyMath — Simplifying Your Finances 💡
-  </footer>
+      <article class="bg-white p-5 rounded shadow-md hover:shadow-lg transition">
+        <h3 class="text-xl font-semibold text-indigo-700 mb-2">FIRE: Retire Early With Smart Planning</h3>
+        <p class="text-sm text-gray-600 mb-3">Learn about the FIRE movement and how to calculate your early retirement number.</p>
+        <a href="#" class="text-blue-600 text-sm font-medium hover:underline">Read more →</a>
+      </article>
 
+      <article class="bg-white p-5 rounded shadow-md hover:shadow-lg transition">
+        <h3 class="text-xl font-semibold text-indigo-700 mb-2">Understanding SWP: Systematic Withdrawal Plan</h3>
+        <p class="text-sm text-gray-600 mb-3">A guide on using SWP to generate monthly income from your investments post-retirement.</p>
+        <a href="#" class="text-blue-600 text-sm font-medium hover:underline">Read more →</a>
+      </article>
+    </div>
+  </main>
+
+  <div id="include-footer"></div>
+
+  <script>
+    async function loadPartial(id, file) {
+      const res = await fetch(file);
+      const text = await res.text();
+      document.getElementById(id).innerHTML = text;
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      loadPartial("include-header", "/components/header.html");
+      loadPartial("include-nav", "/components/nav.html");
+      loadPartial("include-footer", "/components/footer.html");
+    });
+  </script>
 </body>
 </html>
