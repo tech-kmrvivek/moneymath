@@ -1,116 +1,113 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
-
-<nav class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow sticky top-0 z-50 transition-all duration-200">
+<nav class="bg-white/70 backdrop-blur-md dark:bg-gray-800/80 dark:text-white shadow-md sticky top-0 z-50 border-b border-gray-200 dark:border-gray-700">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex justify-between h-16 items-center">
+    <div class="flex justify-between items-center h-16">
+      
       <!-- Logo -->
-      <a href="/" class="flex items-center text-xl font-bold text-blue-700 dark:text-blue-400">
-        💸 MoneyMath
-      </a>
+      <div class="text-xl font-bold text-blue-700 dark:text-blue-400 flex items-center gap-2">
+        💸 <span>MoneyMath</span>
+      </div>
+
+      <!-- Dark Mode Toggle -->
+      <button id="themeToggle" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition md:mr-4" title="Toggle Dark Mode">
+        <svg id="sunIcon" class="h-5 w-5 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m8.66-13.66l-.7.7M4.34 18.36l-.7.7M21 12h1M2 12H1m16.66 4.66l-.7-.7M4.34 5.64l-.7-.7M12 8a4 4 0 100 8 4 4 0 000-8z" />
+        </svg>
+        <svg id="moonIcon" class="h-5 w-5 hidden" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+        </svg>
+      </button>
 
       <!-- Desktop Menu -->
-      <div class="hidden md:flex items-center space-x-6">
-        <a href="/" class="nav-link">🏠 Home</a>
+      <div class="hidden md:flex items-center gap-6">
+        <a href="/" class="hover:text-blue-600 dark:hover:text-blue-400 text-sm font-medium transition">🏠 Home</a>
 
-        <!-- Dropdown -->
+        <!-- Dropdown for Calculators -->
         <div class="relative group">
-          <button class="nav-link flex items-center space-x-1">
+          <button class="text-sm font-medium hover:text-blue-600 dark:hover:text-blue-400 transition">
             📊 Calculators
-            <svg class="w-4 h-4 transform group-hover:rotate-180 transition-transform duration-200" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.08 1.04l-4.25 4.25a.75.75 0 01-1.06 0L5.21 8.27a.75.75 0 01.02-1.06z" clip-rule="evenodd"/>
-            </svg>
           </button>
-          <div class="absolute hidden group-hover:flex flex-col bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg mt-2 rounded w-48 z-10">
-            <a href="/calculator/sip.html" class="dropdown-link">📈 SIP Calculator</a>
-            <a href="/calculator/swp.html" class="dropdown-link">💸 SWP Calculator</a>
-            <a href="/calculator/lumpsum.html" class="dropdown-link">💰 Lumpsum Calculator</a>
-            <a href="/calculator/fire-calculator.html" class="dropdown-link">🔥 FIRE Calculator</a>
+          <div class="absolute hidden group-hover:block bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700 mt-2 rounded-md w-52 z-10">
+            <a href="/calculator/sip.html" class="block px-4 py-2 text-sm hover:bg-blue-100 dark:hover:bg-gray-700">📈 SIP Calculator</a>
+            <a href="/calculator/swp.html" class="block px-4 py-2 text-sm hover:bg-blue-100 dark:hover:bg-gray-700">💸 SWP Calculator</a>
+            <a href="/calculator/lumpsum.html" class="block px-4 py-2 text-sm hover:bg-blue-100 dark:hover:bg-gray-700">💰 Lumpsum Calculator</a>
+            <a href="/calculator/fire-calculator.html" class="block px-4 py-2 text-sm hover:bg-blue-100 dark:hover:bg-gray-700">🔥 FIRE Calculator</a>
           </div>
         </div>
 
-        <a href="/about.html" class="nav-link">ℹ️ About</a>
-        <a href="/contact.html" class="nav-link">📞 Contact</a>
+        <a href="/about.html" class="hover:text-blue-600 dark:hover:text-blue-400 text-sm font-medium transition">ℹ️ About</a>
+        <a href="/contact.html" class="hover:text-blue-600 dark:hover:text-blue-400 text-sm font-medium transition">📞 Contact</a>
       </div>
 
       <!-- Mobile Menu Button -->
       <div class="md:hidden">
-        <button id="mobileToggle" class="p-2 focus:outline-none">
-          <svg id="mobileIcon" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2"
+        <button id="mobileToggle" class="text-gray-700 dark:text-gray-300 focus:outline-none" aria-label="Toggle menu">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2"
                viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
             <path d="M4 6h16M4 12h16M4 18h16"/>
           </svg>
         </button>
       </div>
     </div>
-  </div>
 
-  <!-- Mobile Menu -->
-  <div id="mobileMenu" class="md:hidden hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
-    <a href="/" class="block px-4 py-2 nav-link">🏠 Home</a>
+    <!-- Mobile Dropdown -->
+    <div id="mobileMenu" class="md:hidden hidden flex-col gap-2 py-3 text-sm">
+      <a href="/" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">🏠 Home</a>
 
-    <button id="mobileDropdownToggle" class="w-full text-left px-4 py-2 flex justify-between items-center nav-link">
-      📊 Calculators
-      <svg id="mobileArrow" class="w-4 h-4 transition-transform" fill="currentColor" viewBox="0 0 20 20">
-        <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.08 1.04l-4.25 4.25a.75.75 0 01-1.06 0L5.21 8.27a.75.75 0 01.02-1.06z" clip-rule="evenodd"/>
-      </svg>
-    </button>
-    <div id="mobileDropdown" class="hidden bg-gray-50 dark:bg-gray-700">
-      <a href="/calculator/sip.html" class="block px-8 py-2 nav-link">📈 SIP Calculator</a>
-      <a href="/calculator/swp.html" class="block px-8 py-2 nav-link">💸 SWP Calculator</a>
-      <a href="/calculator/lumpsum.html" class="block px-8 py-2 nav-link">💰 Lumpsum Calculator</a>
-      <a href="/calculator/fire-calculator.html" class="block px-8 py-2 nav-link">🔥 FIRE Calculator</a>
+      <details class="group">
+        <summary class="px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700">📊 Calculators</summary>
+        <div class="pl-6 pb-2 flex flex-col">
+          <a href="/calculator/sip.html" class="px-2 py-1 hover:text-blue-600 dark:hover:text-blue-400">📈 SIP</a>
+          <a href="/calculator/swp.html" class="px-2 py-1 hover:text-blue-600 dark:hover:text-blue-400">💸 SWP</a>
+          <a href="/calculator/lumpsum.html" class="px-2 py-1 hover:text-blue-600 dark:hover:text-blue-400">💰 Lumpsum</a>
+          <a href="/calculator/fire-calculator.html" class="px-2 py-1 hover:text-blue-600 dark:hover:text-blue-400">🔥 FIRE</a>
+        </div>
+      </details>
+
+      <a href="/about.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">ℹ️ About</a>
+      <a href="/contact.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">📞 Contact</a>
     </div>
-
-    <a href="/about.html" class="block px-4 py-2 nav-link">ℹ️ About</a>
-    <a href="/contact.html" class="block px-4 py-2 nav-link">📞 Contact</a>
   </div>
 </nav>
 
-<style>
-  .nav-link {
-    @apply text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-2 py-1 rounded transition;
-  }
-  .dropdown-link {
-    @apply text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 px-4 py-2 transition;
-  }
-  .nav-link.active {
-    @apply text-blue-600 dark:text-blue-400 font-semibold underline;
-  }
-</style>
-
+<!-- JavaScript -->
 <script>
-  const mobileToggle = document.getElementById('mobileToggle');
-  const mobileMenu = document.getElementById('mobileMenu');
-  const mobileDropdownToggle = document.getElementById('mobileDropdownToggle');
-  const mobileDropdown = document.getElementById('mobileDropdown');
-  const mobileArrow = document.getElementById('mobileArrow');
-  const mobileIcon = document.getElementById('mobileIcon');
-
-  mobileToggle.addEventListener('click', () => {
-    mobileMenu.classList.toggle('hidden');
-    mobileIcon.classList.toggle('transform');
-    mobileIcon.classList.toggle('rotate-90');
+  // Toggle mobile menu
+  document.getElementById('mobileToggle').addEventListener('click', () => {
+    const menu = document.getElementById('mobileMenu');
+    menu.classList.toggle('hidden');
   });
 
-  mobileDropdownToggle.addEventListener('click', () => {
-    mobileDropdown.classList.toggle('hidden');
-    mobileArrow.classList.toggle('rotate-180');
-  });
+  // Theme toggle logic
+  const toggleBtn = document.getElementById('themeToggle');
+  const sunIcon = document.getElementById('sunIcon');
+  const moonIcon = document.getElementById('moonIcon');
 
-  // Optional: highlight current nav link
-  document.querySelectorAll('nav a.nav-link').forEach(link => {
-    if (link.getAttribute('href') === window.location.pathname) {
-      link.classList.add('active');
+  const enableDark = () => {
+    document.documentElement.classList.add('dark');
+    localStorage.theme = 'dark';
+    sunIcon.classList.remove('hidden');
+    moonIcon.classList.add('hidden');
+  };
+
+  const disableDark = () => {
+    document.documentElement.classList.remove('dark');
+    localStorage.theme = 'light';
+    sunIcon.classList.add('hidden');
+    moonIcon.classList.remove('hidden');
+  };
+
+  // Set on load
+  if (localStorage.theme === 'dark' || (!localStorage.theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    enableDark();
+  } else {
+    disableDark();
+  }
+
+  toggleBtn.addEventListener('click', () => {
+    if (document.documentElement.classList.contains('dark')) {
+      disableDark();
+    } else {
+      enableDark();
     }
   });
 </script>
-
-</body>
-</html>
