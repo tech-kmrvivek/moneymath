@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FIRE: Retire Early With Smart Planning | MoneyMath Blog</title>
+  <meta name="description" content="Learn how FIRE (Financial Independence, Retire Early) helps you achieve early retirement through disciplined saving, investing, and lifestyle choices.">
+  <meta name="keywords" content="FIRE, retire early, financial independence, early retirement, financial planning, money management">
+  <meta name="author" content="MoneyMath">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
+  <div id="include-header"></div>
+  <div id="include-nav"></div>
+
+  <main class="flex flex-col sm:flex-row max-w-6xl mx-auto mt-6 mb-12 px-4 sm:px-6">
+    <!-- Blog Navigation Sidebar -->
+    <div id="include-blog-nav" class="sm:mr-6 mb-6 sm:mb-0 w-full sm:w-64"></div>
+
+    <!-- Main Blog Content -->
+    <article class="flex-1 bg-white p-6 rounded shadow">
+      <h1 class="text-3xl font-bold text-blue-600 mb-4">FIRE: Retire Early With Smart Planning</h1>
+
+      <p class="mb-4">Imagine having the freedom to retire in your 40s or even earlier. That’s the promise of FIRE—Financial Independence, Retire Early. It’s not about giving up work entirely, but having the *freedom* to choose how you spend your time. Let's explore how to achieve it.</p>
+
+      <h2 class="text-xl font-semibold text-gray-800 mt-6 mb-2">What is FIRE?</h2>
+      <p class="mb-4">FIRE is a financial movement where individuals aim to save and invest aggressively during their working years to achieve financial independence early in life. Once your investments generate enough passive income to cover your living expenses, you’re considered financially independent.</p>
+
+      <h2 class="text-xl font-semibold text-gray-800 mt-6 mb-2">Core Principles of FIRE</h2>
+      <ul class="list-disc pl-6 space-y-2 mb-4">
+        <li><strong>High Savings Rate:</strong> Many FIRE followers save 50–70% of their income.</li>
+        <li><strong>Frugal Lifestyle:</strong> Keeping expenses low helps you reach your goal faster.</li>
+        <li><strong>Smart Investing:</strong> Most use index funds, mutual funds, or real estate to grow their wealth.</li>
+        <li><strong>Passive Income Focus:</strong> Build assets that generate cash flow even when you're not working.</li>
+      </ul>
+
+      <h2 class="text-xl font-semibold text-gray-800 mt-6 mb-2">How Much Do You Need?</h2>
+      <p class="mb-4">A common rule of thumb is the <strong>25x rule</strong>: Multiply your expected annual expenses by 25 to calculate your FIRE target. For example, if you plan to spend ₹6 lakh per year, you’ll need ₹1.5 crore to retire early.</p>
+      <p class="mb-4">Use our <a href="/fire.html" class="text-blue-600 font-medium hover:underline">FIRE calculator</a> to find your personal FIRE number.</p>
+
+      <h2 class="text-xl font-semibold text-gray-800 mt-6 mb-2">Types of FIRE</h2>
+      <ul class="list-disc pl-6 space-y-2 mb-4">
+        <li><strong>Lean FIRE:</strong> Very low expenses, minimal lifestyle.</li>
+        <li><strong>Regular FIRE:</strong> Comfortable lifestyle with moderate spending.</li>
+        <li><strong>Fat FIRE:</strong> More luxurious lifestyle without frugality constraints.</li>
+      </ul>
+
+      <h2 class="text-xl font-semibold text-gray-800 mt-6 mb-2">Challenges You May Face</h2>
+      <ul class="list-disc pl-6 space-y-2 mb-4">
+        <li><strong>Inflation:</strong> Your corpus must grow faster than inflation to sustain early retirement.</li>
+        <li><strong>Healthcare:</strong> Early retirees need to plan for out-of-pocket medical expenses.</li>
+        <li><strong>Market Volatility:</strong> Your portfolio must survive market ups and downs over decades.</li>
+      </ul>
+
+      <h2 class="text-xl font-semibold text-gray-800 mt-6 mb-2">Steps to Start Your FIRE Journey</h2>
+      <ol class="list-decimal pl-6 space-y-2 mb-4">
+        <li>Track and optimize your monthly spending.</li>
+        <li>Set a clear FIRE number based on your lifestyle goals.</li>
+        <li>Increase your savings rate—reduce wasteful spending.</li>
+        <li>Invest consistently in mutual funds or index funds.</li>
+        <li>Revisit your plan annually and adjust for life changes.</li>
+      </ol>
+
+      <h2 class="text-xl font-semibold text-gray-800 mt-6 mb-2">Final Thoughts</h2>
+      <p class="mb-6">FIRE isn’t just about quitting your job—it’s about freedom, security, and choice. With consistent planning, smart investing, and a bit of patience, early retirement can become your reality.</p>
+
+      <a href="/fire.html" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded">Try Our FIRE Calculator</a>
+    </article>
+  </main>
+
+  <div id="include-footer"></div>
+
+  <script>
+    async function loadPartial(id, file) {
+      const res = await fetch(file);
+      const text = await res.text();
+      document.getElementById(id).innerHTML = text;
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      loadPartial("include-header", "/components/header.html");
+      loadPartial("include-nav", "/components/nav.html");
+      loadPartial("include-footer", "/components/footer.html");
+      loadPartial("include-blog-nav", "/components/blog-nav.html");
+    });
+  </script>
+</body>
+</html>
