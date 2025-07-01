@@ -9,77 +9,89 @@
 </head>
 <body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
   <header class="bg-gradient-to-r from-blue-700 to-indigo-700 shadow-md p-4 flex items-center justify-center gap-3 text-white">
-  <img src="https://img.icons8.com/ios-filled/50/ffffff/money.png" alt="logo" class="w-8 h-8"/>
-  <h1 class="text-3xl font-bold tracking-wide">MoneyMath</h1>
-</header>
+    <img src="https://img.icons8.com/ios-filled/50/ffffff/money.png" alt="logo" class="w-8 h-8"/>
+    <h1 class="text-3xl font-bold tracking-wide">MoneyMath</h1>
+  </header>
 
   <nav class="bg-white shadow-md border-b border-gray-200">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex justify-between h-16 items-center">
-      <div class="flex items-center space-x-4">
-        <a href="/" class="text-sm font-semibold text-gray-700 hover:text-blue-600 px-3 py-1 rounded-md transition">🏠 Home</a>
-        <a href="/sip.html" class="text-sm font-semibold text-gray-700 hover:text-blue-600 px-3 py-1 rounded-md transition">SIP Calculator</a>
-        <a href="/swp.html" class="text-sm font-semibold text-gray-700 hover:text-blue-600 px-3 py-1 rounded-md transition">SWP Calculator</a>
-        <a href="/lumpsum.html" class="text-sm font-semibold text-white bg-blue-600 px-3 py-1 rounded-md shadow">Lumpsum Calculator</a>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-wrap justify-between items-center h-auto py-4 gap-y-2">
+        <div class="flex flex-wrap gap-2">
+          <a href="/" class="text-sm font-semibold text-gray-700 hover:text-blue-600 px-3 py-1 rounded-md transition flex items-center gap-1">🏠 Home</a>
+          <a href="/sip.html" class="text-sm font-semibold text-gray-700 hover:text-blue-600 px-3 py-1 rounded-md transition">SIP Calculator</a>
+          <a href="/swp.html" class="text-sm font-semibold text-gray-700 hover:text-blue-600 px-3 py-1 rounded-md transition">SWP Calculator</a>
+          <a href="/lumpsum.html" class="text-sm font-semibold text-white bg-blue-600 px-3 py-1 rounded-md shadow">Lumpsum Calculator</a>
+        </div>
       </div>
     </div>
-  </div>
-</nav>
+  </nav>
 
-<main class="flex-1 flex flex-col lg:flex-row p-4 sm:p-6 gap-6">
-      <section class="bg-white p-4 sm:p-6 rounded shadow-md w-full lg:w-1/3 space-y-6">
-        <h2 class="text-xl font-bold text-blue-600 mb-2">Lumpsum Calculator</h2>
+  <main class="flex-1 flex flex-col lg:flex-row p-4 sm:p-6 gap-6">
+    <section class="bg-white p-4 sm:p-6 rounded shadow-md w-full lg:w-1/3 space-y-6">
+      <h2 class="text-xl font-bold text-blue-600 mb-2">Lumpsum Calculator</h2>
 
-        <div>
-          <label for="lumpsumAmount" class="block text-sm font-semibold mb-1">Initial Investment (₹)</label>
-          <input id="lumpsumAmount" type="range" min="10000" max="10000000" step="10000" value="100000" class="w-full">
-          <div class="text-right text-sm text-gray-500">
-  ₹<span id="valLumpAmount">100000</span><br>
-  <span id="valLumpWords" class="italic text-xs text-gray-400"></span>
-</div>
-        </div>
+      <div>
+        <label for="initialAmount" class="block text-sm font-semibold mb-1">Initial Investment (₹)</label>
+        <input id="initialAmount" type="range" min="10000" max="10000000" step="10000" value="100000" class="w-full">
+        <div class="text-right text-sm text-gray-500">₹<span id="valInitialAmount">100000</span><br><span id="valInitialWords" class="italic text-xs text-gray-400"></span></div>
+      </div>
 
-        <div>
-          <label for="lumpsumYears" class="block text-sm font-semibold mb-1">Investment Duration (Years)</label>
-          <input id="lumpsumYears" type="range" min="1" max="40" step="1" value="10" class="w-full">
-          <div class="text-right text-sm text-gray-500"><span id="valLumpYears">10</span> years</div>
-        </div>
+      <div>
+        <label for="lumpYears" class="block text-sm font-semibold mb-1">Investment Duration (Years)</label>
+        <input id="lumpYears" type="range" min="1" max="40" step="1" value="10" class="w-full">
+        <div class="text-right text-sm text-gray-500"><span id="valLumpYears">10</span> years</div>
+      </div>
 
-        <div>
-          <label for="lumpsumRate" class="block text-sm font-semibold mb-1">Expected Annual Return (%)</label>
-          <input id="lumpsumRate" type="range" min="1" max="20" step="0.5" value="12" class="w-full">
-          <div class="text-right text-sm text-gray-500"><span id="valLumpRate">12</span>%</div>
-        </div>
-      </section>
+      <div>
+        <label for="lumpRate" class="block text-sm font-semibold mb-1">Expected Annual Return (%)</label>
+        <input id="lumpRate" type="range" min="1" max="20" step="0.5" value="12" class="w-full">
+        <div class="text-right text-sm text-gray-500"><span id="valLumpRate">12</span>%</div>
+      </div>
+    </section>
 
-      <section id="lumpsumResult" class="w-full lg:w-2/3 space-y-6">
-        <div class="flex flex-col md:flex-row gap-6">
-          <div class="flex-1 bg-white p-4 sm:p-6 rounded shadow-md text-center" id="lumpsumSummary"></div>
-          <div class="flex-1 bg-white p-4 sm:p-6 rounded shadow-md">
-            <h3 class="text-lg font-semibold mb-2 text-blue-700">Breakdown</h3>
-            <canvas id="lumpsumPieChart" height="250"></canvas>
-          </div>
+    <section class="w-full lg:w-2/3 space-y-6">
+      <div class="flex flex-col md:flex-row gap-6">
+        <div class="flex-1 bg-white p-4 sm:p-6 rounded shadow-md text-center" id="lumpSummary"></div>
+        <div class="flex-1 bg-white p-4 sm:p-6 rounded shadow-md">
+          <h3 class="text-lg font-semibold mb-2 text-blue-700">Breakdown</h3>
+          <canvas id="lumpPieChart" height="250"></canvas>
         </div>
-        <div class="bg-white p-4 sm:p-6 rounded shadow-md">
-          <h3 class="text-lg font-semibold mb-2 text-blue-700">Yearly Projection</h3>
-          <canvas id="lumpsumChart" height="300"></canvas>
-        </div>
-        <div id="lumpsumMessage" class="text-lg font-semibold text-center text-indigo-600"></div>
-      </section>
-    </main>
-  </div>
+      </div>
+      <div class="bg-white p-4 sm:p-6 rounded shadow-md">
+        <h3 class="text-lg font-semibold mb-2 text-blue-700">Yearly Projection</h3>
+        <canvas id="lumpChart" height="300"></canvas>
+      </div>
+      <div id="lumpMessage" class="text-lg font-semibold text-center text-indigo-600"></div>
+    </section>
+  </main>
 
   <footer class="bg-gradient-to-r from-indigo-600 to-blue-700 text-center text-white text-sm p-4 shadow mt-4">
     © 2025 MoneyMath — Simplifying Your Finances 💡
   </footer>
 
   <script>
-    const lumpAmountEl = document.getElementById('lumpsumAmount');
-    const lumpYearsEl = document.getElementById('lumpsumYears');
-    const lumpRateEl = document.getElementById('lumpsumRate');
+    const lumpAmountEl = document.getElementById('initialAmount');
+    const lumpYearsEl = document.getElementById('lumpYears');
+    const lumpRateEl = document.getElementById('lumpRate');
 
     function formatINR(num) {
       return parseFloat(num).toFixed(0).toLocaleString('en-IN');
+    }
+
+    function numberToWords(num) {
+      const a = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten',
+        'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
+      const b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+
+      function inWords(num) {
+        if (num < 20) return a[num];
+        if (num < 100) return b[Math.floor(num / 10)] + (num % 10 ? ' ' + a[num % 10] : '');
+        if (num < 1000) return a[Math.floor(num / 100)] + ' Hundred' + (num % 100 ? ' ' + inWords(num % 100) : '');
+        if (num < 100000) return inWords(Math.floor(num / 1000)) + ' Thousand' + (num % 1000 ? ' ' + inWords(num % 1000) : '');
+        if (num < 10000000) return inWords(Math.floor(num / 100000)) + ' Lakh' + (num % 100000 ? ' ' + inWords(num % 100000) : '');
+        return inWords(Math.floor(num / 10000000)) + ' Crore' + (num % 10000000 ? ' ' + inWords(num % 10000000) : '');
+      }
+      return inWords(num);
     }
 
     function calculateLumpsum(P, rate, years) {
@@ -88,17 +100,17 @@
       return { invested: P, gain, maturity };
     }
 
-    function generateLumpsumProjection(P, rate, years) {
+    function generateLumpProjection(P, rate, years) {
       const projection = [];
       for (let i = 1; i <= years; i++) {
-        const val = P * Math.pow(1 + rate / 100, i);
-        projection.push({ year: `Year ${i}`, value: parseFloat(val.toFixed(0)) });
+        const value = P * Math.pow(1 + rate / 100, i);
+        projection.push({ year: `Year ${i}`, value: parseFloat(value.toFixed(0)) });
       }
       return projection;
     }
 
-    function renderLumpsumCharts(invested, gain, projection) {
-      const pieCtx = document.getElementById('lumpsumPieChart').getContext('2d');
+    function renderLumpCharts(invested, gain, projection) {
+      const pieCtx = document.getElementById('lumpPieChart').getContext('2d');
       if (window.myLumpPieChart) window.myLumpPieChart.destroy();
       window.myLumpPieChart = new Chart(pieCtx, {
         type: 'doughnut',
@@ -109,7 +121,7 @@
         options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
       });
 
-      const lineCtx = document.getElementById('lumpsumChart').getContext('2d');
+      const lineCtx = document.getElementById('lumpChart').getContext('2d');
       if (window.myLumpLineChart) window.myLumpLineChart.destroy();
       window.myLumpLineChart = new Chart(lineCtx, {
         type: 'line',
@@ -138,44 +150,27 @@
       });
     }
 
-    function numberToWords(num) {
-  const a = [ '', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten',
-    'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen' ];
-  const b = [ '', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety' ];
-
-  function inWords(num) {
-    if (num < 20) return a[num];
-    if (num < 100) return b[Math.floor(num / 10)] + (num % 10 ? ' ' + a[num % 10] : '');
-    if (num < 1000) return a[Math.floor(num / 100)] + ' Hundred' + (num % 100 ? ' ' + inWords(num % 100) : '');
-    if (num < 100000) return inWords(Math.floor(num / 1000)) + ' Thousand' + (num % 1000 ? ' ' + inWords(num % 1000) : '');
-    if (num < 10000000) return inWords(Math.floor(num / 100000)) + ' Lakh' + (num % 100000 ? ' ' + inWords(num % 100000) : '');
-    return inWords(Math.floor(num / 10000000)) + ' Crore' + (num % 10000000 ? ' ' + inWords(num % 10000000) : '');
-  }
-  return inWords(num);
-}
-
-function updateLumpsum() {
+    function updateLumpsum() {
       const P = parseFloat(lumpAmountEl.value);
       const years = parseInt(lumpYearsEl.value);
       const rate = parseFloat(lumpRateEl.value);
 
-      document.getElementById('valLumpAmount').textContent = P;
+      document.getElementById('valInitialAmount').textContent = P;
       document.getElementById('valLumpYears').textContent = years;
       document.getElementById('valLumpRate').textContent = rate;
-      document.getElementById('valLumpWords').textContent = numberToWords(P) + ' Rupees';
+      document.getElementById('valInitialWords').textContent = numberToWords(P) + ' Rupees';
 
-      if (!P || !rate || !years) return;
       const { invested, gain, maturity } = calculateLumpsum(P, rate, years);
-      const projection = generateLumpsumProjection(P, rate, years);
+      const projection = generateLumpProjection(P, rate, years);
 
-      document.getElementById('lumpsumSummary').innerHTML = `
+      document.getElementById('lumpSummary').innerHTML = `
         <div class="bg-blue-50 text-blue-800 text-lg font-semibold p-3 rounded mb-2 shadow">Invested: ₹${formatINR(invested)}</div>
         <div class="bg-green-50 text-green-800 text-lg font-semibold p-3 rounded mb-2 shadow">Gain: ₹${formatINR(gain)}</div>
         <div class="bg-purple-50 text-purple-800 text-lg font-semibold p-3 rounded mb-2 shadow">Maturity: ₹${formatINR(maturity)}</div>
       `;
 
-      document.getElementById('lumpsumMessage').innerHTML = `📅 <span>Your total corpus will be ₹${formatINR(maturity)} after ${years} years.</span>`;
-      renderLumpsumCharts(invested, gain, projection);
+      document.getElementById('lumpMessage').innerHTML = `📅 <span>Your total corpus will be ₹${formatINR(maturity)} after ${years} years.</span>`;
+      renderLumpCharts(invested, gain, projection);
     }
 
     ['input', 'change'].forEach(evt => {
