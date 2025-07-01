@@ -8,21 +8,25 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
-  <header class="bg-white shadow p-4 text-center font-bold text-2xl text-blue-700">
-    MoneyMath 💸
-  </header>
+  <header class="bg-gradient-to-r from-blue-700 to-indigo-700 shadow-md p-4 flex items-center justify-center gap-3 text-white">
+  <img src="https://img.icons8.com/ios-filled/50/ffffff/money.png" alt="logo" class="w-8 h-8"/>
+  <h1 class="text-3xl font-bold tracking-wide">MoneyMath</h1>
+</header>
 
-  <div class="flex flex-1 flex-col md:flex-row">
-    <aside class="w-full md:w-64 bg-white p-4 shadow-md">
-      <nav class="space-y-4 flex md:flex-col justify-around md:justify-start">
-        <a href="/" class="block text-lg font-medium hover:text-blue-600">🏠 Home</a>
-        <a href="/sip.html" class="block text-lg font-medium hover:text-blue-600">📈 SIP Calculator</a>
-        <a href="/swp.html" class="block text-lg font-medium hover:text-blue-600">💸 SWP Calculator</a>
-        <a href="/lumpsum.html" class="block text-lg font-medium text-blue-600">💰 Lumpsum Calculator</a>
-      </nav>
-    </aside>
+  <nav class="bg-white shadow-md border-b border-gray-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between h-16 items-center">
+      <div class="flex items-center space-x-4">
+        <a href="/" class="text-sm font-semibold text-gray-700 hover:text-blue-600 px-3 py-1 rounded-md transition">🏠 Home</a>
+        <a href="/sip.html" class="text-sm font-semibold text-gray-700 hover:text-blue-600 px-3 py-1 rounded-md transition">SIP Calculator</a>
+        <a href="/swp.html" class="text-sm font-semibold text-gray-700 hover:text-blue-600 px-3 py-1 rounded-md transition">SWP Calculator</a>
+        <a href="/lumpsum.html" class="text-sm font-semibold text-white bg-blue-600 px-3 py-1 rounded-md shadow">Lumpsum Calculator</a>
+      </div>
+    </div>
+  </div>
+</nav>
 
-    <main class="flex-1 flex flex-col lg:flex-row p-4 sm:p-6 gap-6">
+<main class="flex-1 flex flex-col lg:flex-row p-4 sm:p-6 gap-6">
       <section class="bg-white p-4 sm:p-6 rounded shadow-md w-full lg:w-1/3 space-y-6">
         <h2 class="text-xl font-bold text-blue-600 mb-2">Lumpsum Calculator</h2>
 
@@ -65,7 +69,7 @@
     </main>
   </div>
 
-  <footer class="bg-white text-center text-sm p-4 shadow mt-4">
+  <footer class="bg-gradient-to-r from-indigo-600 to-blue-700 text-center text-white text-sm p-4 shadow mt-4">
     © 2025 MoneyMath — Simplifying Your Finances 💡
   </footer>
 
