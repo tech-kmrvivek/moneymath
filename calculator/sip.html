@@ -39,6 +39,18 @@
           <span id="valSipRate">12</span>%
         </div>
       </div>
+
+      <div class="flex items-center space-x-2">
+        <input type="checkbox" id="stepUpCheck" class="h-4 w-4 text-blue-600 border-gray-300 rounded">
+        <label for="stepUpCheck" class="text-sm font-semibold text-gray-700">Enable Step-Up SIP</label>
+      </div>
+
+      <div id="stepUpSection" class="hidden">
+        <label class="block text-sm font-semibold text-gray-700 mt-2">
+          Step-Up % per Year: <span id="stepUpLabel">0%</span>
+        </label>
+        <input id="stepUpSlider" type="range" min="0" max="30" value="0" class="w-full" />
+      </div>
     </section>
 
     <section class="w-full lg:w-2/3 space-y-6">
@@ -59,7 +71,6 @@
 
   <div id="include-footer"></div>
 
-  <!-- Load Header, Nav, Footer -->
   <script>
     async function loadPartial(id, file) {
       const res = await fetch(file);
@@ -73,20 +84,30 @@
       loadPartial("include-footer", "/components/footer.html");
     });
   </script>
-
-  <!-- SIP Logic -->
   <script>
     const sipAmountEl = document.getElementById('sipAmount');
     const sipYearsEl = document.getElementById('sipYears');
     const sipRateEl = document.getElementById('sipRate');
+    const stepUpCheck = document.getElementById('stepUpCheck');
+    const stepUpSlider = document.getElementById('stepUpSlider');
+    const stepUpSection = document.getElementById('stepUpSection');
+    const stepUpLabel = document.getElementById('stepUpLabel');
+
+    stepUpCheck.addEventListener('change', () => {
+      stepUpSection.classList.toggle('hidden', !stepUpCheck.checked);
+      updateSIP();
+    });
+    stepUpSlider.addEventListener('input', () => {
+      stepUpLabel.textContent = `${stepUpSlider.value}%`;
+      updateSIP();
+    });
 
     function formatINR(num) {
       return parseFloat(num).toLocaleString('en-IN');
     }
 
     function numberToWords(num) {
-      const a = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten',
-        'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
+      const a = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
       const b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
 
       function inWords(num) {
@@ -97,17 +118,34 @@
         if (num < 10000000) return inWords(Math.floor(num / 100000)) + ' Lakh' + (num % 100000 ? ' ' + inWords(num % 100000) : '');
         return inWords(Math.floor(num / 10000000)) + ' Crore' + (num % 10000000 ? ' ' + inWords(num % 10000000) : '');
       }
-
       return inWords(num);
     }
 
-    function calculateSIP(P, rate, years) {
+    function calculateStepUpSIP(P, rate, years, stepUpPercent) {
+      const r = rate / 100 / 12;
+      let invested = 0, total = 0, current = P;
+      const projection = [];
+
+      for (let y = 1; y <= years; y++) {
+        for (let m = 0; m < 12; m++) {
+          total = (total + current) * (1 + r);
+          invested += current;
+        }
+        projection.push({ year: `Year ${y}`, value: parseFloat(total.toFixed(0)) });
+        current *= (1 + stepUpPercent / 100);
+      }
+      const gain = total - invested;
+      return { invested, gain, maturity: total, projection };
+    }
+
+    function calculateFlatSIP(P, rate, years) {
       const r = rate / 100 / 12;
       const n = years * 12;
       const maturity = P * ((Math.pow(1 + r, n) - 1) * (1 + r)) / r;
       const invested = P * n;
       const gain = maturity - invested;
-      return { invested, gain, maturity };
+      const projection = generateSipProjection(P, rate, years);
+      return { invested, gain, maturity, projection };
     }
 
     function generateSipProjection(P, rate, years) {
@@ -168,25 +206,28 @@
       const P = parseFloat(sipAmountEl.value);
       const years = parseInt(sipYearsEl.value);
       const rate = parseFloat(sipRateEl.value);
+      const stepUp = stepUpCheck.checked ? parseFloat(stepUpSlider.value) : 0;
 
       document.getElementById('valSipAmount').textContent = P;
       document.getElementById('valSipYears').textContent = years;
       document.getElementById('valSipRate').textContent = rate;
       document.getElementById('valSipWords').textContent = numberToWords(P) + ' Rupees';
 
-      const { invested, gain, maturity } = calculateSIP(P, rate, years);
-      const projection = generateSipProjection(P, rate, years);
+      const stepUpResult = calculateStepUpSIP(P, rate, years, stepUp);
+      const flatResult = calculateFlatSIP(P, rate, years);
+
+      const result = stepUpCheck.checked ? stepUpResult : flatResult;
 
       document.getElementById('sipSummary').innerHTML = `
-        <div class="bg-blue-50 text-blue-800 text-lg font-semibold p-3 rounded mb-2 shadow">Invested: ₹${formatINR(invested)}</div>
-        <div class="bg-green-50 text-green-800 text-lg font-semibold p-3 rounded mb-2 shadow">Gain: ₹${formatINR(gain)}</div>
-        <div class="bg-purple-50 text-purple-800 text-lg font-semibold p-3 rounded mb-2 shadow">Maturity: ₹${formatINR(maturity)}</div>
+        <div class="bg-blue-50 text-blue-800 text-lg font-semibold p-3 rounded mb-2 shadow">Invested: ₹${formatINR(result.invested)}</div>
+        <div class="bg-green-50 text-green-800 text-lg font-semibold p-3 rounded mb-2 shadow">Gain: ₹${formatINR(result.gain)}</div>
+        <div class="bg-purple-50 text-purple-800 text-lg font-semibold p-3 rounded mb-2 shadow">Maturity: ₹${formatINR(result.maturity)}</div>
       `;
 
       document.getElementById('sipMessage').innerHTML =
-        `📅 <span>Your total corpus will be ₹${formatINR(maturity)} after ${years} years.</span>`;
+        `🗓 <span>Your total corpus will be ₹${formatINR(result.maturity)} after ${years} years${stepUpCheck.checked ? ' with step-up SIP.' : '.'}</span>`;
 
-      renderSipCharts(invested, gain, projection);
+      renderSipCharts(result.invested, result.gain, result.projection);
     }
 
     ['input', 'change'].forEach(evt => {
