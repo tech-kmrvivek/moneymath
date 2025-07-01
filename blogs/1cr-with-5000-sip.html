@@ -10,7 +10,7 @@
 <body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
   <div id="include-header"></div>
   <div id="include-nav"></div>
-
+  <div id="include-blog-nav" class="sm:mr-6 mb-6 sm:mb-0 w-full sm:w-64"></div>
   <main class="flex-1 p-6 max-w-3xl mx-auto space-y-6">
     <h1 class="text-3xl font-bold text-blue-700">💡 How to Plan a ₹1 Crore Corpus with Just ₹5,000/month</h1>
     <p class="text-sm text-gray-500">Published on July 2, 2025 • 4 min read</p>
@@ -97,6 +97,7 @@
     window.addEventListener("DOMContentLoaded", () => {
       loadPartial("include-header", "/components/header.html");
       loadPartial("include-nav", "/components/nav.html");
+      loadPartial("include-blog-nav", "/components/blog-nav.html");
       loadPartial("include-footer", "/components/footer.html");
     });
   </script>
