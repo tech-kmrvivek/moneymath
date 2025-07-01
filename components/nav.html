@@ -1,10 +1,10 @@
-<nav class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shadow-sm">
+<nav class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shadow-sm sticky top-0 z-50">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center h-16">
       <!-- Logo -->
       <a href="/" class="text-xl font-bold text-blue-700 dark:text-blue-400">💸 MoneyMath</a>
 
-      <!-- Navigation links -->
+      <!-- Desktop Links -->
       <div class="hidden md:flex space-x-6 text-sm font-medium text-gray-700 dark:text-gray-200">
         <a href="/" class="hover:text-blue-600 dark:hover:text-blue-400">Home</a>
         <a href="/calculator/sip.html" class="hover:text-blue-600 dark:hover:text-blue-400">SIP</a>
@@ -15,27 +15,25 @@
         <a href="/contact.html" class="hover:text-blue-600 dark:hover:text-blue-400">Contact</a>
       </div>
 
-      <!-- Mobile Menu Button -->
-      <div class="md:hidden">
-        <button id="mobileMenuBtn" class="text-gray-700 dark:text-gray-300 focus:outline-none">
-          <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2"
-               viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 6h16M4 12h16M4 18h16"/>
-          </svg>
-        </button>
-      </div>
+      <!-- Mobile menu button -->
+      <button id="mobileMenuBtn" class="md:hidden text-gray-700 dark:text-gray-200 focus:outline-none">
+        <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2"
+             viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
     </div>
-  </div>
 
-  <!-- Mobile Menu -->
-  <div id="mobileMenu" class="md:hidden hidden px-4 pb-4 space-y-2 text-sm text-gray-700 dark:text-gray-200">
-    <a href="/" class="block hover:text-blue-600 dark:hover:text-blue-400">Home</a>
-    <a href="/calculator/sip.html" class="block hover:text-blue-600 dark:hover:text-blue-400">SIP</a>
-    <a href="/calculator/swp.html" class="block hover:text-blue-600 dark:hover:text-blue-400">SWP</a>
-    <a href="/calculator/lumpsum.html" class="block hover:text-blue-600 dark:hover:text-blue-400">Lumpsum</a>
-    <a href="/calculator/fire-calculator.html" class="block hover:text-blue-600 dark:hover:text-blue-400">FIRE</a>
-    <a href="/about.html" class="block hover:text-blue-600 dark:hover:text-blue-400">About</a>
-    <a href="/contact.html" class="block hover:text-blue-600 dark:hover:text-blue-400">Contact</a>
+    <!-- Mobile Links -->
+    <div id="mobileMenu" class="md:hidden hidden flex flex-col py-2 text-sm font-medium text-gray-700 dark:text-gray-200 space-y-1">
+      <a href="/" class="block px-2 py-2 hover:text-blue-600 dark:hover:text-blue-400">Home</a>
+      <a href="/calculator/sip.html" class="block px-2 py-2 hover:text-blue-600 dark:hover:text-blue-400">SIP</a>
+      <a href="/calculator/swp.html" class="block px-2 py-2 hover:text-blue-600 dark:hover:text-blue-400">SWP</a>
+      <a href="/calculator/lumpsum.html" class="block px-2 py-2 hover:text-blue-600 dark:hover:text-blue-400">Lumpsum</a>
+      <a href="/calculator/fire-calculator.html" class="block px-2 py-2 hover:text-blue-600 dark:hover:text-blue-400">FIRE</a>
+      <a href="/about.html" class="block px-2 py-2 hover:text-blue-600 dark:hover:text-blue-400">About</a>
+      <a href="/contact.html" class="block px-2 py-2 hover:text-blue-600 dark:hover:text-blue-400">Contact</a>
+    </div>
   </div>
 </nav>
 
