@@ -14,6 +14,16 @@
         input.addEventListener('input', runSIP);
       });
     });
+        renderLineChart(projection.labels, projection.data);
+      renderDoughnutChart(result.invested, result.gain);
+      document.getElementById('sipResult').classList.remove('hidden');
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('input').forEach(input => {
+        input.addEventListener('input', runSIP);
+      });
+    });
   </script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
