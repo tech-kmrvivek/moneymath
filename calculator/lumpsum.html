@@ -3,180 +3,340 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lumpsum Calculator - MoneyMath</title>
+  <title>Lumpsum Calculator | RupeesWise</title>
+  <meta name="description" content="Calculate the future value of your lumpsum investment with our easy-to-use calculator. See projections with charts and plan for your financial goals.">
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .font-montserrat { font-family: 'Montserrat', sans-serif; }
+    /* Custom styles for range sliders */
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 8px;
+      background: #d1fae5; /* emerald-100 */
+      border-radius: 5px;
+      outline: none;
+      opacity: 0.7;
+      transition: opacity .2s;
+    }
+    input[type="range"]:hover {
+      opacity: 1;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      background: #10b981; /* emerald-500 */
+      cursor: pointer;
+      border-radius: 50%;
+      border: 2px solid white;
+    }
+    input[type="range"]::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      background: #10b981; /* emerald-500 */
+      cursor: pointer;
+      border-radius: 50%;
+      border: 2px solid white;
+    }
+  </style>
 </head>
-<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
-  <div id="include-header"></div>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 min-h-screen flex flex-col">
+
+  <!-- Placeholder for the Navigation Bar -->
   <div id="include-nav"></div>
 
-  <main class="flex-1 flex flex-col lg:flex-row p-4 sm:p-6 gap-6">
-    <section class="bg-white p-4 sm:p-6 rounded shadow-md w-full lg:w-1/3 space-y-6">
-      <h2 class="text-xl font-bold text-blue-600 mb-2">Lumpsum Calculator</h2>
+  <!-- Main Content -->
+  <main class="flex-1 w-full max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+    <div class="flex flex-col lg:flex-row gap-8">
 
-      <div>
-        <label for="initialAmount" class="block text-sm font-semibold mb-1">Initial Investment (₹)</label>
-        <input id="initialAmount" type="range" min="10000" max="10000000" step="10000" value="100000" class="w-full">
-        <div class="text-right text-sm text-gray-500">₹<span id="valInitialAmount">100000</span><br><span id="valInitialWords" class="italic text-xs text-gray-400"></span></div>
-      </div>
-
-      <div>
-        <label for="lumpYears" class="block text-sm font-semibold mb-1">Investment Duration (Years)</label>
-        <input id="lumpYears" type="range" min="1" max="40" step="1" value="10" class="w-full">
-        <div class="text-right text-sm text-gray-500"><span id="valLumpYears">10</span> years</div>
-      </div>
-
-      <div>
-        <label for="lumpRate" class="block text-sm font-semibold mb-1">Expected Annual Return (%)</label>
-        <input id="lumpRate" type="range" min="1" max="20" step="0.5" value="12" class="w-full">
-        <div class="text-right text-sm text-gray-500"><span id="valLumpRate">12</span>%</div>
-      </div>
-    </section>
-
-    <section class="w-full lg:w-2/3 space-y-6">
-      <div class="flex flex-col md:flex-row gap-6">
-        <div class="flex-1 bg-white p-4 sm:p-6 rounded shadow-md text-center" id="lumpSummary"></div>
-        <div class="flex-1 bg-white p-4 sm:p-6 rounded shadow-md">
-          <h3 class="text-lg font-semibold mb-2 text-blue-700">Breakdown</h3>
-          <canvas id="lumpPieChart" height="250"></canvas>
+      <!-- Left Side: Calculator Inputs -->
+      <section class="w-full lg:w-1/3 bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg space-y-6">
+        <h2 class="text-2xl font-bold text-emerald-700 dark:text-emerald-400 font-montserrat">Lumpsum Calculator</h2>
+        
+        <div>
+          <label for="lumpAmountInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Total Investment</label>
+          <div class="mt-1 flex rounded-md shadow-sm">
+            <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 text-sm">₹</span>
+            <input id="lumpAmountInput" type="number" value="100000" class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+          </div>
+          <input id="lumpAmountSlider" type="range" min="10000" max="10000000" step="10000" value="100000" class="w-full mt-2">
+          <div id="lumpAmountWords" class="text-right text-xs italic text-gray-500 dark:text-gray-400 mt-1"></div>
         </div>
-      </div>
-      <div class="bg-white p-4 sm:p-6 rounded shadow-md">
-        <h3 class="text-lg font-semibold mb-2 text-blue-700">Yearly Projection</h3>
-        <canvas id="lumpChart" height="300"></canvas>
-      </div>
-      <div id="lumpMessage" class="text-lg font-semibold text-center text-indigo-600"></div>
-    </section>
+
+        <div>
+          <label for="lumpYearsInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Investment Duration (Years)</label>
+          <input id="lumpYearsInput" type="number" value="15" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+          <input id="lumpYearsSlider" type="range" min="1" max="40" step="1" value="15" class="w-full mt-2">
+        </div>
+
+        <div>
+          <label for="lumpRateInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Expected Annual Return (%)</label>
+          <input id="lumpRateInput" type="number" value="12" step="0.5" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+          <input id="lumpRateSlider" type="range" min="1" max="30" step="0.5" value="12" class="w-full mt-2">
+        </div>
+      </section>
+
+      <!-- Right Side: Results & Charts -->
+      <section class="w-full lg:w-2/3 space-y-8">
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg">
+          <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-4">Your Investment Summary</h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+            <div class="bg-blue-50 dark:bg-blue-900/50 p-4 rounded-lg">
+              <p class="text-sm text-blue-600 dark:text-blue-300 font-medium">Invested Amount</p>
+              <p id="investedAmount" class="text-2xl font-bold text-blue-800 dark:text-blue-200">₹0</p>
+            </div>
+            <div class="bg-yellow-50 dark:bg-yellow-900/50 p-4 rounded-lg">
+              <p class="text-sm text-yellow-600 dark:text-yellow-300 font-medium">Wealth Gained</p>
+              <p id="wealthGained" class="text-2xl font-bold text-yellow-800 dark:text-yellow-200">₹0</p>
+            </div>
+            <div class="bg-emerald-50 dark:bg-emerald-900/50 p-4 rounded-lg">
+              <p class="text-sm text-emerald-600 dark:text-emerald-300 font-medium">Maturity Value</p>
+              <p id="maturityValue" class="text-2xl font-bold text-emerald-800 dark:text-emerald-200">₹0</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg">
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">Yearly Projection Table</h3>
+            <div id="projectionTableContainer" class="max-h-96 overflow-y-auto">
+                <!-- Table will be generated here -->
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 xl:grid-cols-5 gap-8">
+            <div class="xl:col-span-3 bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg">
+              <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-2">Yearly Projection Graph</h3>
+              <canvas id="lumpLineChart"></canvas>
+            </div>
+            <div class="xl:col-span-2 bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg flex flex-col justify-center">
+              <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-2">Wealth Breakdown</h3>
+              <canvas id="lumpPieChart"></canvas>
+            </div>
+        </div>
+      </section>
+    </div>
   </main>
 
+  <!-- Placeholder for the Footer -->
   <div id="include-footer"></div>
 
   <script>
-    async function loadPartial(id, file) {
-      const res = await fetch(file);
-      const text = await res.text();
-      document.getElementById(id).innerHTML = text;
-    }
+    // --- Chart instances ---
+    let lumpLineChart, lumpPieChart;
 
-    window.addEventListener("DOMContentLoaded", () => {
-      loadPartial("include-header", "/components/header.html");
-      loadPartial("include-nav", "/components/nav.html");
-      loadPartial("include-footer", "/components/footer.html");
-    });
-  </script>
+    // --- DOM Elements ---
+    const lumpAmountInput = document.getElementById('lumpAmountInput');
+    const lumpAmountSlider = document.getElementById('lumpAmountSlider');
+    const lumpAmountWords = document.getElementById('lumpAmountWords');
+    const lumpYearsInput = document.getElementById('lumpYearsInput');
+    const lumpYearsSlider = document.getElementById('lumpYearsSlider');
+    const lumpRateInput = document.getElementById('lumpRateInput');
+    const lumpRateSlider = document.getElementById('lumpRateSlider');
+    const projectionTableContainer = document.getElementById('projectionTableContainer');
 
-  <script>
-    const lumpAmountEl = document.getElementById('initialAmount');
-    const lumpYearsEl = document.getElementById('lumpYears');
-    const lumpRateEl = document.getElementById('lumpRate');
+    // --- Output Elements ---
+    const investedAmountEl = document.getElementById('investedAmount');
+    const wealthGainedEl = document.getElementById('wealthGained');
+    const maturityValueEl = document.getElementById('maturityValue');
 
+    // --- Utility Functions ---
     function formatINR(num) {
-      return parseFloat(num).toFixed(0).toLocaleString('en-IN');
+      if (num >= 10000000) return `₹${(num / 10000000).toFixed(2)} Cr`;
+      if (num >= 100000) return `₹${(num / 100000).toFixed(2)} L`;
+      return `₹${num.toLocaleString('en-IN')}`;
     }
 
     function numberToWords(num) {
-      const a = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten',
-        'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
-      const b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
-
-      function inWords(num) {
+        const a = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
+        const b = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+        const numStr = num.toString();
+        if (num < 0) return 'minus ' + numberToWords(-num);
+        if (num === 0) return 'zero';
         if (num < 20) return a[num];
-        if (num < 100) return b[Math.floor(num / 10)] + (num % 10 ? ' ' + a[num % 10] : '');
-        if (num < 1000) return a[Math.floor(num / 100)] + ' Hundred' + (num % 100 ? ' ' + inWords(num % 100) : '');
-        if (num < 100000) return inWords(Math.floor(num / 1000)) + ' Thousand' + (num % 1000 ? ' ' + inWords(num % 1000) : '');
-        if (num < 10000000) return inWords(Math.floor(num / 100000)) + ' Lakh' + (num % 100000 ? ' ' + inWords(num % 100000) : '');
-        return inWords(Math.floor(num / 10000000)) + ' Crore' + (num % 10000000 ? ' ' + inWords(num % 10000000) : '');
-      }
-      return inWords(num);
+        if (numStr.length === 2) return b[numStr[0]] + (numStr[1] === '0' ? '' : ' ' + a[numStr[1]]);
+        if (numStr.length === 3) return a[numStr[0]] + ' hundred' + (num % 100 === 0 ? '' : ' and ' + numberToWords(num % 100));
+        if (numStr.length === 4 || numStr.length === 5) return numberToWords(Math.floor(num / 1000)) + ' thousand' + (num % 1000 !== 0 ? ' ' + numberToWords(num % 1000) : '');
+        if (numStr.length === 6 || numStr.length === 7) return numberToWords(Math.floor(num / 100000)) + ' lakh' + (num % 100000 !== 0 ? ' ' + numberToWords(num % 100000) : '');
+        if (numStr.length > 7) return numberToWords(Math.floor(num / 10000000)) + ' crore' + (num % 10000000 !== 0 ? ' ' + numberToWords(num % 10000000) : '');
+        return '';
     }
 
-    function calculateLumpsum(P, rate, years) {
-      const maturity = P * Math.pow(1 + rate / 100, years);
-      const gain = maturity - P;
-      return { invested: P, gain, maturity };
-    }
-
-    function generateLumpProjection(P, rate, years) {
+    // --- Calculation Logic (Verified and Correct) ---
+    function calculateLumpsum() {
+      const P = parseFloat(lumpAmountInput.value) || 0;
+      const years = parseInt(lumpYearsInput.value) || 0;
+      const rate = parseFloat(lumpRateInput.value) || 0;
+      
       const projection = [];
-      for (let i = 1; i <= years; i++) {
-        const value = P * Math.pow(1 + rate / 100, i);
-        projection.push({ year: `Year ${i}`, value: parseFloat(value.toFixed(0)) });
+      let maturity = P;
+      for (let y = 1; y <= years; y++) {
+        maturity = P * Math.pow(1 + rate / 100, y);
+        projection.push({
+          year: y,
+          invested: P,
+          interest: maturity - P,
+          value: maturity
+        });
       }
-      return projection;
+      
+      const finalMaturity = P * Math.pow(1 + rate / 100, years);
+      const gain = finalMaturity - P;
+
+      // --- Update UI ---
+      investedAmountEl.textContent = formatINR(P);
+      wealthGainedEl.textContent = formatINR(gain);
+      maturityValueEl.textContent = formatINR(finalMaturity);
+      lumpAmountWords.textContent = numberToWords(P).split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') + ' Rupees';
+
+      
+      renderProjectionTable(projection);
+      renderCharts(P, gain, projection);
     }
 
-    function renderLumpCharts(invested, gain, projection) {
+    // --- Table Rendering ---
+    function renderProjectionTable(projection) {
+        let tableHTML = `
+            <table class="min-w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">Year</th>
+                        <th scope="col" class="px-6 py-3">Interest Gained</th>
+                        <th scope="col" class="px-6 py-3">Year End Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
+        projection.forEach(item => {
+            tableHTML += `
+                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">${item.year}</td>
+                    <td class="px-6 py-4">${formatINR(item.interest)}</td>
+                    <td class="px-6 py-4 font-semibold text-emerald-600 dark:text-emerald-400">${formatINR(item.value)}</td>
+                </tr>
+            `;
+        });
+        tableHTML += `</tbody></table>`;
+        projectionTableContainer.innerHTML = tableHTML;
+    }
+
+    // --- Chart Rendering ---
+    function renderCharts(invested, gain, projection) {
       const pieCtx = document.getElementById('lumpPieChart').getContext('2d');
-      if (window.myLumpPieChart) window.myLumpPieChart.destroy();
-      window.myLumpPieChart = new Chart(pieCtx, {
+      if (lumpPieChart) lumpPieChart.destroy();
+      lumpPieChart = new Chart(pieCtx, {
         type: 'doughnut',
         data: {
-          labels: ['Invested', 'Gain'],
-          datasets: [{ data: [invested, gain], backgroundColor: ['#3b82f6', '#22c55e'] }]
+          labels: ['Invested Amount', 'Wealth Gained'],
+          datasets: [{ 
+            data: [invested, gain > 0 ? gain : 0], 
+            backgroundColor: ['#3b82f6', '#10b981'],
+            borderColor: ['#ffffff', '#ffffff'],
+            borderWidth: 2,
+          }]
         },
-        options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+        options: { 
+          responsive: true, 
+          plugins: { 
+            legend: { 
+              position: 'bottom',
+              labels: { color: document.body.classList.contains('dark') ? '#fff' : '#333' }
+            } 
+          } 
+        }
       });
 
-      const lineCtx = document.getElementById('lumpChart').getContext('2d');
-      if (window.myLumpLineChart) window.myLumpLineChart.destroy();
-      window.myLumpLineChart = new Chart(lineCtx, {
+      const lineCtx = document.getElementById('lumpLineChart').getContext('2d');
+      if (lumpLineChart) lumpLineChart.destroy();
+      lumpLineChart = new Chart(lineCtx, {
         type: 'line',
         data: {
           labels: projection.map(p => p.year),
           datasets: [{
-            label: 'Value (₹)',
+            label: 'Investment Value',
             data: projection.map(p => p.value),
-            borderColor: '#2563eb',
-            backgroundColor: 'rgba(37,99,235,0.2)',
+            borderColor: '#10b981',
+            backgroundColor: 'rgba(16, 185, 129, 0.1)',
             fill: true,
-            tension: 0.4
+            tension: 0.4,
+            pointBackgroundColor: '#10b981',
+            pointBorderColor: '#fff',
+            pointHoverRadius: 7,
+            pointHoverBackgroundColor: '#fff',
+            pointHoverBorderColor: '#10b981'
           }]
         },
         options: {
           responsive: true,
-          plugins: { legend: { position: 'top' } },
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
           scales: {
             y: {
-              ticks: {
-                callback: value => '₹' + value.toLocaleString('en-IN')
-              }
+              ticks: { 
+                callback: value => formatINR(value),
+                color: document.body.classList.contains('dark') ? '#9ca3af' : '#6b7280'
+              },
+              grid: { color: document.body.classList.contains('dark') ? '#374151' : '#e5e7eb' }
+            },
+            x: {
+              ticks: { color: document.body.classList.contains('dark') ? '#9ca3af' : '#6b7280' },
+              grid: { display: false }
             }
           }
         }
       });
     }
 
-    function updateLumpsum() {
-      const P = parseFloat(lumpAmountEl.value);
-      const years = parseInt(lumpYearsEl.value);
-      const rate = parseFloat(lumpRateEl.value);
-
-      document.getElementById('valInitialAmount').textContent = P;
-      document.getElementById('valLumpYears').textContent = years;
-      document.getElementById('valLumpRate').textContent = rate;
-      document.getElementById('valInitialWords').textContent = numberToWords(P) + ' Rupees';
-
-      const { invested, gain, maturity } = calculateLumpsum(P, rate, years);
-      const projection = generateLumpProjection(P, rate, years);
-
-      document.getElementById('lumpSummary').innerHTML = `
-        <div class="bg-blue-50 text-blue-800 text-lg font-semibold p-3 rounded mb-2 shadow">Invested: ₹${formatINR(invested)}</div>
-        <div class="bg-green-50 text-green-800 text-lg font-semibold p-3 rounded mb-2 shadow">Gain: ₹${formatINR(gain)}</div>
-        <div class="bg-purple-50 text-purple-800 text-lg font-semibold p-3 rounded mb-2 shadow">Maturity: ₹${formatINR(maturity)}</div>
-      `;
-
-      document.getElementById('lumpMessage').innerHTML = `📅 <span>Your total corpus will be ₹${formatINR(maturity)} after ${years} years.</span>`;
-      renderLumpCharts(invested, gain, projection);
+    // --- Event Listeners and Initializer ---
+    async function loadPartial(id, file) {
+      try {
+        const response = await fetch(file);
+        if (!response.ok) throw new Error(`Failed to load ${file}: ${response.status}`);
+        const text = await response.text();
+        const element = document.getElementById(id);
+        if (element) {
+          element.innerHTML = text;
+          Array.from(element.querySelectorAll("script")).forEach(oldScript => {
+            const newScript = document.createElement("script");
+            Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
+            newScript.appendChild(document.createTextNode(oldScript.innerHTML));
+            oldScript.parentNode.replaceChild(newScript, oldScript);
+          });
+        }
+      } catch (error) {
+        console.error(`Error loading partial: ${error}`);
+      }
     }
 
-    ['input', 'change'].forEach(evt => {
-      lumpAmountEl.addEventListener(evt, updateLumpsum);
-      lumpYearsEl.addEventListener(evt, updateLumpsum);
-      lumpRateEl.addEventListener(evt, updateLumpsum);
-    });
+    function setupEventListeners() {
+      const inputs = [lumpAmountInput, lumpAmountSlider, lumpYearsInput, lumpYearsSlider, lumpRateInput, lumpRateSlider];
+      inputs.forEach(input => input.addEventListener('input', calculateLumpsum));
+      
+      lumpAmountSlider.addEventListener('input', () => lumpAmountInput.value = lumpAmountSlider.value);
+      lumpAmountInput.addEventListener('input', () => lumpAmountSlider.value = lumpAmountInput.value);
+      
+      lumpYearsSlider.addEventListener('input', () => lumpYearsInput.value = lumpYearsSlider.value);
+      lumpYearsInput.addEventListener('input', () => lumpYearsSlider.value = lumpYearsInput.value);
 
-    window.onload = updateLumpsum;
+      lumpRateSlider.addEventListener('input', () => lumpRateInput.value = lumpRateSlider.value);
+      lumpRateInput.addEventListener('input', () => lumpRateSlider.value = lumpRateInput.value);
+    }
+    
+    document.addEventListener('DOMContentLoaded', async () => {
+      await Promise.all([
+        loadPartial("include-nav", "../components/nav.html"),
+        loadPartial("include-footer", "../components/footer.html")
+      ]);
+      setupEventListeners();
+      calculateLumpsum(); // Initial calculation
+    });
   </script>
 </body>
 </html>

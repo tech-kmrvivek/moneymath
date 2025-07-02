@@ -7,16 +7,10 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
   <style>
-    /* Applying the brand fonts */
-    body {
-      font-family: 'Inter', sans-serif;
-    }
-    .font-montserrat {
-      font-family: 'Montserrat', sans-serif;
-    }
-    /* Style for the post reveal animation */
+    body { font-family: 'Inter', sans-serif; }
+    .font-montserrat { font-family: 'Montserrat', sans-serif; }
     .extra-post {
         transition: all 0.5s ease-in-out;
         max-height: 0;
@@ -29,6 +23,14 @@
         opacity: 1;
         transform: translateY(0);
     }
+    .hero-bg {
+        background-color: #ecfdf5; /* A very light emerald */
+        background-image: radial-gradient(circle at top right, #a7f3d0, transparent 40%), radial-gradient(circle at bottom left, #6ee7b7, transparent 50%);
+    }
+    .dark .hero-bg {
+        background-color: #042f2e;
+        background-image: radial-gradient(circle at top right, #065f46, transparent 40%), radial-gradient(circle at bottom left, #047857, transparent 50%);
+    }
   </style>
 </head>
 <body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 min-h-screen flex flex-col">
@@ -39,35 +41,43 @@
   <!-- === Main Content === -->
   <main class="flex-1">
     <!-- Hero Section -->
-    <section class="bg-white dark:bg-gray-800 text-center py-16 sm:py-24 px-6">
-      <h1 class="text-4xl sm:text-5xl font-extrabold text-emerald-600 dark:text-emerald-400 font-montserrat">Grow Smart. Grow Wise. With RupeesWise.</h1>
-      <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-600 dark:text-gray-300">Powerful calculators and insightful blogs to help you master your money and achieve your financial goals.</p>
-      
-      <!-- Quick Links to Calculators -->
-      <div class="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
-        <a href="/calculator/sip.html" class="p-4 bg-emerald-50 dark:bg-emerald-900/50 rounded-lg hover:bg-emerald-100 dark:hover:bg-emerald-900/80 transition-all duration-300 shadow-sm hover:shadow-md">
-          <div class="text-3xl">📈</div>
-          <div class="mt-2 font-semibold text-emerald-800 dark:text-emerald-300">SIP</div>
-        </a>
-        <a href="/calculator/lumpsum.html" class="p-4 bg-emerald-50 dark:bg-emerald-900/50 rounded-lg hover:bg-emerald-100 dark:hover:bg-emerald-900/80 transition-all duration-300 shadow-sm hover:shadow-md">
-          <div class="text-3xl">💰</div>
-          <div class="mt-2 font-semibold text-emerald-800 dark:text-emerald-300">Lumpsum</div>
-        </a>
-        <a href="/calculator/fire-calculator.html" class="p-4 bg-emerald-50 dark:bg-emerald-900/50 rounded-lg hover:bg-emerald-100 dark:hover:bg-emerald-900/80 transition-all duration-300 shadow-sm hover:shadow-md">
-          <div class="text-3xl">🔥</div>
-          <div class="mt-2 font-semibold text-emerald-800 dark:text-emerald-300">FIRE</div>
-        </a>
-        <a href="/calculator/swp.html" class="p-4 bg-emerald-50 dark:bg-emerald-900/50 rounded-lg hover:bg-emerald-100 dark:hover:bg-emerald-900/80 transition-all duration-300 shadow-sm hover:shadow-md">
-          <div class="text-3xl">💸</div>
-          <div class="mt-2 font-semibold text-emerald-800 dark:text-emerald-300">SWP</div>
-        </a>
-      </div>
+    <section class="hero-bg text-center py-20 sm:py-28 px-6">
+        <div class="max-w-4xl mx-auto">
+            <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-emerald-900 dark:text-white font-montserrat tracking-tight">Grow Smart. Grow Wise. <br class="hidden sm:block">With <span class="text-emerald-600 dark:text-emerald-400">RupeesWise</span>.</h1>
+            <p class="mt-6 max-w-2xl mx-auto text-lg text-emerald-800 dark:text-gray-300">Your trusted guide to mastering personal finance. Powerful calculators and insightful blogs to help you achieve your financial goals with confidence.</p>
+            <a href="#calculators" class="mt-8 inline-block bg-emerald-600 text-white font-bold py-3 px-8 rounded-full hover:bg-emerald-700 transition-all duration-300 shadow-lg text-lg">Explore Calculators</a>
+        </div>
+    </section>
+    
+    <!-- Calculators Section -->
+    <section id="calculators" class="py-16 sm:py-20 bg-white dark:bg-gray-800/50">
+        <div class="max-w-6xl mx-auto px-6">
+            <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-10 text-center">Our Suite of Financial Tools</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <a href="/calculator/sip.html" class="group p-6 bg-gray-50 dark:bg-gray-800 rounded-xl hover:bg-emerald-100 dark:hover:bg-emerald-900/40 transition-all duration-300 shadow-sm hover:shadow-emerald-200/50 hover:shadow-lg text-center">
+                    <div class="text-4xl mb-3">📈</div>
+                    <h3 class="font-semibold text-emerald-800 dark:text-emerald-300">SIP Calculator</h3>
+                </a>
+                <a href="/calculator/lumpsum.html" class="group p-6 bg-gray-50 dark:bg-gray-800 rounded-xl hover:bg-emerald-100 dark:hover:bg-emerald-900/40 transition-all duration-300 shadow-sm hover:shadow-emerald-200/50 hover:shadow-lg text-center">
+                    <div class="text-4xl mb-3">💰</div>
+                    <h3 class="font-semibold text-emerald-800 dark:text-emerald-300">Lumpsum Calculator</h3>
+                </a>
+                <a href="/calculator/fire-calculator.html" class="group p-6 bg-gray-50 dark:bg-gray-800 rounded-xl hover:bg-emerald-100 dark:hover:bg-emerald-900/40 transition-all duration-300 shadow-sm hover:shadow-emerald-200/50 hover:shadow-lg text-center">
+                    <div class="text-4xl mb-3">🔥</div>
+                    <h3 class="font-semibold text-emerald-800 dark:text-emerald-300">FIRE Calculator</h3>
+                </a>
+                <a href="/calculator/swp.html" class="group p-6 bg-gray-50 dark:bg-gray-800 rounded-xl hover:bg-emerald-100 dark:hover:bg-emerald-900/40 transition-all duration-300 shadow-sm hover:shadow-emerald-200/50 hover:shadow-lg text-center">
+                    <div class="text-4xl mb-3">💸</div>
+                    <h3 class="font-semibold text-emerald-800 dark:text-emerald-300">SWP Calculator</h3>
+                </a>
+            </div>
+        </div>
     </section>
 
     <!-- Latest Blog Posts Section -->
     <section class="py-16 sm:py-20 px-6">
       <div class="max-w-6xl mx-auto">
-        <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-8 text-center">📘 From the Blog</h2>
+        <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-10 text-center">📘 From the Blog</h2>
         <div id="blog-posts-grid" class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           <!-- Initially visible posts -->
           <article class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
@@ -76,7 +86,7 @@
             <a href="/blogs/build_wealth_with_sip.html" class="text-emerald-600 dark:text-emerald-500 text-sm font-semibold hover:underline">Read more →</a>
           </article>
           <article class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
-            <h3 class="text-xl font-semibold text-emerald-700 dark:text-emerald-400 mb-2">Lumpsum Investment vs SIP: Which is Better?</h3>
+            <h3 class="text-xl font-semibold text-emerald-700 dark:text-emerald-400 mb-2">Lumpsum vs. SIP: Which is Better?</h3>
             <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Explore the pros and cons of both approaches to make informed financial decisions.</p>
             <a href="/blogs/lumpsum_vs_sip.html" class="text-emerald-600 dark:text-emerald-500 text-sm font-semibold hover:underline">Read more →</a>
           </article>
@@ -85,23 +95,23 @@
             <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Learn about the FIRE movement and how to calculate your early retirement number.</p>
             <a href="/blogs/fire-retire-early.html" class="text-emerald-600 dark:text-emerald-500 text-sm font-semibold hover:underline">Read more →</a>
           </article>
-          <article class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+          
+          <!-- Initially hidden posts -->
+          <article class="extra-post bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
             <h3 class="text-xl font-semibold text-emerald-700 dark:text-emerald-400 mb-2">Understanding SWP: Systematic Withdrawal Plan</h3>
             <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">A guide on using SWP to generate monthly income from your investments post-retirement.</p>
             <a href="/blogs/swp.html" class="text-emerald-600 dark:text-emerald-500 text-sm font-semibold hover:underline">Read more →</a>
           </article>
-          <article class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+          <article class="extra-post bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
             <h3 class="text-xl font-semibold text-emerald-700 dark:text-emerald-400 mb-2">Why Delaying Investment Costs You More</h3>
             <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">See how a few years’ delay can cost you lakhs. A must-read on compounding and early investing.</p>
             <a href="/blogs/delaying-costs-more.html" class="text-emerald-600 dark:text-emerald-500 text-sm font-semibold hover:underline">Read more →</a>
           </article>
-          <article class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+          <article class="extra-post bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
             <h3 class="text-xl font-semibold text-emerald-700 dark:text-emerald-400 mb-2">What is SIP and Why Every Investor Should Know It</h3>
             <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Learn the basics of SIP, how it works, and why it’s ideal for building wealth in India.</p>
             <a href="/blogs/what-is-sip.html" class="text-emerald-600 dark:text-emerald-500 text-sm font-semibold hover:underline">Read more →</a>
           </article>
-          
-          <!-- Initially hidden posts -->
           <article class="extra-post bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
             <h3 class="text-xl font-semibold text-emerald-700 dark:text-emerald-400 mb-2">How Compound Interest Works</h3>
             <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Understand the magic of earning interest on interest with simple real-life numbers.</p>
@@ -180,11 +190,13 @@
 
         if (viewAllBtn) {
             viewAllBtn.addEventListener('click', () => {
+                let delay = 0;
                 extraPosts.forEach(post => {
-                    // We'll use a class to trigger the CSS transition
-                    post.classList.add('visible');
+                    setTimeout(() => {
+                        post.classList.add('visible');
+                    }, delay);
+                    delay += 100; // Stagger the animation
                 });
-                // Hide the button's container after clicking
                 if(viewAllContainer) {
                     viewAllContainer.style.display = 'none';
                 }
@@ -192,7 +204,6 @@
         }
     }
 
-    // Load components and set up event listeners when the page is ready
     window.addEventListener("DOMContentLoaded", () => {
       loadPartial("include-nav", "./components/nav.html");
       loadPartial("include-footer", "./components/footer.html");

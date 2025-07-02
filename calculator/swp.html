@@ -3,200 +3,382 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SWP Calculator - MoneyMath</title>
+  <title>SWP Calculator | RupeesWise</title>
+  <meta name="description" content="Calculate how long your investment corpus will last with a Systematic Withdrawal Plan (SWP). Model your retirement income with our easy-to-use calculator.">
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .font-montserrat { font-family: 'Montserrat', sans-serif; }
+    /* Custom styles for range sliders */
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 8px;
+      background: #d1fae5; /* emerald-100 */
+      border-radius: 5px;
+      outline: none;
+      opacity: 0.7;
+      transition: opacity .2s;
+    }
+    input[type="range"]:hover {
+      opacity: 1;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      background: #10b981; /* emerald-500 */
+      cursor: pointer;
+      border-radius: 50%;
+      border: 2px solid white;
+    }
+    input[type="range"]::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      background: #10b981; /* emerald-500 */
+      cursor: pointer;
+      border-radius: 50%;
+      border: 2px solid white;
+    }
+  </style>
 </head>
-<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
-  <div id="include-header"></div>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 min-h-screen flex flex-col">
+
+  <!-- Placeholder for the Navigation Bar -->
   <div id="include-nav"></div>
 
-  <main class="flex-1 flex flex-col lg:flex-row p-4 sm:p-6 gap-6">
-    <section class="bg-white p-4 sm:p-6 rounded shadow-md w-full lg:w-1/3 space-y-6">
-      <h2 class="text-xl font-bold text-blue-600 mb-2">SWP Calculator</h2>
+  <!-- Main Content -->
+  <main class="flex-1 w-full max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+    <div class="flex flex-col lg:flex-row gap-8">
 
-      <div>
-        <label class="block text-sm font-semibold mb-1">Total Corpus (₹)</label>
-        <input id="swpPrincipal" type="range" min="10000" max="10000000" step="10000" value="500000" class="w-full">
-        <div class="text-right text-sm text-gray-500">
-  ₹<span id="valSwpPrincipal">500000</span><br>
-  <span id="wordsPrincipal"></span>
-</div>
-      </div>
+      <!-- Left Side: Calculator Inputs -->
+      <section class="w-full lg:w-1/3 bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg space-y-6">
+        <h2 class="text-2xl font-bold text-emerald-700 dark:text-emerald-400 font-montserrat">SWP Calculator</h2>
+        
+        <div>
+          <label for="principalInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Total Investment (Corpus)</label>
+          <div class="mt-1 flex rounded-md shadow-sm">
+            <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 text-sm">₹</span>
+            <input id="principalInput" type="number" value="10000000" class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+          </div>
+          <input id="principalSlider" type="range" min="100000" max="50000000" step="100000" value="10000000" class="w-full mt-2">
+          <div id="principalWords" class="text-right text-xs italic text-gray-500 dark:text-gray-400 mt-1"></div>
+        </div>
 
-      <div>
-  <label class="block text-sm font-semibold mb-1">Monthly Withdrawal (₹)</label>
-  <input id="swpWithdrawal" type="range" min="1000" max="100000" step="500" value="5000" class="w-full">
-  <div class="text-right text-sm text-gray-500">
-  ₹<span id="valSwpWithdrawal">5000</span><br>
-  <span id="wordsWithdrawal"></span>
-</div>
-</div>
-      </div>
+        <div>
+          <label for="withdrawalInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Monthly Withdrawal</label>
+           <div class="mt-1 flex rounded-md shadow-sm">
+            <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 text-sm">₹</span>
+            <input id="withdrawalInput" type="number" value="50000" class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+          </div>
+          <input id="withdrawalSlider" type="range" min="1000" max="200000" step="1000" value="50000" class="w-full mt-2">
+          <div id="withdrawalWords" class="text-right text-xs italic text-gray-500 dark:text-gray-400 mt-1"></div>
+        </div>
+        
+        <div>
+          <label for="withdrawalPeriodInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Withdrawal Period (Years)</label>
+          <input id="withdrawalPeriodInput" type="number" value="20" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+          <input id="withdrawalPeriodSlider" type="range" min="1" max="40" step="1" value="20" class="w-full mt-2">
+        </div>
 
-      <div>
-        <label class="block text-sm font-semibold mb-1">Expected Annual Return (%)</label>
-        <input id="swpRate" type="range" min="1" max="15" step="0.5" value="8" class="w-full">
-        <div class="text-right text-sm text-gray-500"><span id="valSwpRate">8</span>%</div>
-      </div>
+        <div>
+          <label for="rateInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Expected Annual Return (%)</label>
+          <input id="rateInput" type="number" value="8" step="0.5" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+          <input id="rateSlider" type="range" min="1" max="20" step="0.5" value="8" class="w-full mt-2">
+        </div>
+        
+        <div>
+          <label for="inflationInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Expected Annual Inflation (%)</label>
+          <input id="inflationInput" type="number" value="6" step="0.5" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+          <input id="inflationSlider" type="range" min="0" max="10" step="0.5" value="6" class="w-full mt-2">
+        </div>
+      </section>
 
-      <div>
-        <label class="block text-sm font-semibold mb-1">Expected Inflation (%)</label>
-        <input id="swpInflation" type="range" min="0" max="10" step="0.5" value="5" class="w-full">
-        <div class="text-right text-sm text-gray-500"><span id="valSwpInflation">5</span>%</div>
-      </div>
-    </section>
+      <!-- Right Side: Results & Charts -->
+      <section class="w-full lg:w-2/3 space-y-8">
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg">
+          <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-4">Your SWP Summary</h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+            <div class="bg-emerald-50 dark:bg-emerald-900/50 p-4 rounded-lg">
+              <p class="text-sm text-emerald-600 dark:text-emerald-300 font-medium">Final Balance</p>
+              <p id="finalBalance" class="text-2xl font-bold text-emerald-800 dark:text-emerald-200">-</p>
+            </div>
+             <div class="bg-blue-50 dark:bg-blue-900/50 p-4 rounded-lg">
+              <p class="text-sm text-blue-600 dark:text-blue-300 font-medium">Total Withdrawn</p>
+              <p id="totalWithdrawn" class="text-2xl font-bold text-blue-800 dark:text-blue-200">₹0</p>
+            </div>
+            <div class="bg-yellow-50 dark:bg-yellow-900/50 p-4 rounded-lg">
+              <p class="text-sm text-yellow-600 dark:text-yellow-300 font-medium">Total Interest</p>
+              <p id="totalInterest" class="text-2xl font-bold text-yellow-800 dark:text-yellow-200">₹0</p>
+            </div>
+          </div>
+           <div id="swpMessage" class="text-center text-gray-600 dark:text-gray-300 font-medium text-md mt-4"></div>
+        </div>
+        
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg">
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">Yearly Projection Table</h3>
+            <div id="projectionTableContainer" class="max-h-96 overflow-y-auto">
+                <!-- Table will be generated here -->
+            </div>
+        </div>
 
-    <section class="w-full lg:w-2/3 space-y-6">
-      <div class="bg-white p-4 sm:p-6 rounded shadow-md">
-        <h3 class="text-lg font-semibold mb-2 text-blue-700">Projection</h3>
-        <canvas id="swpChart" height="300"></canvas>
-        <div id="swpMessage" class="text-center text-indigo-600 font-semibold text-lg mt-4"></div>
-        <div id="swpSummary" class="text-center mt-4 text-gray-700"></div>
-      </div>
-    </section>
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg">
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">Corpus Balance Projection</h3>
+            <canvas id="swpLineChart"></canvas>
+        </div>
+      </section>
+    </div>
   </main>
 
+  <!-- Placeholder for the Footer -->
   <div id="include-footer"></div>
 
   <script>
-    async function loadPartial(id, file) {
-      const res = await fetch(file);
-      const text = await res.text();
-      document.getElementById(id).innerHTML = text;
-    }
+    // --- Chart instance ---
+    let swpLineChart;
 
-    window.addEventListener("DOMContentLoaded", () => {
-      loadPartial("include-header", "/components/header.html");
-      loadPartial("include-nav", "/components/nav.html");
-      loadPartial("include-footer", "/components/footer.html");
-    });
-  </script>
+    // --- DOM Elements ---
+    const principalInput = document.getElementById('principalInput');
+    const principalSlider = document.getElementById('principalSlider');
+    const principalWords = document.getElementById('principalWords');
+    const withdrawalInput = document.getElementById('withdrawalInput');
+    const withdrawalSlider = document.getElementById('withdrawalSlider');
+    const withdrawalWords = document.getElementById('withdrawalWords');
+    const withdrawalPeriodInput = document.getElementById('withdrawalPeriodInput');
+    const withdrawalPeriodSlider = document.getElementById('withdrawalPeriodSlider');
+    const rateInput = document.getElementById('rateInput');
+    const rateSlider = document.getElementById('rateSlider');
+    const inflationInput = document.getElementById('inflationInput');
+    const inflationSlider = document.getElementById('inflationSlider');
+    const projectionTableContainer = document.getElementById('projectionTableContainer');
 
-  <script>
-    const swpPrincipalEl = document.getElementById('swpPrincipal');
-    const swpWithdrawalEl = document.getElementById('swpWithdrawal');
-    const swpRateEl = document.getElementById('swpRate');
-    const swpInflationEl = document.getElementById('swpInflation');
+    // --- Output Elements ---
+    const finalBalanceEl = document.getElementById('finalBalance');
+    const totalWithdrawnEl = document.getElementById('totalWithdrawn');
+    const totalInterestEl = document.getElementById('totalInterest');
+    const swpMessageEl = document.getElementById('swpMessage');
 
-    const valSwpPrincipal = document.getElementById('valSwpPrincipal');
-    const valSwpWithdrawal = document.getElementById('valSwpWithdrawal');
-    const wordsWithdrawal = document.getElementById('wordsWithdrawal');
-    const valSwpRate = document.getElementById('valSwpRate');
-    const valSwpInflation = document.getElementById('valSwpInflation');
-    const wordsPrincipal = document.getElementById('wordsPrincipal');
-
+    // --- Utility Functions ---
     function formatINR(num) {
-      return parseFloat(num).toLocaleString('en-IN');
+      if (num >= 10000000) return `₹${(num / 10000000).toFixed(2)} Cr`;
+      if (num >= 100000) return `₹${(num / 100000).toFixed(2)} L`;
+      return `₹${num.toLocaleString('en-IN')}`;
     }
 
-    function numberToWords(n) {
-      const a = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"];
-      const b = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
-      function inWords(num) {
-        if (num === 0) return "Zero";
+    function numberToWords(num) {
+        const a = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
+        const b = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+        const numStr = num.toString();
+        if (num < 0) return 'minus ' + numberToWords(-num);
+        if (num === 0) return 'zero';
         if (num < 20) return a[num];
-        if (num < 100) return b[Math.floor(num / 10)] + (num % 10 !== 0 ? " " + a[num % 10] : "");
-        if (num < 1000) return a[Math.floor(num / 100)] + " Hundred" + (num % 100 !== 0 ? " and " + inWords(num % 100) : "");
-        if (num < 100000) return inWords(Math.floor(num / 1000)) + " Thousand" + (num % 1000 !== 0 ? " " + inWords(num % 1000) : "");
-        if (num < 10000000) return inWords(Math.floor(num / 100000)) + " Lakh" + (num % 100000 !== 0 ? " " + inWords(num % 100000) : "");
-        return inWords(Math.floor(num / 10000000)) + " Crore" + (num % 10000000 !== 0 ? " " + inWords(num % 10000000) : "");
-      }
-      return inWords(n);
+        if (numStr.length === 2) return b[numStr[0]] + (numStr[1] === '0' ? '' : ' ' + a[numStr[1]]);
+        if (numStr.length === 3) return a[numStr[0]] + ' hundred' + (num % 100 === 0 ? '' : ' and ' + numberToWords(num % 100));
+        if (numStr.length === 4 || numStr.length === 5) return numberToWords(Math.floor(num / 1000)) + ' thousand' + (num % 1000 !== 0 ? ' ' + numberToWords(num % 1000) : '');
+        if (numStr.length === 6 || numStr.length === 7) return numberToWords(Math.floor(num / 100000)) + ' lakh' + (num % 100000 !== 0 ? ' ' + numberToWords(num % 100000) : '');
+        if (numStr.length > 7) return numberToWords(Math.floor(num / 10000000)) + ' crore' + (num % 10000000 !== 0 ? ' ' + numberToWords(num % 10000000) : '');
+        return '';
     }
 
-    function calculateSWP(P, W, r, inflation) {
+    // --- Calculation Logic ---
+    function calculateSWP() {
+      const P = parseFloat(principalInput.value) || 0;
+      const W = parseFloat(withdrawalInput.value) || 0;
+      const withdrawalPeriod = parseInt(withdrawalPeriodInput.value) || 0;
+      const r = parseFloat(rateInput.value) || 0;
+      const inflation = parseFloat(inflationInput.value) || 0;
+
       const monthlyRate = r / 100 / 12;
-      const monthlyInflation = inflation / 100 / 12;
-      let month = 0;
+      const annualInflation = inflation / 100;
+      
       let balance = P;
       let totalWithdrawn = 0;
-      const data = [], realData = [];
+      const projection = [];
+      const withdrawalPeriodInMonths = withdrawalPeriod * 12;
 
-      while (balance > 0 && month < 600) {
-        const adjWithdrawal = W * Math.pow(1 + monthlyInflation, month);
-        totalWithdrawn += adjWithdrawal;
-        balance = (balance - adjWithdrawal) * (1 + monthlyRate);
-        if (month % 12 === 0) {
-          data.push({ year: `Year ${month / 12 + 1}`, value: Math.max(balance, 0) });
-          realData.push({ year: `Year ${month / 12 + 1}`, value: Math.max(balance / Math.pow(1 + inflation / 100, month / 12), 0) });
+      let yearStartBalance = P;
+      let yearlyWithdrawn = 0;
+
+      for (let month = 1; month <= withdrawalPeriodInMonths; month++) {
+        let currentWithdrawal = W * Math.pow(1 + annualInflation, Math.floor((month - 1) / 12));
+        
+        if (balance < currentWithdrawal) {
+            currentWithdrawal = balance;
         }
-        month++;
+        
+        balance -= currentWithdrawal;
+        totalWithdrawn += currentWithdrawal;
+        yearlyWithdrawn += currentWithdrawal;
+
+        balance *= (1 + monthlyRate);
+        
+        if (month % 12 === 0 || month === withdrawalPeriodInMonths) {
+            const year = Math.ceil(month / 12);
+            const interestThisYear = balance - yearStartBalance + yearlyWithdrawn;
+            projection.push({ 
+                year: year, 
+                withdrawn: yearlyWithdrawn,
+                interest: interestThisYear,
+                value: balance > 0 ? balance : 0 
+            });
+            yearStartBalance = balance;
+            yearlyWithdrawn = 0;
+        }
       }
-      return { data, realData, duration: month, finalBalance: balance, totalWithdrawn };
+
+      const finalBalance = balance > 0 ? balance : 0;
+      const interestEarned = totalWithdrawn + finalBalance - P;
+      
+      let message = `After ${withdrawalPeriod} years, your final balance will be ${formatINR(finalBalance)}.`;
+      if (finalBalance <= 0) {
+          let exhaustedMonth = 0;
+          let tempBalance = P;
+          while(tempBalance > 0 && exhaustedMonth <= withdrawalPeriodInMonths) {
+              let currentWithdrawal = W * Math.pow(1 + annualInflation, Math.floor(exhaustedMonth / 12));
+              if (tempBalance < currentWithdrawal) { currentWithdrawal = tempBalance; }
+              tempBalance -= currentWithdrawal;
+              tempBalance *= (1 + monthlyRate);
+              exhaustedMonth++;
+          }
+          const exhaustedYears = Math.floor((exhaustedMonth - 1) / 12);
+          const exhaustedMonths = (exhaustedMonth - 1) % 12;
+          message = `Your corpus will be exhausted in approximately ${exhaustedYears} years and ${exhaustedMonths} months.`;
+      }
+
+
+      // --- Update UI ---
+      finalBalanceEl.textContent = formatINR(finalBalance);
+      totalWithdrawnEl.textContent = formatINR(totalWithdrawn);
+      totalInterestEl.textContent = formatINR(interestEarned);
+      swpMessageEl.textContent = message;
+      principalWords.textContent = numberToWords(P).split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') + ' Rupees';
+      withdrawalWords.textContent = numberToWords(W).split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') + ' Rupees';
+
+      renderProjectionTable(projection);
+      renderChart(projection);
     }
 
-    function updateSWP() {
-      const P = parseFloat(swpPrincipalEl.value);
-      const W = parseFloat(swpWithdrawalEl.value);
-      const r = parseFloat(swpRateEl.value);
-      const inflation = parseFloat(swpInflationEl.value);
+    // --- Table Rendering ---
+    function renderProjectionTable(projection) {
+        let tableHTML = `
+            <table class="min-w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">Year</th>
+                        <th scope="col" class="px-6 py-3">Yearly Withdrawal</th>
+                        <th scope="col" class="px-6 py-3">Interest Earned</th>
+                        <th scope="col" class="px-6 py-3">End Balance</th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
+        projection.forEach(item => {
+            tableHTML += `
+                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">${item.year}</td>
+                    <td class="px-6 py-4">${formatINR(item.withdrawn)}</td>
+                    <td class="px-6 py-4">${formatINR(item.interest)}</td>
+                    <td class="px-6 py-4 font-semibold text-emerald-600 dark:text-emerald-400">${formatINR(item.value)}</td>
+                </tr>
+            `;
+        });
+        tableHTML += `</tbody></table>`;
+        projectionTableContainer.innerHTML = tableHTML;
+    }
 
-      valSwpPrincipal.textContent = formatINR(P);
-      valSwpWithdrawal.textContent = formatINR(W);
-      wordsWithdrawal.textContent = numberToWords(W);
-      valSwpRate.textContent = r;
-      valSwpInflation.textContent = inflation;
-      wordsPrincipal.textContent = numberToWords(P);
-
-      const { data, realData, duration, finalBalance, totalWithdrawn } = calculateSWP(P, W, r, inflation);
-
-      if (window.mySwpChart) window.mySwpChart.destroy();
-      const ctx = document.getElementById('swpChart').getContext('2d');
-      window.mySwpChart = new Chart(ctx, {
+    // --- Chart Rendering ---
+    function renderChart(projection) {
+      const lineCtx = document.getElementById('swpLineChart').getContext('2d');
+      if (swpLineChart) swpLineChart.destroy();
+      swpLineChart = new Chart(lineCtx, {
         type: 'line',
         data: {
-          labels: data.map(d => d.year),
-          datasets: [
-            {
-              label: 'Nominal Balance (₹)',
-              data: data.map(d => d.value),
-              borderColor: '#1d4ed8',
-              backgroundColor: 'rgba(29,78,216,0.1)',
-              fill: true,
-              tension: 0.4
-            },
-            {
-              label: 'Real Balance (₹)',
-              data: realData.map(d => d.value),
-              borderColor: '#16a34a',
-              backgroundColor: 'rgba(22,163,74,0.1)',
-              fill: true,
-              tension: 0.4
-            }
-          ]
+          labels: projection.map(p => p.year),
+          datasets: [{
+            label: 'Corpus Balance',
+            data: projection.map(p => p.value),
+            borderColor: '#10b981',
+            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+            fill: true,
+            tension: 0.4,
+          }]
         },
         options: {
           responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
           scales: {
             y: {
-              ticks: {
-                callback: value => '₹' + value.toLocaleString('en-IN')
-              }
+              ticks: { 
+                callback: value => formatINR(value),
+                color: document.body.classList.contains('dark') ? '#9ca3af' : '#6b7280'
+              },
+              grid: { color: document.body.classList.contains('dark') ? '#374151' : '#e5e7eb' }
+            },
+            x: {
+              ticks: { color: document.body.classList.contains('dark') ? '#9ca3af' : '#6b7280' },
+              grid: { display: false }
             }
           }
         }
       });
-
-      const years = Math.floor(duration / 12);
-      const months = duration % 12;
-      const message = finalBalance > 0 ?
-        `Your corpus lasts more than ${years} years.` :
-        `Your corpus will be exhausted in ${years} years and ${months} months.`;
-      const summary = `Total Withdrawn: ₹${formatINR(totalWithdrawn.toFixed(0))} | Interest Earned: ₹${formatINR((finalBalance + totalWithdrawn - P).toFixed(0))}`;
-
-      document.getElementById('swpMessage').textContent = message;
-      document.getElementById('swpSummary').textContent = summary;
     }
 
-    ['input', 'change'].forEach(evt => {
-      swpPrincipalEl.addEventListener(evt, updateSWP);
-      swpWithdrawalEl.addEventListener(evt, updateSWP);
-      swpRateEl.addEventListener(evt, updateSWP);
-      swpInflationEl.addEventListener(evt, updateSWP);
-    });
+    // --- Event Listeners and Initializer ---
+    async function loadPartial(id, file) {
+      try {
+        const response = await fetch(file);
+        if (!response.ok) throw new Error(`Failed to load ${file}: ${response.status}`);
+        const text = await response.text();
+        const element = document.getElementById(id);
+        if (element) {
+          element.innerHTML = text;
+          Array.from(element.querySelectorAll("script")).forEach(oldScript => {
+            const newScript = document.createElement("script");
+            Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
+            newScript.appendChild(document.createTextNode(oldScript.innerHTML));
+            oldScript.parentNode.replaceChild(newScript, oldScript);
+          });
+        }
+      } catch (error) {
+        console.error(`Error loading partial: ${error}`);
+      }
+    }
+    
+    function setupEventListeners() {
+      const inputs = [principalInput, principalSlider, withdrawalInput, withdrawalSlider, withdrawalPeriodInput, withdrawalPeriodSlider, rateInput, rateSlider, inflationInput, inflationSlider];
+      inputs.forEach(input => input.addEventListener('input', calculateSWP));
+      
+      principalSlider.addEventListener('input', () => principalInput.value = principalSlider.value);
+      principalInput.addEventListener('input', () => principalSlider.value = principalInput.value);
+      
+      withdrawalSlider.addEventListener('input', () => withdrawalInput.value = withdrawalSlider.value);
+      withdrawalInput.addEventListener('input', () => withdrawalSlider.value = withdrawalInput.value);
+      
+      withdrawalPeriodSlider.addEventListener('input', () => withdrawalPeriodInput.value = withdrawalPeriodSlider.value);
+      withdrawalPeriodInput.addEventListener('input', () => withdrawalPeriodSlider.value = withdrawalPeriodInput.value);
 
-    window.onload = updateSWP;
+      rateSlider.addEventListener('input', () => rateInput.value = rateSlider.value);
+      rateInput.addEventListener('input', () => rateSlider.value = rateInput.value);
+
+      inflationSlider.addEventListener('input', () => inflationInput.value = inflationSlider.value);
+      inflationInput.addEventListener('input', () => inflationSlider.value = inflationInput.value);
+    }
+    
+    document.addEventListener('DOMContentLoaded', async () => {
+      await Promise.all([
+        loadPartial("include-nav", "../components/nav.html"),
+        loadPartial("include-footer", "../components/footer.html")
+      ]);
+      setupEventListeners();
+      calculateSWP(); // Initial calculation
+    });
   </script>
 </body>
 </html>
