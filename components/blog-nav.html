@@ -81,7 +81,7 @@
 
     // Toggle functionality
     toggleButton.addEventListener('click', () => {
-        const isExpanded = linksContainer.style.maxHeight;
+        const isExpanded = linksContainer.style.maxHeight && linksContainer.style.maxHeight !== "0px";
         if (isExpanded) {
             linksContainer.style.maxHeight = null;
             arrow.classList.remove('rotate-180');

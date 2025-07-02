@@ -31,25 +31,38 @@
         background-color: #042f2e;
         background-image: radial-gradient(circle at top right, #065f46, transparent 40%), radial-gradient(circle at bottom left, #047857, transparent 50%);
     }
+    /* New styles for gradient text */
+    .gradient-text-black {
+      background: linear-gradient(to right, #1a1a1a, #000000); /* Dark gray to black */
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .dark .gradient-text-black {
+      background: linear-gradient(to right, #e0e0e0, #ffffff); /* Lighter gradient for dark mode */
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
   </style>
 </head>
 <body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 min-h-screen flex flex-col">
 
-  <!-- Placeholder for the Navigation Bar -->
   <div id="include-nav"></div>
 
-  <!-- === Main Content === -->
   <main class="flex-1">
-    <!-- Hero Section -->
     <section class="hero-bg text-center py-20 sm:py-28 px-6">
         <div class="max-w-4xl mx-auto">
-            <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-emerald-900 dark:text-white font-montserrat tracking-tight">Grow Smart. Grow Wise. <br class="hidden sm:block">With <span class="text-emerald-600 dark:text-emerald-400">RupeesWise</span>.</h1>
-            <p class="mt-6 max-w-2xl mx-auto text-lg text-emerald-800 dark:text-gray-300">Your trusted guide to mastering personal finance. Powerful calculators and insightful blogs to help you achieve your financial goals with confidence.</p>
+            <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold font-montserrat tracking-tight">
+                <span class="gradient-text-black">Grow Smart. Grow Wise. <br class="hidden sm:block">With </span><span class="text-emerald-600 dark:text-emerald-400">RupeesWise</span>.
+            </h1>
+            <p class="mt-6 max-w-2xl mx-auto text-lg text-emerald-800 dark:text-gray-300">
+                <span class="gradient-text-black-paragraph">Your trusted guide to mastering personal finance. Powerful calculators and insightful blogs to help you achieve your financial goals with confidence.</span>
+            </p>
             <a href="#calculators" class="mt-8 inline-block bg-emerald-600 text-white font-bold py-3 px-8 rounded-full hover:bg-emerald-700 transition-all duration-300 shadow-lg text-lg">Explore Calculators</a>
         </div>
     </section>
-    
-    <!-- Calculators Section -->
+
     <section id="calculators" class="py-16 sm:py-20 bg-white dark:bg-gray-800/50">
         <div class="max-w-6xl mx-auto px-6">
             <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-10 text-center">Our Suite of Financial Tools</h2>
@@ -74,12 +87,10 @@
         </div>
     </section>
 
-    <!-- Latest Blog Posts Section -->
     <section class="py-16 sm:py-20 px-6">
       <div class="max-w-6xl mx-auto">
         <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-10 text-center">📘 From the Blog</h2>
         <div id="blog-posts-grid" class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          <!-- Initially visible posts -->
           <article class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
             <h3 class="text-xl font-semibold text-emerald-700 dark:text-emerald-400 mb-2">How SIP Can Build Wealth Over Time</h3>
             <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Understand how compounding and discipline help you grow your investments through SIPs.</p>
@@ -95,8 +106,7 @@
             <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Learn about the FIRE movement and how to calculate your early retirement number.</p>
             <a href="/blogs/fire-retire-early.html" class="text-emerald-600 dark:text-emerald-500 text-sm font-semibold hover:underline">Read more →</a>
           </article>
-          
-          <!-- Initially hidden posts -->
+
           <article class="extra-post bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
             <h3 class="text-xl font-semibold text-emerald-700 dark:text-emerald-400 mb-2">Understanding SWP: Systematic Withdrawal Plan</h3>
             <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">A guide on using SWP to generate monthly income from your investments post-retirement.</p>
@@ -155,10 +165,8 @@
     </section>
   </main>
 
-  <!-- Placeholder for the Footer -->
   <div id="include-footer"></div>
 
-  <!-- Script to load components and handle 'View All' functionality -->
   <script>
     async function loadPartial(id, file) {
       try {
