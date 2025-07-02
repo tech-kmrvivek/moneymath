@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Personal Finance Calculator | RupeesWise</title>
-  <meta name="description" content="Plan your financial future with our comprehensive personal finance calculator. Track income, expenses, and savings to achieve your goals.">
+  <title>Personal Finance Planner | RupeesWise</title>
+  <meta name="description" content="Plan your financial future with our comprehensive personal finance calculator. Track income, expenses, and savings to achieve your financial goals with confidence.">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,9 +14,9 @@
     .font-montserrat { font-family: 'Montserrat', sans-serif; }
     /* Style for the dynamic expense input fields */
     .expense-item {
-        display: grid;
-        grid-template-columns: 1fr 0.8fr 0.7fr auto; /* Description, Amount, Category, Remove Button */
-        gap: 1rem;
+        display: flex;
+        flex-wrap: wrap; /* Allow items to wrap */
+        gap: 0.5rem; /* Smaller gap on mobile */
         align-items: center;
         margin-bottom: 0.75rem;
         padding: 0.5rem;
@@ -27,6 +27,40 @@
     .dark .expense-item {
         background-color: #374151; /* gray-700 */
     }
+    .expense-item > * { /* Direct children of expense-item */
+        flex: 1 1 100%; /* Make them take full width on mobile by default */
+    }
+    .expense-item .expense-description {
+        flex: 1 1 100%; /* Always full width for description */
+    }
+    .expense-item .flex.items-center { /* Amount input container */
+        flex: 1 1 100%;
+    }
+    .expense-item .expense-category {
+        flex: 1 1 100%;
+    }
+    .expense-item .remove-expense-btn {
+        flex: 0 0 auto; /* Don't grow, take content width */
+        width: auto; /* Ensure it doesn't stretch */
+        align-self: flex-end; /* Align to end if wrapping */
+    }
+
+    @media (min-width: 640px) { /* sm breakpoint */
+        .expense-item {
+            display: grid; /* Switch back to grid for larger screens */
+            grid-template-columns: 1fr 0.8fr 0.7fr auto;
+            gap: 1rem;
+            flex-wrap: nowrap; /* Disable wrapping for grid layout */
+        }
+        .expense-item > * {
+            flex: none; /* Disable flex sizing for grid items */
+        }
+        .expense-item .remove-expense-btn {
+            justify-self: center; /* Center in its grid cell */
+            align-self: center;
+        }
+    }
+
     .expense-item input, .expense-item select {
         padding: 0.5rem 0.75rem;
         border: 1px solid #d1d5db; /* gray-300 */
@@ -38,6 +72,35 @@
         border-color: #4b5563; /* gray-600 */
         background-color: #4b5563; /* gray-600 */
         color: #f9fafb;
+    }
+    /* Styles for summary values */
+    .summary-label {
+        font-weight: 500; /* Medium weight */
+        color: #4b5563; /* gray-700 - Matches input label color */
+        font-size: 0.875rem; /* text-sm */
+    }
+    .dark .summary-label {
+        color: #d1d5db; /* gray-300 - Matches input label color in dark mode */
+    }
+    .summary-value {
+        font-weight: 600; /* Semi-bold */
+        color: #059669; /* emerald-600 */
+        font-size: 0.875rem; /* text-sm */
+    }
+    .dark .summary-value {
+        color: #34d399; /* emerald-400 */
+    }
+    .summary-value.positive {
+        color: #059669; /* emerald-600 */
+    }
+    .dark .summary-value.positive {
+        color: #34d399; /* emerald-400 */
+    }
+    .summary-value.negative {
+        color: #ef4444; /* red-600 */
+    }
+    .dark .summary-value.negative {
+        color: #f87171; /* red-400 */
     }
   </style>
 </head>
@@ -69,6 +132,9 @@
               <label for="lifeExpectancyInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Life Expectancy (Age)</label>
               <input id="lifeExpectancyInput" type="number" value="90" min="65" max="100" placeholder="e.g., 90" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white">
             </div>
+            <div class="pt-2">
+                <p><span class="summary-label">Retirement Years Left:</span> <span id="retirementYearsLeft" class="summary-value">0 years</span></p>
+            </div>
         </div>
 
         <!-- 2nd Section: Income -->
@@ -80,39 +146,34 @@
                 <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 text-sm">₹</span>
                 <input id="monthlyIncomeInput" type="number" value="100000" min="0" placeholder="e.g., 100000" class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
               </div>
+              <span id="monthlyIncomeWords" class="text-xs italic text-gray-500 dark:text-gray-400 mt-1 block text-right"></span>
             </div>
             <div>
-              <label for="yearlyIncomeInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Current Annual Income (Net)</label>
+              <label for="yearlyIncomeInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Current Annual Income (Net, e.g., Bonus)</label>
               <div class="mt-1 flex rounded-md shadow-sm">
                 <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 text-sm">₹</span>
                 <input id="yearlyIncomeInput" type="number" value="1200000" min="0" placeholder="e.g., 1200000" class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
               </div>
+              <span id="yearlyIncomeWords" class="text-xs italic text-gray-500 dark:text-gray-400 mt-1 block text-right"></span>
+            </div>
+            <div class="pt-2">
+                <p><span class="summary-label">Total Annual Income:</span> <span id="totalAnnualIncomeDisplay" class="summary-value">₹0</span></p>
             </div>
         </div>
 
         <!-- 3rd Section: Expenses -->
         <div class="space-y-4 border-b border-gray-200 dark:border-gray-700 pb-6">
-            <h3 class="text-md font-semibold text-gray-500 dark:text-gray-400">Your Expenses (Today's Value)</h3>
-            <div>
-                <label for="baseMonthlyExpenseInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Base Monthly Expenses</label>
-                <div class="mt-1 flex rounded-md shadow-sm">
-                    <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 text-sm">₹</span>
-                    <input id="baseMonthlyExpenseInput" type="number" value="50000" min="0" placeholder="e.g., 50000" class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
-                </div>
-            </div>
-            <div>
-                <label for="baseYearlyExpenseInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Base Annual Expenses</label>
-                <div class="mt-1 flex rounded-md shadow-sm">
-                    <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 text-sm">₹</span>
-                    <input id="baseYearlyExpenseInput" type="number" value="600000" min="0" placeholder="e.g., 600000" class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
-                </div>
-            </div>
-
-            <h4 class="text-sm font-semibold text-gray-600 dark:text-gray-300 mt-6">Additional Monthly Expenses</h4>
+            <h3 class="text-md font-semibold text-gray-500 dark:text-gray-400">Monthly Expenses (Today's Value)</h3>
             <div id="additionalExpensesContainer" class="space-y-3">
                 <!-- Dynamic expense inputs will be added here -->
             </div>
             <button id="addExpenseBtn" class="w-full bg-emerald-500 text-white py-2 px-4 rounded-md hover:bg-emerald-600 transition-colors duration-200 text-sm font-medium">Add Another Expense</button>
+            <div class="pt-2 space-y-1">
+                <p><span class="summary-label">Total Monthly Expenses:</span> <span id="totalCurrentMonthlyExpensesDisplay" class="summary-value">₹0</span></p>
+                <p><span class="summary-label">Total Annual Expenses:</span> <span id="totalCurrentAnnualExpensesDisplay" class="summary-value">₹0</span></p>
+                <p><span class="summary-label">Monthly Excess/Deficit:</span> <span id="monthlyExcessDisplay" class="summary-value">₹0</span></p>
+                <p><span class="summary-label">Annual Excess/Deficit:</span> <span id="yearlyExcessDisplay" class="summary-value">₹0</span></p>
+            </div>
         </div>
 
         <!-- 4th Section: Financial Planning Inputs -->
@@ -124,6 +185,7 @@
                 <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 text-sm">₹</span>
                 <input id="currentSavingsInput" type="number" value="1000000" min="0" placeholder="e.g., 1000000" class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
               </div>
+              <span id="currentSavingsWords" class="text-xs italic text-gray-500 dark:text-gray-400 mt-1 block text-right"></span>
             </div>
             <div>
               <label for="postRetirementMonthlyAmountInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Desired Monthly Income in Retirement (Today's Value)</label>
@@ -131,6 +193,10 @@
                 <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 text-sm">₹</span>
                 <input id="postRetirementMonthlyAmountInput" type="number" value="40000" min="0" placeholder="e.g., 40000" class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
               </div>
+              <span id="postRetirementMonthlyAmountWords" class="text-xs italic text-gray-500 dark:text-gray-400 mt-1 block text-right"></span>
+            </div>
+            <div class="pt-2">
+                <p><span class="summary-label">Desired Monthly Income at Retirement Age (Inflated Value):</span> <span id="inflatedRetirementMonthlyIncome" class="summary-value">₹0</span></p>
             </div>
         </div>
       </section>
@@ -157,10 +223,18 @@
             </table>
           </div>
           <div id="planSummary" class="mt-6 text-gray-700 dark:text-gray-300 space-y-2">
-              <p><span class="font-semibold">Financial Independence Achieved:</span> <span id="fiAge">N/A</span></p>
-              <p><span class="font-semibold">Funds Last Until Age:</span> <span id="fundsLastAge">N/A</span></p>
-              <p><span class="font-semibold">Remarks:</span> <span id="planRemarks"></span></p>
+              <p><span class="summary-label">Financial Independence Achieved:</span> <span id="fiAge" class="summary-value">N/A</span></p>
+              <p><span class="summary-label">Funds Last Until Age:</span> <span id="fundsLastAge" class="summary-value">N/A</span></p>
+              <p><span class="summary-label">Remarks:</span> <span id="planRemarks" class="summary-value"></span></p>
           </div>
+        </div>
+
+        <!-- Assumptions Section -->
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg mt-6">
+            <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-4">Assumptions</h3>
+            <p><span class="summary-label">Expected Inflation Rate:</span> <span id="displayInflationRate" class="summary-value"></span></p>
+            <p><span class="summary-label">Pre-Retirement Return Rate:</span> <span id="displayPreRetirementRate" class="summary-value"></span></p>
+            <p><span class="summary-label">Post-Retirement Return Rate:</span> <span id="displayPostRetirementRate" class="summary-value"></span></p>
         </div>
       </section>
     </div>
@@ -181,8 +255,6 @@
     const lifeExpectancyInput = document.getElementById('lifeExpectancyInput');
     const monthlyIncomeInput = document.getElementById('monthlyIncomeInput');
     const yearlyIncomeInput = document.getElementById('yearlyIncomeInput');
-    const baseMonthlyExpenseInput = document.getElementById('baseMonthlyExpenseInput');
-    const baseYearlyExpenseInput = document.getElementById('baseYearlyExpenseInput');
     const additionalExpensesContainer = document.getElementById('additionalExpensesContainer');
     const addExpenseBtn = document.getElementById('addExpenseBtn');
     const currentSavingsInput = document.getElementById('currentSavingsInput');
@@ -191,6 +263,26 @@
     const fiAgeEl = document.getElementById('fiAge');
     const fundsLastAgeEl = document.getElementById('fundsLastAge');
     const planRemarksEl = document.getElementById('planRemarks');
+    
+    // New/Moved DOM elements for summary info
+    const retirementYearsLeftDisplay = document.getElementById('retirementYearsLeft');
+    const totalAnnualIncomeDisplay = document.getElementById('totalAnnualIncomeDisplay');
+    const totalCurrentMonthlyExpensesDisplay = document.getElementById('totalCurrentMonthlyExpensesDisplay');
+    const totalCurrentAnnualExpensesDisplay = document.getElementById('totalCurrentAnnualExpensesDisplay');
+    const monthlyExcessDisplay = document.getElementById('monthlyExcessDisplay');
+    const yearlyExcessDisplay = document.getElementById('yearlyExcessDisplay');
+    const inflatedRetirementMonthlyIncome = document.getElementById('inflatedRetirementMonthlyIncome');
+
+    const displayInflationRate = document.getElementById('displayInflationRate');
+    const displayPreRetirementRate = document.getElementById('displayPreRetirementRate');
+    const displayPostRetirementRate = document.getElementById('displayPostRetirementRate');
+
+    // DOM elements for amount words
+    const monthlyIncomeWords = document.getElementById('monthlyIncomeWords');
+    const yearlyIncomeWords = document.getElementById('yearlyIncomeWords');
+    const currentSavingsWords = document.getElementById('currentSavingsWords');
+    const postRetirementMonthlyAmountWords = document.getElementById('postRetirementMonthlyAmountWords');
+
 
     // --- Utility Functions ---
     /**
@@ -213,6 +305,66 @@
     }
 
     /**
+     * Converts a number to words in Indian numbering system.
+     * @param {number} num - The number to convert.
+     * @returns {string} The number in words.
+     */
+    function numberToWords(num) {
+        if (num === 0) return 'Zero';
+        if (num < 0) return 'Minus ' + numberToWords(Math.abs(num));
+
+        const words = [];
+        const units = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
+        const tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+
+        function convertChunk(n) {
+            let chunkWords = [];
+            if (n >= 100) {
+                chunkWords.push(units[Math.floor(n / 100)]);
+                chunkWords.push('Hundred');
+                n %= 100;
+            }
+            if (n > 0) {
+                if (n < 20) {
+                    chunkWords.push(units[n]);
+                } else {
+                    chunkWords.push(tens[Math.floor(n / 10)]);
+                    if (n % 10 > 0) {
+                        chunkWords.push(units[n % 10]);
+                    }
+                }
+            }
+            return chunkWords.join(' ');
+        }
+
+        let crore = Math.floor(num / 10000000);
+        num %= 10000000;
+        let lakh = Math.floor(num / 100000);
+        num %= 100000;
+        let thousand = Math.floor(num / 1000);
+        num %= 1000;
+
+        if (crore > 0) {
+            words.push(convertChunk(crore));
+            words.push('Crore');
+        }
+        if (lakh > 0) {
+            words.push(convertChunk(lakh));
+            words.push('Lakh');
+        }
+        if (thousand > 0) {
+            words.push(convertChunk(thousand));
+            words.push('Thousand');
+        }
+        if (num > 0) {
+            words.push(convertChunk(num));
+        }
+
+        return words.join(' ');
+    }
+
+
+    /**
      * Calculates the future value of an amount considering inflation.
      * @param {number} amount - The initial amount.
      * @param {number} inflationRate - The annual inflation rate (e.g., 0.07 for 7%).
@@ -220,6 +372,7 @@
      * @returns {number} The inflated amount.
      */
     function inflateAmount(amount, inflationRate, years) {
+      if (years < 0) return amount; // No inflation for negative years
       return amount * Math.pow(1 + inflationRate, years);
     }
 
@@ -242,7 +395,7 @@
     function addExpenseItem() {
         expenseCounter++;
         const expenseDiv = document.createElement('div');
-        expenseDiv.className = 'expense-item';
+        expenseDiv.className = 'expense-item'; // Tailwind classes for flex/grid and responsiveness
         expenseDiv.setAttribute('data-id', expenseCounter);
         expenseDiv.innerHTML = `
             <input type="text" placeholder="e.g., Rent, Utilities" class="expense-description px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white" />
@@ -259,12 +412,23 @@
                     <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm6 0a1 1 0 11-2 0v6a1 1 0 112 0V8z" clip-rule="evenodd" />
                 </svg>
             </button>
+            <span class="expense-amount-words text-xs italic text-gray-500 dark:text-gray-400 w-full text-right sm:col-span-3"></span>
         `;
         additionalExpensesContainer.appendChild(expenseDiv);
 
+        // Get references to the newly created elements
+        const expenseAmountInput = expenseDiv.querySelector('.expense-amount');
+        const expenseAmountWordsSpan = expenseDiv.querySelector('.expense-amount-words');
+
+        // Initial update of words
+        expenseAmountWordsSpan.textContent = numberToWords(parseFloat(expenseAmountInput.value) || 0) + ' Rupees';
+
         // Add event listeners to the new inputs and button
         expenseDiv.querySelector('.expense-description').addEventListener('input', calculateFinancialPlan);
-        expenseDiv.querySelector('.expense-amount').addEventListener('input', calculateFinancialPlan);
+        expenseAmountInput.addEventListener('input', () => {
+            expenseAmountWordsSpan.textContent = numberToWords(parseFloat(expenseAmountInput.value) || 0) + ' Rupees';
+            calculateFinancialPlan();
+        });
         expenseDiv.querySelector('.expense-category').addEventListener('change', calculateFinancialPlan);
         expenseDiv.querySelector('.remove-expense-btn').addEventListener('click', () => {
             expenseDiv.remove();
@@ -289,32 +453,21 @@
       const currentAge = parseInt(currentAgeInput.value);
       const retirementAge = parseInt(retirementAgeInput.value);
       const lifeExpectancy = parseInt(lifeExpectancyInput.value);
-      let monthlyIncome = parseFloat(monthlyIncomeInput.value) || 0;
-      let yearlyIncome = parseFloat(yearlyIncomeInput.value) || 0;
-      let baseMonthlyExpense = parseFloat(baseMonthlyExpenseInput.value) || 0;
-      let baseYearlyExpense = parseFloat(baseYearlyExpenseInput.value) || 0;
+      const monthlyIncome = parseFloat(monthlyIncomeInput.value) || 0;
+      const yearlyIncome = parseFloat(yearlyIncomeInput.value) || 0;
       const currentSavings = parseFloat(currentSavingsInput.value) || 0;
       const postRetirementMonthlyAmount = parseFloat(postRetirementMonthlyAmountInput.value) || 0;
 
-      // Sync income fields (prioritize monthly if both are changed, or derive one from other)
-      if (document.activeElement === monthlyIncomeInput) {
-          yearlyIncomeInput.value = (monthlyIncome * 12).toFixed(0);
-      } else if (document.activeElement === yearlyIncomeInput) {
-          monthlyIncomeInput.value = (yearlyIncome / 12).toFixed(0);
-          monthlyIncome = yearlyIncome / 12; // Update monthlyIncome for calculation
-      }
-
-      // Sync expense fields (prioritize monthly if both are changed, or derive one from other)
-      if (document.activeElement === baseMonthlyExpenseInput) {
-          baseYearlyExpenseInput.value = (baseMonthlyExpense * 12).toFixed(0);
-      } else if (document.activeElement === baseYearlyExpenseInput) {
-          baseMonthlyExpenseInput.value = (baseYearlyExpense / 12).toFixed(0);
-          baseMonthlyExpense = baseYearlyExpense / 12; // Update baseMonthlyExpense for calculation
-      }
-
-      const totalDynamicExpenses = getTotalDynamicExpenses();
-      const totalCurrentMonthlyExpenses = baseMonthlyExpense + totalDynamicExpenses;
+      // Total expenses now only come from dynamic fields
+      const totalCurrentMonthlyExpenses = getTotalDynamicExpenses();
+      const totalCurrentAnnualExpenses = totalCurrentMonthlyExpenses * 12;
+      const totalAnnualIncome = (monthlyIncome * 12) + yearlyIncome; // Calculate total annual income
       const desiredPostRetirementAnnualAmount = postRetirementMonthlyAmount * 12;
+
+      // Monthly Excess/Deficit calculation
+      const monthlyExcess = (totalAnnualIncome / 12) - totalCurrentMonthlyExpenses;
+      const yearlyExcess = totalAnnualIncome - totalCurrentAnnualExpenses;
+
 
       let financialPlan = [];
       let currentSavingsBalance = currentSavings;
@@ -324,6 +477,7 @@
       // Clear previous results
       financialPlanTableBody.innerHTML = '';
 
+      // Input validation and remarks
       if (currentAge >= retirementAge) {
           planRemarksEl.textContent = "You are already at or past retirement age. The plan will start from your current age as retired.";
       } else if (currentAge >= lifeExpectancy) {
@@ -342,26 +496,32 @@
           return;
       }
 
+      // Calculate inflated desired monthly income at retirement
+      const yearsToRetirement = retirementAge - currentAge;
+      const inflatedDesiredMonthlyIncomeAtRetirement = inflateAmount(postRetirementMonthlyAmount, INFLATION_RATE, yearsToRetirement);
+
 
       for (let age = currentAge; age <= lifeExpectancy; age++) {
         let startingSavings = currentSavingsBalance;
-        let annualNetCashFlow = 0;
+        let annualNetCashFlow = 0; // This will be income - expenses OR -withdrawal
         let status = '';
         let effectiveReturnRate = 0;
+        
+        // Inflated amounts for the current year
         let inflatedAnnualExpenses = inflateAmount(totalCurrentMonthlyExpenses * 12, INFLATION_RATE, age - currentAge);
         let inflatedPostRetirementAnnualWithdrawal = inflateAmount(desiredPostRetirementAnnualAmount, INFLATION_RATE, age - currentAge);
+        let inflatedAnnualIncome = inflateAmount(totalAnnualIncome, INFLATION_RATE, age - currentAge);
 
         if (age < retirementAge) {
           // Earning Phase
           status = 'Earning';
           effectiveReturnRate = PRE_RETIREMENT_RETURN;
-          const inflatedAnnualIncome = inflateAmount(monthlyIncome * 12, INFLATION_RATE, age - currentAge);
           annualNetCashFlow = inflatedAnnualIncome - inflatedAnnualExpenses;
           
           currentSavingsBalance = compoundAmount(startingSavings + annualNetCashFlow, effectiveReturnRate);
 
           // Check for Financial Independence (25x rule for annual expenses)
-          if (fiAchievedAge === null && startingSavings >= inflatedAnnualExpenses * 25) {
+          if (fiAchievedAge === null && currentSavingsBalance >= inflatedAnnualExpenses * 25) {
               fiAchievedAge = age;
           }
 
@@ -404,18 +564,35 @@
           });
       }
 
-      // Update summary
+      // Update summary info in sections
+      retirementYearsLeftDisplay.textContent = `${Math.max(0, retirementAge - currentAge)} years`;
+      totalAnnualIncomeDisplay.textContent = formatINR(totalAnnualIncome);
+      totalCurrentMonthlyExpensesDisplay.textContent = formatINR(totalCurrentMonthlyExpenses);
+      totalCurrentAnnualExpensesDisplay.textContent = formatINR(totalCurrentAnnualExpenses);
+      
+      // Apply color based on positive/negative for excess/deficit
+      monthlyExcessDisplay.textContent = formatINR(monthlyExcess);
+      monthlyExcessDisplay.classList.toggle('positive', monthlyExcess >= 0);
+      monthlyExcessDisplay.classList.toggle('negative', monthlyExcess < 0);
+
+      yearlyExcessDisplay.textContent = formatINR(yearlyExcess);
+      yearlyExcessDisplay.classList.toggle('positive', yearlyExcess >= 0);
+      yearlyExcessDisplay.classList.toggle('negative', yearlyExcess < 0);
+
+      inflatedRetirementMonthlyIncome.textContent = formatINR(inflatedDesiredMonthlyIncomeAtRetirement);
+
+
       fiAgeEl.textContent = fiAchievedAge !== null ? fiAchievedAge : 'Not Achieved';
       fundsLastAgeEl.textContent = fundsDepletedAge !== null ? fundsDepletedAge : 'Beyond ' + lifeExpectancy;
 
       if (fundsDepletedAge !== null && fundsDepletedAge <= lifeExpectancy) {
-          planRemarksEl.className = 'text-red-600 dark:text-red-400';
+          planRemarksEl.className = 'summary-value negative';
           planRemarksEl.textContent = `Warning: Your funds are projected to deplete by age ${fundsDepletedAge}. Consider increasing savings or adjusting expenses/retirement age.`;
       } else if (fiAchievedAge !== null && fiAchievedAge < retirementAge) {
-          planRemarksEl.className = 'text-emerald-600 dark:text-emerald-400';
+          planRemarksEl.className = 'summary-value positive';
           planRemarksEl.textContent = `Excellent! You are projected to achieve financial independence by age ${fiAchievedAge}, well before your target retirement.`;
       } else {
-          planRemarksEl.className = 'text-gray-700 dark:text-gray-300';
+          planRemarksEl.className = 'summary-value';
           planRemarksEl.textContent = `Your plan looks solid. Continue saving to maintain financial health throughout retirement.`;
       }
     }
@@ -457,12 +634,28 @@
         currentAgeInput.addEventListener('input', calculateFinancialPlan);
         retirementAgeInput.addEventListener('input', calculateFinancialPlan);
         lifeExpectancyInput.addEventListener('input', calculateFinancialPlan);
-        monthlyIncomeInput.addEventListener('input', calculateFinancialPlan);
-        yearlyIncomeInput.addEventListener('input', calculateFinancialPlan);
-        baseMonthlyExpenseInput.addEventListener('input', calculateFinancialPlan);
-        baseYearlyExpenseInput.addEventListener('input', calculateFinancialPlan);
-        currentSavingsInput.addEventListener('input', calculateFinancialPlan);
-        postRetirementMonthlyAmountInput.addEventListener('input', calculateFinancialPlan);
+        
+        // Monthly Income with words
+        monthlyIncomeInput.addEventListener('input', () => {
+            monthlyIncomeWords.textContent = numberToWords(parseFloat(monthlyIncomeInput.value) || 0) + ' Rupees';
+            calculateFinancialPlan();
+        });
+        // Yearly Income with words
+        yearlyIncomeInput.addEventListener('input', () => {
+            yearlyIncomeWords.textContent = numberToWords(parseFloat(yearlyIncomeInput.value) || 0) + ' Rupees';
+            calculateFinancialPlan();
+        });
+
+        // Current Savings with words
+        currentSavingsInput.addEventListener('input', () => {
+            currentSavingsWords.textContent = numberToWords(parseFloat(currentSavingsInput.value) || 0) + ' Rupees';
+            calculateFinancialPlan();
+        });
+        // Post-Retirement Monthly Amount with words
+        postRetirementMonthlyAmountInput.addEventListener('input', () => {
+            postRetirementMonthlyAmountWords.textContent = numberToWords(parseFloat(postRetirementMonthlyAmountInput.value) || 0) + ' Rupees';
+            calculateFinancialPlan();
+        });
 
         // Dynamic expense button
         addExpenseBtn.addEventListener('click', addExpenseItem);
@@ -478,6 +671,17 @@
       setupEventListeners();
       addExpenseItem(); // Add one initial dynamic expense field
       calculateFinancialPlan(); // Initial calculation
+
+      // Display fixed assumption rates
+      displayInflationRate.textContent = `${(INFLATION_RATE * 100).toFixed(0)}%`;
+      displayPreRetirementRate.textContent = `${(PRE_RETIREMENT_RETURN * 100).toFixed(0)}%`;
+      displayPostRetirementRate.textContent = `${(POST_RETIREMENT_RETURN * 100).toFixed(0)}%`;
+
+      // Initial display of words for pre-existing inputs
+      monthlyIncomeWords.textContent = numberToWords(parseFloat(monthlyIncomeInput.value) || 0) + ' Rupees';
+      yearlyIncomeWords.textContent = numberToWords(parseFloat(yearlyIncomeInput.value) || 0) + ' Rupees';
+      currentSavingsWords.textContent = numberToWords(parseFloat(currentSavingsInput.value) || 0) + ' Rupees';
+      postRetirementMonthlyAmountWords.textContent = numberToWords(parseFloat(postRetirementMonthlyAmountInput.value) || 0) + ' Rupees';
     });
   </script>
 </body>
