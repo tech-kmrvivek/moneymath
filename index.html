@@ -1,126 +1,123 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MoneyMath - Your Finance Companion</title>
+  <title>RupeesWise - Grow Smart. Grow Wise. With RupeesWise.</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+  <style>
+    /* Applying the brand fonts */
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .font-montserrat {
+      font-family: 'Montserrat', sans-serif;
+    }
+  </style>
 </head>
-<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
-  <div id="include-header"></div>
-  <div id="include-nav"></div>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 min-h-screen flex flex-col">
 
-  <main class="flex-1 p-6 max-w-6xl mx-auto space-y-6">
-    <h2 class="text-2xl font-bold text-blue-700 mb-4">📘 Latest Blog Posts</h2>
-
-    <div class="grid gap-6 md:grid-cols-2">
-      <!-- BLOG 1 -->
-      <article class="bg-white p-5 rounded shadow-md hover:shadow-lg transition">
-        <h3 class="text-xl font-semibold text-indigo-700 mb-2">How SIP Can Build Wealth Over Time</h3>
-        <p class="text-sm text-gray-600 mb-3">Understand how compounding and discipline help you grow your investments through SIPs.</p>
-        <a href="/blogs/build_wealth_with_sip.html" class="text-blue-600 text-sm font-medium hover:underline">Read more →</a>
-      </article>
-
-      <!-- BLOG 2 -->
-      <article class="bg-white p-5 rounded shadow-md hover:shadow-lg transition">
-        <h3 class="text-xl font-semibold text-indigo-700 mb-2">Lumpsum Investment vs SIP: Which is Better?</h3>
-        <p class="text-sm text-gray-600 mb-3">Explore the pros and cons of both approaches to make informed financial decisions.</p>
-        <a href="/blogs/lumpsum_vs_sip.html" class="text-blue-600 text-sm font-medium hover:underline">Read more →</a>
-      </article>
-
-      <!-- BLOG 3 -->
-      <article class="bg-white p-5 rounded shadow-md hover:shadow-lg transition">
-        <h3 class="text-xl font-semibold text-indigo-700 mb-2">FIRE: Retire Early With Smart Planning</h3>
-        <p class="text-sm text-gray-600 mb-3">Learn about the FIRE movement and how to calculate your early retirement number.</p>
-        <a href="/blogs/fire-retire-early.html" class="text-blue-600 text-sm font-medium hover:underline">Read more →</a>
-      </article>
-
-      <!-- BLOG 4 -->
-      <article class="bg-white p-5 rounded shadow-md hover:shadow-lg transition">
-        <h3 class="text-xl font-semibold text-indigo-700 mb-2">Understanding SWP: Systematic Withdrawal Plan</h3>
-        <p class="text-sm text-gray-600 mb-3">A guide on using SWP to generate monthly income from your investments post-retirement.</p>
-        <a href="/blogs/swp.html" class="text-blue-600 text-sm font-medium hover:underline">Read more →</a>
-      </article>
-
-      <!-- BLOG 5 -->
-      <article class="bg-white p-5 rounded shadow-md hover:shadow-lg transition">
-        <h3 class="text-xl font-semibold text-indigo-700 mb-2">Why Delaying Investment Costs You More Than You Think</h3>
-        <p class="text-sm text-gray-600 mb-3">See how a few years’ delay can cost you lakhs. A must-read on compounding and early investing.</p>
-        <a href="/blogs/delaying-costs-more.html" class="text-blue-600 text-sm font-medium hover:underline">Read more →</a>
-      </article>
-
-      <!-- BLOG 6 -->
-      <article class="bg-white p-5 rounded shadow-md hover:shadow-lg transition">
-        <h3 class="text-xl font-semibold text-indigo-700 mb-2">What is SIP and Why Every Investor Should Know It</h3>
-        <p class="text-sm text-gray-600 mb-3">Learn the basics of SIP, how it works, and why it’s ideal for building wealth in India.</p>
-        <a href="/blogs/what-is-sip.html" class="text-blue-600 text-sm font-medium hover:underline">Read more →</a>
-      </article>
-
-      <!-- BLOG 7 -->
-      <article class="bg-white p-5 rounded shadow-md hover:shadow-lg transition">
-        <h3 class="text-xl font-semibold text-indigo-700 mb-2">How Compound Interest Works (with Simple Examples)</h3>
-        <p class="text-sm text-gray-600 mb-3">Understand the magic of earning interest on interest with simple real-life numbers.</p>
-        <a href="/blogs/compound-interest-explained.html" class="text-blue-600 text-sm font-medium hover:underline">Read more →</a>
-      </article>
-
-      <!-- BLOG 8 -->
-      <article class="bg-white p-5 rounded shadow-md hover:shadow-lg transition">
-        <h3 class="text-xl font-semibold text-indigo-700 mb-2">Mutual Funds vs Fixed Deposits: What Should You Choose?</h3>
-        <p class="text-sm text-gray-600 mb-3">A side-by-side comparison of returns, risks, and when to choose which investment.</p>
-        <a href="/blogs/mutual-fund-vs-fd.html" class="text-blue-600 text-sm font-medium hover:underline">Read more →</a>
-      </article>
-
-      <!-- BLOG 9 -->
-      <article class="bg-white p-5 rounded shadow-md hover:shadow-lg transition">
-        <h3 class="text-xl font-semibold text-indigo-700 mb-2">How Much Should I Save From My Salary? A Simple Rule</h3>
-        <p class="text-sm text-gray-600 mb-3">Learn the 50-30-20 budgeting rule and how much you should really be investing every month.</p>
-        <a href="/blogs/salary-saving-rule.html" class="text-blue-600 text-sm font-medium hover:underline">Read more →</a>
-      </article>
-
-      <!-- BLOG 10 -->
-      <article class="bg-white p-5 rounded shadow-md hover:shadow-lg transition">
-        <h3 class="text-xl font-semibold text-indigo-700 mb-2">How to Retire by 40: A Practical Indian Case Study</h3>
-        <p class="text-sm text-gray-600 mb-3">Is early retirement possible in India? See the numbers and plan that make it real.</p>
-        <a href="/blogs/retire-by-40-india.html" class="text-blue-600 text-sm font-medium hover:underline">Read more →</a>
-      </article>
-
-      <!-- BLOG 11 -->
-      <article class="bg-white p-5 rounded shadow-md hover:shadow-lg transition">
-        <h3 class="text-xl font-semibold text-indigo-700 mb-2">FIRE Planning for Families: School Fees, Marriage & More</h3>
-        <p class="text-sm text-gray-600 mb-3">How to factor family goals like kids' education and weddings into your FIRE number.</p>
-        <a href="/blogs/family-fire-planning.html" class="text-blue-600 text-sm font-medium hover:underline">Read more →</a>
-      </article>
-
-      <!-- BLOG 12 -->
-      <article class="bg-white p-5 rounded shadow-md hover:shadow-lg transition">
-        <h3 class="text-xl font-semibold text-indigo-700 mb-2">How to Plan a 1 Crore Corpus with Just ₹5000/month</h3>
-        <p class="text-sm text-gray-600 mb-3">Discover how small SIPs over long periods can lead to big wealth, even on a modest income.</p>
-        <a href="/blogs/1cr-with-5000-sip.html" class="text-blue-600 text-sm font-medium hover:underline">Read more →</a>
-      </article>
-
-      <!-- BLOG 13 -->
-      <article class="bg-white p-5 rounded shadow-md hover:shadow-lg transition">
-        <h3 class="text-xl font-semibold text-indigo-700 mb-2">How Much Monthly SIP is Needed for ₹1 Crore in 15 Years?</h3>
-        <p class="text-sm text-gray-600 mb-3">Reverse engineer your goal! See how much monthly investment you need to hit ₹1 Cr target.</p>
-        <a href="/blogs/sip-for-1cr-in-15-years.html" class="text-blue-600 text-sm font-medium hover:underline">Read more →</a>
-      </article>
+  <!-- === Navigation Bar (Integrated) === -->
+  <nav class="bg-gradient-to-r from-emerald-600 to-emerald-400 text-white sticky top-0 z-50 shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+      <div class="flex justify-between items-center">
+        <!-- Logo -->
+        <a href="/" class="flex items-center">
+          <span class="text-4xl font-bold text-emerald-200">₹</span> 
+          <span class="text-2xl font-bold text-white ml-1.5 font-montserrat">Wise</span>
+        </a>
+        <!-- Desktop Navigation Links -->
+        <div class="hidden sm:flex flex-wrap gap-2 text-sm font-semibold justify-end">
+          <a href="/" class="nav-link bg-emerald-900/80 font-bold px-3 py-2 rounded-full transition-all duration-300 ease-in-out hover:bg-white/20">🏠 Home</a>
+          <a href="/calculator/sip.html" class="nav-link px-3 py-2 rounded-full transition-all duration-300 ease-in-out hover:bg-white/20">📈 SIP</a>
+          <a href="/calculator/lumpsum.html" class="nav-link px-3 py-2 rounded-full transition-all duration-300 ease-in-out hover:bg-white/20">💰 Lumpsum</a>
+          <a href="/calculator/fire-calculator.html" class="nav-link px-3 py-2 rounded-full transition-all duration-300 ease-in-out hover:bg-white/20">🔥 FIRE</a>
+          <a href="/about.html" class="nav-link px-3 py-2 rounded-full transition-all duration-300 ease-in-out hover:bg-white/20">ℹ️ About</a>
+        </div>
+      </div>
     </div>
+  </nav>
+
+  <!-- === Main Content === -->
+  <main class="flex-1">
+    <!-- Hero Section -->
+    <section class="bg-white dark:bg-gray-800 text-center py-16 sm:py-24 px-6">
+      <h1 class="text-4xl sm:text-5xl font-extrabold text-emerald-600 dark:text-emerald-400 font-montserrat">Your Guide to Financial Wisdom</h1>
+      <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-600 dark:text-gray-300">Powerful calculators and insightful blogs to help you master your money and achieve your financial goals.</p>
+      
+      <!-- Quick Links to Calculators -->
+      <div class="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
+        <a href="/calculator/sip.html" class="p-4 bg-emerald-50 dark:bg-emerald-900/50 rounded-lg hover:bg-emerald-100 dark:hover:bg-emerald-900/80 transition-all duration-300 shadow-sm hover:shadow-md">
+          <div class="text-3xl">📈</div>
+          <div class="mt-2 font-semibold text-emerald-800 dark:text-emerald-300">SIP</div>
+        </a>
+        <a href="/calculator/lumpsum.html" class="p-4 bg-emerald-50 dark:bg-emerald-900/50 rounded-lg hover:bg-emerald-100 dark:hover:bg-emerald-900/80 transition-all duration-300 shadow-sm hover:shadow-md">
+          <div class="text-3xl">💰</div>
+          <div class="mt-2 font-semibold text-emerald-800 dark:text-emerald-300">Lumpsum</div>
+        </a>
+        <a href="/calculator/fire-calculator.html" class="p-4 bg-emerald-50 dark:bg-emerald-900/50 rounded-lg hover:bg-emerald-100 dark:hover:bg-emerald-900/80 transition-all duration-300 shadow-sm hover:shadow-md">
+          <div class="text-3xl">🔥</div>
+          <div class="mt-2 font-semibold text-emerald-800 dark:text-emerald-300">FIRE</div>
+        </a>
+        <a href="/calculator/swp.html" class="p-4 bg-emerald-50 dark:bg-emerald-900/50 rounded-lg hover:bg-emerald-100 dark:hover:bg-emerald-900/80 transition-all duration-300 shadow-sm hover:shadow-md">
+          <div class="text-3xl">💸</div>
+          <div class="mt-2 font-semibold text-emerald-800 dark:text-emerald-300">SWP</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Latest Blog Posts Section -->
+    <section class="py-16 sm:py-20 px-6">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-8 text-center">📘 From the Blog</h2>
+        <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          <!-- BLOG 1 -->
+          <article class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+            <h3 class="text-xl font-semibold text-emerald-700 dark:text-emerald-400 mb-2">How SIP Can Build Wealth Over Time</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Understand how compounding and discipline help you grow your investments through SIPs.</p>
+            <a href="/blogs/build_wealth_with_sip.html" class="text-emerald-600 dark:text-emerald-500 text-sm font-semibold hover:underline">Read more →</a>
+          </article>
+          <!-- BLOG 2 -->
+          <article class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+            <h3 class="text-xl font-semibold text-emerald-700 dark:text-emerald-400 mb-2">Lumpsum Investment vs SIP: Which is Better?</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Explore the pros and cons of both approaches to make informed financial decisions.</p>
+            <a href="/blogs/lumpsum_vs_sip.html" class="text-emerald-600 dark:text-emerald-500 text-sm font-semibold hover:underline">Read more →</a>
+          </article>
+          <!-- BLOG 3 -->
+          <article class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+            <h3 class="text-xl font-semibold text-emerald-700 dark:text-emerald-400 mb-2">FIRE: Retire Early With Smart Planning</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Learn about the FIRE movement and how to calculate your early retirement number.</p>
+            <a href="/blogs/fire-retire-early.html" class="text-emerald-600 dark:text-emerald-500 text-sm font-semibold hover:underline">Read more →</a>
+          </article>
+          <!-- Add more blog posts here following the same structure -->
+        </div>
+        <div class="text-center mt-12">
+          <a href="/blog" class="bg-emerald-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-emerald-700 transition-all duration-300 shadow-md">View All Posts</a>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <div id="include-footer"></div>
+  <!-- === Footer (Integrated) === -->
+  <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 text-sm text-gray-600 dark:text-gray-400 text-center py-8">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col items-center">
+      <!-- Logo -->
+      <div class="flex items-center justify-center mb-4">
+        <span class="text-3xl font-bold text-emerald-500">₹</span>
+        <span class="text-3xl font-bold text-gray-900 dark:text-white ml-1.5 font-montserrat">Wise</span>
+      </div>
+      <!-- Copyright -->
+      <p>© 2025 <span class="font-semibold text-emerald-500">RupeesWise</span>. All rights reserved.</p>
+      <!-- Links -->
+      <p class="mt-2">
+        <a href="/privacy.html" class="hover:underline text-emerald-600 dark:text-emerald-500">Privacy Policy</a> ·
+        <a href="/terms.html" class="hover:underline text-emerald-600 dark:text-emerald-500">Terms of Service</a> 
+      </p>
+    </div>
+  </footer>
 
-  <script>
-    async function loadPartial(id, file) {
-      const res = await fetch(file);
-      const text = await res.text();
-      document.getElementById(id).innerHTML = text;
-    }
-
-    window.addEventListener("DOMContentLoaded", () => {
-      loadPartial("include-header", "/components/header.html");
-      loadPartial("include-nav", "/components/nav.html");
-      loadPartial("include-footer", "/components/footer.html");
-    });
-  </script>
 </body>
 </html>
