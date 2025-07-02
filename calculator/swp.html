@@ -6,7 +6,6 @@
   <title>SWP Calculator | RupeesWise</title>
   <meta name="description" content="Calculate how long your investment corpus will last with a Systematic Withdrawal Plan (SWP). Model your retirement income with our easy-to-use calculator.">
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
@@ -100,7 +99,7 @@
         </div>
       </section>
 
-      <!-- Right Side: Results & Charts -->
+      <!-- Right Side: Results & Table -->
       <section class="w-full lg:w-2/3 space-y-8">
         <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg">
           <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-4">Your SWP Summary</h3>
@@ -127,11 +126,6 @@
                 <!-- Table will be generated here -->
             </div>
         </div>
-
-        <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg">
-            <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">Corpus Balance Projection</h3>
-            <canvas id="swpLineChart"></canvas>
-        </div>
       </section>
     </div>
   </main>
@@ -140,9 +134,6 @@
   <div id="include-footer"></div>
 
   <script>
-    // --- Chart instance ---
-    let swpLineChart;
-
     // --- DOM Elements ---
     const principalInput = document.getElementById('principalInput');
     const principalSlider = document.getElementById('principalSlider');
@@ -261,7 +252,6 @@
       withdrawalWords.textContent = numberToWords(W).split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') + ' Rupees';
 
       renderProjectionTable(projection);
-      renderChart(projection);
     }
 
     // --- Table Rendering ---
@@ -292,44 +282,6 @@
         projectionTableContainer.innerHTML = tableHTML;
     }
 
-    // --- Chart Rendering ---
-    function renderChart(projection) {
-      const lineCtx = document.getElementById('swpLineChart').getContext('2d');
-      if (swpLineChart) swpLineChart.destroy();
-      swpLineChart = new Chart(lineCtx, {
-        type: 'line',
-        data: {
-          labels: projection.map(p => p.year),
-          datasets: [{
-            label: 'Corpus Balance',
-            data: projection.map(p => p.value),
-            borderColor: '#10b981',
-            backgroundColor: 'rgba(16, 185, 129, 0.1)',
-            fill: true,
-            tension: 0.4,
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-          scales: {
-            y: {
-              ticks: { 
-                callback: value => formatINR(value),
-                color: document.body.classList.contains('dark') ? '#9ca3af' : '#6b7280'
-              },
-              grid: { color: document.body.classList.contains('dark') ? '#374151' : '#e5e7eb' }
-            },
-            x: {
-              ticks: { color: document.body.classList.contains('dark') ? '#9ca3af' : '#6b7280' },
-              grid: { display: false }
-            }
-          }
-        }
-      });
-    }
-
     // --- Event Listeners and Initializer ---
     async function loadPartial(id, file) {
       try {
@@ -352,23 +304,22 @@
     }
     
     function setupEventListeners() {
-      const inputs = [principalInput, principalSlider, withdrawalInput, withdrawalSlider, withdrawalPeriodInput, withdrawalPeriodSlider, rateInput, rateSlider, inflationInput, inflationSlider];
-      inputs.forEach(input => input.addEventListener('input', calculateSWP));
-      
-      principalSlider.addEventListener('input', () => principalInput.value = principalSlider.value);
-      principalInput.addEventListener('input', () => principalSlider.value = principalInput.value);
-      
-      withdrawalSlider.addEventListener('input', () => withdrawalInput.value = withdrawalSlider.value);
-      withdrawalInput.addEventListener('input', () => withdrawalSlider.value = withdrawalInput.value);
-      
-      withdrawalPeriodSlider.addEventListener('input', () => withdrawalPeriodInput.value = withdrawalPeriodSlider.value);
-      withdrawalPeriodInput.addEventListener('input', () => withdrawalPeriodSlider.value = withdrawalPeriodInput.value);
+      const sync = (input, slider) => {
+        slider.addEventListener('input', () => {
+          input.value = slider.value;
+          calculateSWP();
+        });
+        input.addEventListener('input', () => {
+          slider.value = input.value;
+          calculateSWP();
+        });
+      };
 
-      rateSlider.addEventListener('input', () => rateInput.value = rateSlider.value);
-      rateInput.addEventListener('input', () => rateSlider.value = rateInput.value);
-
-      inflationSlider.addEventListener('input', () => inflationInput.value = inflationSlider.value);
-      inflationInput.addEventListener('input', () => inflationSlider.value = inflationInput.value);
+      sync(principalInput, principalSlider);
+      sync(withdrawalInput, withdrawalSlider);
+      sync(withdrawalPeriodInput, withdrawalPeriodSlider);
+      sync(rateInput, rateSlider);
+      sync(inflationInput, inflationSlider);
     }
     
     document.addEventListener('DOMContentLoaded', async () => {

@@ -111,14 +111,10 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-1 xl:grid-cols-5 gap-8">
-            <div class="xl:col-span-3 bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg">
-              <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-2">Yearly Projection Graph</h3>
-              <canvas id="lumpLineChart"></canvas>
-            </div>
-            <div class="xl:col-span-2 bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg flex flex-col justify-center">
-              <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-2">Wealth Breakdown</h3>
-              <canvas id="lumpPieChart"></canvas>
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg">
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-2 text-center">Wealth Breakdown</h3>
+            <div class="max-w-xs mx-auto">
+                <canvas id="lumpPieChart"></canvas>
             </div>
         </div>
       </section>
@@ -129,8 +125,8 @@
   <div id="include-footer"></div>
 
   <script>
-    // --- Chart instances ---
-    let lumpLineChart, lumpPieChart;
+    // --- Chart instance ---
+    let lumpPieChart;
 
     // --- DOM Elements ---
     const lumpAmountInput = document.getElementById('lumpAmountInput');
@@ -173,21 +169,19 @@
     function calculateLumpsum() {
       const P = parseFloat(lumpAmountInput.value) || 0;
       const years = parseInt(lumpYearsInput.value) || 0;
-      const rate = parseFloat(lumpRateInput.value) || 0;
+      const rate = parseFloat(lumpRateInput.value) / 100 || 0;
       
       const projection = [];
-      let maturity = P;
       for (let y = 1; y <= years; y++) {
-        maturity = P * Math.pow(1 + rate / 100, y);
+        const maturity = P * Math.pow(1 + rate, y);
         projection.push({
           year: y,
-          invested: P,
           interest: maturity - P,
           value: maturity
         });
       }
       
-      const finalMaturity = P * Math.pow(1 + rate / 100, years);
+      const finalMaturity = P * Math.pow(1 + rate, years);
       const gain = finalMaturity - P;
 
       // --- Update UI ---
@@ -195,10 +189,9 @@
       wealthGainedEl.textContent = formatINR(gain);
       maturityValueEl.textContent = formatINR(finalMaturity);
       lumpAmountWords.textContent = numberToWords(P).split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') + ' Rupees';
-
       
       renderProjectionTable(projection);
-      renderCharts(P, gain, projection);
+      renderPieChart(P, gain);
     }
 
     // --- Table Rendering ---
@@ -228,7 +221,7 @@
     }
 
     // --- Chart Rendering ---
-    function renderCharts(invested, gain, projection) {
+    function renderPieChart(invested, gain) {
       const pieCtx = document.getElementById('lumpPieChart').getContext('2d');
       if (lumpPieChart) lumpPieChart.destroy();
       lumpPieChart = new Chart(pieCtx, {
@@ -250,46 +243,6 @@
               labels: { color: document.body.classList.contains('dark') ? '#fff' : '#333' }
             } 
           } 
-        }
-      });
-
-      const lineCtx = document.getElementById('lumpLineChart').getContext('2d');
-      if (lumpLineChart) lumpLineChart.destroy();
-      lumpLineChart = new Chart(lineCtx, {
-        type: 'line',
-        data: {
-          labels: projection.map(p => p.year),
-          datasets: [{
-            label: 'Investment Value',
-            data: projection.map(p => p.value),
-            borderColor: '#10b981',
-            backgroundColor: 'rgba(16, 185, 129, 0.1)',
-            fill: true,
-            tension: 0.4,
-            pointBackgroundColor: '#10b981',
-            pointBorderColor: '#fff',
-            pointHoverRadius: 7,
-            pointHoverBackgroundColor: '#fff',
-            pointHoverBorderColor: '#10b981'
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-          scales: {
-            y: {
-              ticks: { 
-                callback: value => formatINR(value),
-                color: document.body.classList.contains('dark') ? '#9ca3af' : '#6b7280'
-              },
-              grid: { color: document.body.classList.contains('dark') ? '#374151' : '#e5e7eb' }
-            },
-            x: {
-              ticks: { color: document.body.classList.contains('dark') ? '#9ca3af' : '#6b7280' },
-              grid: { display: false }
-            }
-          }
         }
       });
     }
@@ -316,17 +269,32 @@
     }
 
     function setupEventListeners() {
-      const inputs = [lumpAmountInput, lumpAmountSlider, lumpYearsInput, lumpYearsSlider, lumpRateInput, lumpRateSlider];
-      inputs.forEach(input => input.addEventListener('input', calculateLumpsum));
+      lumpAmountSlider.addEventListener('input', () => {
+        lumpAmountInput.value = lumpAmountSlider.value;
+        calculateLumpsum();
+      });
+      lumpAmountInput.addEventListener('input', () => {
+        lumpAmountSlider.value = lumpAmountInput.value;
+        calculateLumpsum();
+      });
       
-      lumpAmountSlider.addEventListener('input', () => lumpAmountInput.value = lumpAmountSlider.value);
-      lumpAmountInput.addEventListener('input', () => lumpAmountSlider.value = lumpAmountInput.value);
-      
-      lumpYearsSlider.addEventListener('input', () => lumpYearsInput.value = lumpYearsSlider.value);
-      lumpYearsInput.addEventListener('input', () => lumpYearsSlider.value = lumpYearsInput.value);
+      lumpYearsSlider.addEventListener('input', () => {
+        lumpYearsInput.value = lumpYearsSlider.value;
+        calculateLumpsum();
+      });
+      lumpYearsInput.addEventListener('input', () => {
+        lumpYearsSlider.value = lumpYearsInput.value;
+        calculateLumpsum();
+      });
 
-      lumpRateSlider.addEventListener('input', () => lumpRateInput.value = lumpRateSlider.value);
-      lumpRateInput.addEventListener('input', () => lumpRateSlider.value = lumpRateInput.value);
+      lumpRateSlider.addEventListener('input', () => {
+        lumpRateInput.value = lumpRateSlider.value;
+        calculateLumpsum();
+      });
+      lumpRateInput.addEventListener('input', () => {
+        lumpRateSlider.value = lumpRateInput.value;
+        calculateLumpsum();
+      });
     }
     
     document.addEventListener('DOMContentLoaded', async () => {
