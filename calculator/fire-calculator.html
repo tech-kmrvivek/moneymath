@@ -45,7 +45,7 @@
       border-radius: 50%;
       border: 2px solid white;
     }
-    /* Tooltip styles */
+    /* Stylish Tooltip styles */
     .tooltip-container {
         position: relative;
         display: inline-flex;
@@ -53,24 +53,37 @@
     }
     .tooltip {
         position: absolute;
-        bottom: 125%;
+        bottom: 140%; /* Increased distance */
         left: 50%;
-        transform: translateX(-50%);
-        background-color: #333;
-        color: #fff;
-        text-align: center;
-        padding: 8px 12px;
-        border-radius: 6px;
-        z-index: 10;
+        transform: translateX(-50%) scale(0.95); /* Pop effect */
+        background-color: #1f2937; /* gray-800 */
+        color: #f9fafb; /* gray-50 */
+        text-align: left;
+        padding: 10px 14px;
+        border-radius: 8px;
+        z-index: 50;
         opacity: 0;
-        transition: opacity 0.3s;
-        width: 250px;
-        font-size: 0.75rem;
-        line-height: 1.25;
+        transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+        width: 280px;
+        font-size: 0.875rem;
+        line-height: 1.5;
         pointer-events: none;
+        box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    }
+    /* Tooltip arrow */
+    .tooltip::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -6px;
+        border-width: 6px;
+        border-style: solid;
+        border-color: #1f2937 transparent transparent transparent;
     }
     .tooltip-container:hover .tooltip {
         opacity: 1;
+        transform: translateX(-50%) scale(1);
     }
   </style>
 </head>
@@ -150,7 +163,7 @@
             <div class="bg-emerald-50 dark:bg-emerald-900/50 p-4 rounded-lg">
                 <div class="tooltip-container justify-center">
                     <p class="text-sm text-emerald-600 dark:text-emerald-300 font-medium">FIRE Number</p>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-2 text-gray-400"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-2 text-gray-400 cursor-pointer"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
                     <div class="tooltip">The total corpus you need at retirement to be financially independent, based on the 25X rule (4% withdrawal rate).</div>
                 </div>
               <p id="fireNumber" class="text-2xl font-bold text-emerald-800 dark:text-emerald-200">₹0</p>
@@ -162,7 +175,7 @@
             <div class="bg-yellow-50 dark:bg-yellow-900/50 p-4 rounded-lg">
                 <div class="tooltip-container justify-center">
                     <p class="text-sm text-yellow-600 dark:text-yellow-300 font-medium">Coast FIRE Number</p>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-2 text-gray-400"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-2 text-gray-400 cursor-pointer"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
                     <div class="tooltip">The amount you need to have invested by your "Coast" age. After this, you only need to cover your expenses, and this corpus will grow to your FIRE number on its own.</div>
                 </div>
               <p id="coastFireNumber" class="text-2xl font-bold text-yellow-800 dark:text-yellow-200">₹0</p>
