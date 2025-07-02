@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Personal Finance Calculator | RupeesWise</title>
+  <meta name="description" content="Plan your financial future with our comprehensive personal finance calculator. Track income, expenses, and savings to achieve your goals.">
+  <script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script>
+  <link rel="preconnect" href="[https://fonts.googleapis.com](https://fonts.googleapis.com)">
+  <link rel="preconnect" href="[https://fonts.gstatic.com](https://fonts.gstatic.com)" crossorigin>
+  <link href="[https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700&display=swap](https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700&display=swap)" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .font-montserrat { font-family: 'Montserrat', sans-serif; }
+    /* Style for the dynamic expense input fields */
+    .expense-item {
+        display: grid;
+        grid-template-columns: 1fr 0.8fr 0.7fr auto; /* Description, Amount, Category, Remove Button */
+        gap: 1rem;
+        align-items: center;
+        margin-bottom: 0.75rem;
+        padding: 0.5rem;
+        background-color: #f9fafb; /* gray-50 */
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    }
+    .dark .expense-item {
+        background-color: #374151; /* gray-700 */
+    }
+    .expense-item input, .expense-item select {
+        padding: 0.5rem 0.75rem;
+        border: 1px solid #d1d5db; /* gray-300 */
+        border-radius: 0.375rem;
+        background-color: #ffffff;
+        color: #1f2937;
+    }
+    .dark .expense-item input, .dark .expense-item select {
+        border-color: #4b5563; /* gray-600 */
+        background-color: #4b5563; /* gray-600 */
+        color: #f9fafb;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 min-h-screen flex flex-col">
+
+  <!-- Placeholder for the Navigation Bar -->
+  <div id="include-nav"></div>
+
+  <!-- Main Content -->
+  <main class="flex-1 w-full max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+    <div class="flex flex-col lg:flex-row gap-8">
+
+      <!-- Left Side: Calculator Inputs -->
+      <section class="w-full lg:w-1/3 bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg space-y-6">
+        <h2 class="text-2xl font-bold text-emerald-700 dark:text-emerald-400 font-montserrat">Personal Finance Planner</h2>
+        
+        <!-- 1st Section: Ages & Timeline -->
+        <div class="space-y-4 border-b border-gray-200 dark:border-gray-700 pb-6">
+            <h3 class="text-md font-semibold text-gray-500 dark:text-gray-400">Your Timeline</h3>
+            <div>
+              <label for="currentAgeInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Your Current Age</label>
+              <input id="currentAgeInput" type="number" value="30" min="18" max="90" placeholder="e.g., 30" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+            </div>
+            <div>
+              <label for="retirementAgeInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Target Retirement Age</label>
+              <input id="retirementAgeInput" type="number" value="60" min="30" max="90" placeholder="e.g., 60" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+            </div>
+            <div>
+              <label for="lifeExpectancyInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Life Expectancy (Age)</label>
+              <input id="lifeExpectancyInput" type="number" value="90" min="65" max="100" placeholder="e.g., 90" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+            </div>
+        </div>
+
+        <!-- 2nd Section: Income -->
+        <div class="space-y-4 border-b border-gray-200 dark:border-gray-700 pb-6">
+            <h3 class="text-md font-semibold text-gray-500 dark:text-gray-400">Your Income (Today's Value)</h3>
+            <div>
+              <label for="monthlyIncomeInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Current Monthly Income (Net)</label>
+              <div class="mt-1 flex rounded-md shadow-sm">
+                <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 text-sm">₹</span>
+                <input id="monthlyIncomeInput" type="number" value="100000" min="0" placeholder="e.g., 100000" class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+              </div>
+            </div>
+            <div>
+              <label for="yearlyIncomeInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Current Annual Income (Net)</label>
+              <div class="mt-1 flex rounded-md shadow-sm">
+                <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 text-sm">₹</span>
+                <input id="yearlyIncomeInput" type="number" value="1200000" min="0" placeholder="e.g., 1200000" class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+              </div>
+            </div>
+        </div>
+
+        <!-- 3rd Section: Expenses -->
+        <div class="space-y-4 border-b border-gray-200 dark:border-gray-700 pb-6">
+            <h3 class="text-md font-semibold text-gray-500 dark:text-gray-400">Your Expenses (Today's Value)</h3>
+            <div>
+                <label for="baseMonthlyExpenseInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Base Monthly Expenses</label>
+                <div class="mt-1 flex rounded-md shadow-sm">
+                    <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 text-sm">₹</span>
+                    <input id="baseMonthlyExpenseInput" type="number" value="50000" min="0" placeholder="e.g., 50000" class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+                </div>
+            </div>
+            <div>
+                <label for="baseYearlyExpenseInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Base Annual Expenses</label>
+                <div class="mt-1 flex rounded-md shadow-sm">
+                    <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 text-sm">₹</span>
+                    <input id="baseYearlyExpenseInput" type="number" value="600000" min="0" placeholder="e.g., 600000" class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+                </div>
+            </div>
+
+            <h4 class="text-sm font-semibold text-gray-600 dark:text-gray-300 mt-6">Additional Monthly Expenses</h4>
+            <div id="additionalExpensesContainer" class="space-y-3">
+                <!-- Dynamic expense inputs will be added here -->
+            </div>
+            <button id="addExpenseBtn" class="w-full bg-emerald-500 text-white py-2 px-4 rounded-md hover:bg-emerald-600 transition-colors duration-200 text-sm font-medium">Add Another Expense</button>
+        </div>
+
+        <!-- 4th Section: Financial Planning Inputs -->
+        <div class="space-y-4 pt-2">
+            <h3 class="text-md font-semibold text-gray-500 dark:text-gray-400">Financial Planning</h3>
+            <div>
+              <label for="currentSavingsInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Current Savings & Investments</label>
+              <div class="mt-1 flex rounded-md shadow-sm">
+                <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 text-sm">₹</span>
+                <input id="currentSavingsInput" type="number" value="1000000" min="0" placeholder="e.g., 1000000" class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+              </div>
+            </div>
+            <div>
+              <label for="postRetirementMonthlyAmountInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Desired Monthly Income in Retirement (Today's Value)</label>
+              <div class="mt-1 flex rounded-md shadow-sm">
+                <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 text-sm">₹</span>
+                <input id="postRetirementMonthlyAmountInput" type="number" value="40000" min="0" placeholder="e.g., 40000" class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+              </div>
+            </div>
+        </div>
+      </section>
+
+      <!-- Right Side: Results Table -->
+      <section class="w-full lg:w-2/3 space-y-6">
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg">
+          <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-4">Your Financial Plan</h3>
+          <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+              <thead class="bg-gray-50 dark:bg-gray-700">
+                <tr>
+                  <th scope="col" class="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Age</th>
+                  <th scope="col" class="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Starting Savings</th>
+                  <th scope="col" class="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Net Cash Flow/Withdrawal</th>
+                  <th scope="col" class="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Ending Savings</th>
+                  <th scope="col" class="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Status</th>
+                </tr>
+              </thead>
+              <tbody id="financialPlanTableBody" class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+                <!-- Plan details will be populated here by JavaScript -->
+                <tr><td colspan="5" class="text-center py-4 text-gray-500 dark:text-gray-400">Enter your details to see the plan.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div id="planSummary" class="mt-6 text-gray-700 dark:text-gray-300 space-y-2">
+              <p><span class="font-semibold">Financial Independence Achieved:</span> <span id="fiAge">N/A</span></p>
+              <p><span class="font-semibold">Funds Last Until Age:</span> <span id="fundsLastAge">N/A</span></p>
+              <p><span class="font-semibold">Remarks:</span> <span id="planRemarks"></span></p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Placeholder for the Footer -->
+  <div id="include-footer"></div>
+
+  <script>
+    // --- Constants ---
+    const INFLATION_RATE = 0.07; // 7%
+    const PRE_RETIREMENT_RETURN = 0.12; // 12%
+    const POST_RETIREMENT_RETURN = 0.08; // 8%
+
+    // --- DOM Elements ---
+    const currentAgeInput = document.getElementById('currentAgeInput');
+    const retirementAgeInput = document.getElementById('retirementAgeInput');
+    const lifeExpectancyInput = document.getElementById('lifeExpectancyInput');
+    const monthlyIncomeInput = document.getElementById('monthlyIncomeInput');
+    const yearlyIncomeInput = document.getElementById('yearlyIncomeInput');
+    const baseMonthlyExpenseInput = document.getElementById('baseMonthlyExpenseInput');
+    const baseYearlyExpenseInput = document.getElementById('baseYearlyExpenseInput');
+    const additionalExpensesContainer = document.getElementById('additionalExpensesContainer');
+    const addExpenseBtn = document.getElementById('addExpenseBtn');
+    const currentSavingsInput = document.getElementById('currentSavingsInput');
+    const postRetirementMonthlyAmountInput = document.getElementById('postRetirementMonthlyAmountInput');
+    const financialPlanTableBody = document.getElementById('financialPlanTableBody');
+    const fiAgeEl = document.getElementById('fiAge');
+    const fundsLastAgeEl = document.getElementById('fundsLastAge');
+    const planRemarksEl = document.getElementById('planRemarks');
+
+    // --- Utility Functions ---
+    /**
+     * Formats a number to Indian Rupee currency string.
+     * @param {number} num - The number to format.
+     * @returns {string} Formatted currency string.
+     */
+    function formatINR(num) {
+      if (isNaN(num)) return '₹0';
+      const absNum = Math.abs(num);
+      let formatted;
+      if (absNum >= 10000000) { // Crores
+        formatted = (absNum / 10000000).toFixed(2) + ' Cr';
+      } else if (absNum >= 100000) { // Lakhs
+        formatted = (absNum / 100000).toFixed(2) + ' L';
+      } else {
+        formatted = absNum.toLocaleString('en-IN', { maximumFractionDigits: 0 });
+      }
+      return (num < 0 ? '-₹' : '₹') + formatted;
+    }
+
+    /**
+     * Calculates the future value of an amount considering inflation.
+     * @param {number} amount - The initial amount.
+     * @param {number} inflationRate - The annual inflation rate (e.g., 0.07 for 7%).
+     * @param {number} years - The number of years.
+     * @returns {number} The inflated amount.
+     */
+    function inflateAmount(amount, inflationRate, years) {
+      return amount * Math.pow(1 + inflationRate, years);
+    }
+
+    /**
+     * Calculates the compounded value of an amount.
+     * @param {number} principal - The initial principal.
+     * @param {number} annualRate - The annual return rate (e.g., 0.12 for 12%).
+     * @returns {number} The compounded amount after one year.
+     */
+    function compoundAmount(principal, annualRate) {
+        return principal * (1 + annualRate);
+    }
+
+    // --- Dynamic Expense Management ---
+    let expenseCounter = 0; // To give unique IDs to expense items
+
+    /**
+     * Adds a new dynamic expense input row to the UI.
+     */
+    function addExpenseItem() {
+        expenseCounter++;
+        const expenseDiv = document.createElement('div');
+        expenseDiv.className = 'expense-item';
+        expenseDiv.setAttribute('data-id', expenseCounter);
+        expenseDiv.innerHTML = `
+            <input type="text" placeholder="e.g., Rent, Utilities" class="expense-description px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white" />
+            <div class="flex items-center">
+                <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 text-sm">₹</span>
+                <input type="number" value="0" min="0" placeholder="e.g., 15000" class="expense-amount flex-1 min-w-0 px-3 py-2 rounded-none rounded-r-md focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" />
+            </div>
+            <select class="expense-category px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+                <option value="Need">Need</option>
+                <option value="Want">Want</option>
+            </select>
+            <button class="remove-expense-btn p-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors duration-200">
+                <svg xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm6 0a1 1 0 11-2 0v6a1 1 0 112 0V8z" clip-rule="evenodd" />
+                </svg>
+            </button>
+        `;
+        additionalExpensesContainer.appendChild(expenseDiv);
+
+        // Add event listeners to the new inputs and button
+        expenseDiv.querySelector('.expense-description').addEventListener('input', calculateFinancialPlan);
+        expenseDiv.querySelector('.expense-amount').addEventListener('input', calculateFinancialPlan);
+        expenseDiv.querySelector('.expense-category').addEventListener('change', calculateFinancialPlan);
+        expenseDiv.querySelector('.remove-expense-btn').addEventListener('click', () => {
+            expenseDiv.remove();
+            calculateFinancialPlan(); // Recalculate after removing
+        });
+    }
+
+    /**
+     * Calculates the total amount from all dynamic expense inputs.
+     * @returns {number} The total sum of all dynamic expenses.
+     */
+    function getTotalDynamicExpenses() {
+        let total = 0;
+        document.querySelectorAll('.expense-item .expense-amount').forEach(input => {
+            total += parseFloat(input.value) || 0;
+        });
+        return total;
+    }
+
+    // --- Core Calculation Logic ---
+    function calculateFinancialPlan() {
+      const currentAge = parseInt(currentAgeInput.value);
+      const retirementAge = parseInt(retirementAgeInput.value);
+      const lifeExpectancy = parseInt(lifeExpectancyInput.value);
+      let monthlyIncome = parseFloat(monthlyIncomeInput.value) || 0;
+      let yearlyIncome = parseFloat(yearlyIncomeInput.value) || 0;
+      let baseMonthlyExpense = parseFloat(baseMonthlyExpenseInput.value) || 0;
+      let baseYearlyExpense = parseFloat(baseYearlyExpenseInput.value) || 0;
+      const currentSavings = parseFloat(currentSavingsInput.value) || 0;
+      const postRetirementMonthlyAmount = parseFloat(postRetirementMonthlyAmountInput.value) || 0;
+
+      // Sync income fields (prioritize monthly if both are changed, or derive one from other)
+      if (document.activeElement === monthlyIncomeInput) {
+          yearlyIncomeInput.value = (monthlyIncome * 12).toFixed(0);
+      } else if (document.activeElement === yearlyIncomeInput) {
+          monthlyIncomeInput.value = (yearlyIncome / 12).toFixed(0);
+          monthlyIncome = yearlyIncome / 12; // Update monthlyIncome for calculation
+      }
+
+      // Sync expense fields (prioritize monthly if both are changed, or derive one from other)
+      if (document.activeElement === baseMonthlyExpenseInput) {
+          baseYearlyExpenseInput.value = (baseMonthlyExpense * 12).toFixed(0);
+      } else if (document.activeElement === baseYearlyExpenseInput) {
+          baseMonthlyExpenseInput.value = (baseYearlyExpense / 12).toFixed(0);
+          baseMonthlyExpense = baseYearlyExpense / 12; // Update baseMonthlyExpense for calculation
+      }
+
+      const totalDynamicExpenses = getTotalDynamicExpenses();
+      const totalCurrentMonthlyExpenses = baseMonthlyExpense + totalDynamicExpenses;
+      const desiredPostRetirementAnnualAmount = postRetirementMonthlyAmount * 12;
+
+      let financialPlan = [];
+      let currentSavingsBalance = currentSavings;
+      let fundsDepletedAge = null;
+      let fiAchievedAge = null;
+
+      // Clear previous results
+      financialPlanTableBody.innerHTML = '';
+
+      if (currentAge >= retirementAge) {
+          planRemarksEl.textContent = "You are already at or past retirement age. The plan will start from your current age as retired.";
+      } else if (currentAge >= lifeExpectancy) {
+          planRemarksEl.textContent = "Your current age is at or past your life expectancy. Please adjust your age inputs.";
+          financialPlanTableBody.innerHTML = `<tr><td colspan="5" class="text-center py-4 text-red-500 dark:text-red-400">Invalid age inputs. Please adjust.</td></tr>`;
+          fiAgeEl.textContent = 'N/A';
+          fundsLastAgeEl.textContent = 'N/A';
+          return;
+      }
+      
+      if (retirementAge > lifeExpectancy) {
+          planRemarksEl.textContent = "Your retirement age is beyond your life expectancy. Please adjust your retirement age or life expectancy.";
+          financialPlanTableBody.innerHTML = `<tr><td colspan="5" class="text-center py-4 text-red-500 dark:text-red-400">Invalid age inputs. Please adjust.</td></tr>`;
+          fiAgeEl.textContent = 'N/A';
+          fundsLastAgeEl.textContent = 'N/A';
+          return;
+      }
+
+
+      for (let age = currentAge; age <= lifeExpectancy; age++) {
+        let startingSavings = currentSavingsBalance;
+        let annualNetCashFlow = 0;
+        let status = '';
+        let effectiveReturnRate = 0;
+        let inflatedAnnualExpenses = inflateAmount(totalCurrentMonthlyExpenses * 12, INFLATION_RATE, age - currentAge);
+        let inflatedPostRetirementAnnualWithdrawal = inflateAmount(desiredPostRetirementAnnualAmount, INFLATION_RATE, age - currentAge);
+
+        if (age < retirementAge) {
+          // Earning Phase
+          status = 'Earning';
+          effectiveReturnRate = PRE_RETIREMENT_RETURN;
+          const inflatedAnnualIncome = inflateAmount(monthlyIncome * 12, INFLATION_RATE, age - currentAge);
+          annualNetCashFlow = inflatedAnnualIncome - inflatedAnnualExpenses;
+          
+          currentSavingsBalance = compoundAmount(startingSavings + annualNetCashFlow, effectiveReturnRate);
+
+          // Check for Financial Independence (25x rule for annual expenses)
+          if (fiAchievedAge === null && startingSavings >= inflatedAnnualExpenses * 25) {
+              fiAchievedAge = age;
+          }
+
+        } else {
+          // Retired Phase
+          status = 'Retired';
+          effectiveReturnRate = POST_RETIREMENT_RETURN;
+          annualNetCashFlow = -inflatedPostRetirementAnnualWithdrawal; // Negative for withdrawal
+          
+          currentSavingsBalance = compoundAmount(startingSavings, effectiveReturnRate) + annualNetCashFlow;
+
+          if (fundsDepletedAge === null && currentSavingsBalance < 0) {
+              fundsDepletedAge = age; // Funds depleted in this year
+          }
+        }
+
+        financialPlan.push({
+          age: age,
+          startingSavings: startingSavings,
+          annualNetCashFlow: annualNetCashFlow,
+          endingSavings: currentSavingsBalance,
+          status: status
+        });
+      }
+
+      // Populate the table
+      if (financialPlan.length === 0) {
+          financialPlanTableBody.innerHTML = `<tr><td colspan="5" class="text-center py-4 text-gray-500 dark:text-gray-400">No plan generated. Check inputs.</td></tr>`;
+      } else {
+          financialPlan.forEach(yearData => {
+              const row = financialPlanTableBody.insertRow();
+              row.className = 'hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors duration-150';
+              row.innerHTML = `
+                  <td class="px-3 py-2 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">${yearData.age}</td>
+                  <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">${formatINR(yearData.startingSavings)}</td>
+                  <td class="px-3 py-2 whitespace-nowrap text-sm ${yearData.annualNetCashFlow >= 0 ? 'text-emerald-600' : 'text-red-600'} dark:${yearData.annualNetCashFlow >= 0 ? 'text-emerald-400' : 'text-red-400'}">${formatINR(yearData.annualNetCashFlow)}</td>
+                  <td class="px-3 py-2 whitespace-nowrap text-sm ${yearData.endingSavings >= 0 ? 'text-gray-700 dark:text-gray-300' : 'text-red-600 dark:text-red-400'}">${formatINR(yearData.endingSavings)}</td>
+                  <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">${yearData.status}</td>
+              `;
+          });
+      }
+
+      // Update summary
+      fiAgeEl.textContent = fiAchievedAge !== null ? fiAchievedAge : 'Not Achieved';
+      fundsLastAgeEl.textContent = fundsDepletedAge !== null ? fundsDepletedAge : 'Beyond ' + lifeExpectancy;
+
+      if (fundsDepletedAge !== null && fundsDepletedAge <= lifeExpectancy) {
+          planRemarksEl.className = 'text-red-600 dark:text-red-400';
+          planRemarksEl.textContent = `Warning: Your funds are projected to deplete by age ${fundsDepletedAge}. Consider increasing savings or adjusting expenses/retirement age.`;
+      } else if (fiAchievedAge !== null && fiAchievedAge < retirementAge) {
+          planRemarksEl.className = 'text-emerald-600 dark:text-emerald-400';
+          planRemarksEl.textContent = `Excellent! You are projected to achieve financial independence by age ${fiAchievedAge}, well before your target retirement.`;
+      } else {
+          planRemarksEl.className = 'text-gray-700 dark:text-gray-300';
+          planRemarksEl.textContent = `Your plan looks solid. Continue saving to maintain financial health throughout retirement.`;
+      }
+    }
+
+    // --- Event Listeners and Initializer ---
+    /**
+     * Loads HTML partials into specified elements.
+     * @param {string} id - The ID of the element to load the partial into.
+     * @param {string} file - The path to the HTML partial file.
+     */
+    async function loadPartial(id, file) {
+      try {
+        const response = await fetch(file);
+        if (!response.ok) {
+          throw new Error(`Failed to load ${file}: ${response.statusText}`);
+        }
+        const text = await response.text();
+        const element = document.getElementById(id);
+        if (element) {
+          element.innerHTML = text;
+          // Re-execute scripts within the loaded partial
+          Array.from(element.querySelectorAll("script")).forEach(oldScript => {
+            const newScript = document.createElement("script");
+            Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
+            newScript.appendChild(document.createTextNode(oldScript.innerHTML));
+            oldScript.parentNode.replaceChild(newScript, oldScript);
+          });
+        }
+      } catch (error) {
+        console.error(`Error loading partial: ${error}`);
+      }
+    }
+    
+    /**
+     * Sets up all necessary event listeners for input fields and buttons.
+     */
+    function setupEventListeners() {
+        // Age, Income, Savings inputs
+        currentAgeInput.addEventListener('input', calculateFinancialPlan);
+        retirementAgeInput.addEventListener('input', calculateFinancialPlan);
+        lifeExpectancyInput.addEventListener('input', calculateFinancialPlan);
+        monthlyIncomeInput.addEventListener('input', calculateFinancialPlan);
+        yearlyIncomeInput.addEventListener('input', calculateFinancialPlan);
+        baseMonthlyExpenseInput.addEventListener('input', calculateFinancialPlan);
+        baseYearlyExpenseInput.addEventListener('input', calculateFinancialPlan);
+        currentSavingsInput.addEventListener('input', calculateFinancialPlan);
+        postRetirementMonthlyAmountInput.addEventListener('input', calculateFinancialPlan);
+
+        // Dynamic expense button
+        addExpenseBtn.addEventListener('click', addExpenseItem);
+    }
+    
+    // Initialize on DOMContentLoaded
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Load navigation and footer
+      await Promise.all([
+        loadPartial("include-nav", "./components/nav.html"),
+        loadPartial("include-footer", "./components/footer.html")
+      ]);
+      setupEventListeners();
+      addExpenseItem(); // Add one initial dynamic expense field
+      calculateFinancialPlan(); // Initial calculation
+    });
+  </script>
+</body>
+</html>
