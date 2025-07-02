@@ -1,58 +1,53 @@
-<aside class="w-full sm:w-64 bg-white shadow-xl rounded-2xl p-6 border border-blue-100">
-  <h2 class="text-xl font-bold text-blue-600 mb-5 flex items-center">
-    <svg class="w-5 h-5 mr-2 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-      <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>
+<!-- /components/blog-nav.html -->
+<!-- This is the side navigation for your blog pages. -->
+
+<aside class="w-full sm:w-64 bg-white dark:bg-gray-800 shadow-lg rounded-2xl p-6 border border-gray-200 dark:border-gray-700">
+  <h2 class="text-xl font-bold text-emerald-700 dark:text-emerald-400 mb-5 flex items-center">
+    <svg class="w-5 h-5 mr-2 text-emerald-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
     </svg>
     Blog Topics
   </h2>
-  <ul class="space-y-3" id="blogLinks">
-    <li><a href="/blogs/build_wealth_with_sip.html">📈 How SIP Can Build Wealth Over Time</a></li>
-    <li><a href="/blogs/lumpsum_vs_sip.html">💰 Lumpsum vs SIP: Which is Better?</a></li>
-    <li><a href="/blogs/swp.html">🧾 Understanding SWP: Systematic Withdrawal Plan</a></li>
-    <li><a href="/blogs/fire-retire-early.html">🔥 FIRE: Retire Early With Smart Planning</a></li>
-    <li><a href="/blogs/delaying-costs-more.html">⏳ Why Delaying Investment Costs You More</a></li>
-    <li><a href="/blogs/what-is-sip.html">💡 What is SIP and Why Every Investor Should Know It</a></li>
-    <li><a href="/blogs/compound-interest-explained.html">🧠 How Compound Interest Works (with Examples)</a></li>
-    <li><a href="/blogs/mutual-fund-vs-fd.html">🏦 Mutual Funds vs Fixed Deposits</a></li>
-    <li><a href="/blogs/salary-saving-rule.html">📊 How Much Should I Save From My Salary?</a></li>
-    <li><a href="/blogs/retire-by-40-india.html">🧓 How to Retire by 40: Indian Case Study</a></li>
-    <li><a href="/blogs/family-fire-planning.html">👨‍👩‍👧 FIRE Planning for Families</a></li>
-    <li><a href="/blogs/1cr-with-5000-sip.html">📈 Plan ₹1 Cr with Just ₹5000/month SIP</a></li>
-    <li><a href="/blogs/sip-for-1cr-in-15-years.html">🧮 SIP Needed for ₹1 Cr in 15 Years</a></li>
+  <ul class="space-y-2" id="blogLinks">
+    <!-- The links are now styled directly with Tailwind classes -->
+    <li><a href="/blogs/build_wealth_with_sip.html" class="blog-link">📈 How SIP Can Build Wealth Over Time</a></li>
+    <li><a href="/blogs/lumpsum_vs_sip.html" class="blog-link">💰 Lumpsum vs SIP: Which is Better?</a></li>
+    <li><a href="/blogs/swp.html" class="blog-link">🧾 Understanding SWP: Systematic Withdrawal Plan</a></li>
+    <li><a href="/blogs/fire-retire-early.html" class="blog-link">🔥 FIRE: Retire Early With Smart Planning</a></li>
+    <li><a href="/blogs/delaying-costs-more.html" class="blog-link">⏳ Why Delaying Investment Costs You More</a></li>
+    <li><a href="/blogs/what-is-sip.html" class="blog-link">💡 What is SIP and Why Every Investor Should Know It</a></li>
+    <li><a href="/blogs/compound-interest-explained.html" class="blog-link">🧠 How Compound Interest Works (with Examples)</a></li>
+    <li><a href="/blogs/mutual-fund-vs-fd.html" class="blog-link">🏦 Mutual Funds vs Fixed Deposits</a></li>
+    <li><a href="/blogs/salary-saving-rule.html" class="blog-link">📊 How Much Should I Save From My Salary?</a></li>
+    <li><a href="/blogs/retire-by-40-india.html" class="blog-link">🧓 How to Retire by 40: Indian Case Study</a></li>
+    <li><a href="/blogs/family-fire-planning.html" class="blog-link">👨‍👩‍👧 FIRE Planning for Families</a></li>
+    <li><a href="/blogs/1cr-with-5000-sip.html" class="blog-link">📈 Plan ₹1 Cr with Just ₹5000/month SIP</a></li>
+    <li><a href="/blogs/sip-for-1cr-in-15-years.html" class="blog-link">🧮 SIP Needed for ₹1 Cr in 15 Years</a></li>
   </ul>
 </aside>
 
-<style>
-  #blogLinks a {
-    display: block;
-    padding: 0.5rem 1rem;
-    border-radius: 9999px;
-    font-weight: 500;
-    color: #1d4ed8; /* Tailwind blue-700 */
-    background-color: #eff6ff; /* Tailwind blue-50 */
-    transition: all 0.2s ease-in-out;
-  }
-
-  #blogLinks a:hover {
-    background-color: #dbeafe; /* Tailwind blue-100 */
-    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
-  }
-
-  #blogLinks a.active {
-    background-color: #1d4ed8; /* Tailwind blue-700 */
-    color: white;
-    font-weight: 600;
-  }
-</style>
-
+<!-- We no longer need a separate <style> block. The script now handles everything. -->
 <script>
-  // Highlight the current page's blog topic
+  // This script adds styling to the blog links and highlights the active one.
   document.addEventListener("DOMContentLoaded", () => {
-    const links = document.querySelectorAll("#blogLinks a");
-    const current = window.location.pathname;
+    const links = document.querySelectorAll("#blogLinks a.blog-link");
+    const currentPath = window.location.pathname;
+
+    // Define the Tailwind classes for styling
+    const baseClasses = "block px-4 py-2 rounded-lg font-medium text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-gray-700 transition-all duration-200";
+    const hoverClasses = "hover:bg-emerald-100 dark:hover:bg-gray-600 hover:text-emerald-800 hover:shadow-sm";
+    const activeClasses = "bg-emerald-600 text-white font-semibold shadow-md";
+    const inactiveClasses = "bg-emerald-50 dark:bg-gray-700 text-emerald-700 dark:text-emerald-300";
+
     links.forEach(link => {
-      if (link.getAttribute("href") === current) {
-        link.classList.add("active");
+      // Apply base and hover styles to all links
+      link.className = `${baseClasses} ${hoverClasses}`;
+      
+      // Check if the link is for the current page
+      if (link.getAttribute("href") === currentPath) {
+        // Add active styles and remove inactive ones
+        link.classList.add(...activeClasses.split(' '));
+        link.classList.remove(...inactiveClasses.split(' '));
       }
     });
   });
