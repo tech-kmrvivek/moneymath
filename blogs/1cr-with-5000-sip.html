@@ -111,6 +111,57 @@
 
   <!-- Script to load components -->
   <script>
+    // Function to mark the current blog post as read
+    function markAsRead() {
+      const storageKey = 'rupeeswise_read_blogs';
+      const currentPath = window.location.pathname;
+
+      // Get existing read blogs from localStorage
+      let readBlogs = [];
+      try {
+        const stored = localStorage.getItem(storageKey);
+        if (stored) {
+          readBlogs = JSON.parse(stored);
+        }
+      } catch (e) {
+        console.error("Error parsing read blogs from localStorage", e);
+        readBlogs = [];
+      }
+
+      // Add the current blog to the list if it's not already there
+      if (!readBlogs.includes(currentPath)) {
+        readBlogs.push(currentPath);
+        localStorage.setItem(storageKey, JSON.stringify(readBlogs));
+      }
+    }
+
+    // Function to update the navigation links based on read status
+    function updateReadStatusInNav() {
+        const storageKey = 'rupeeswise_read_blogs';
+        let readBlogs = [];
+        try {
+            const stored = localStorage.getItem(storageKey);
+            if (stored) {
+                readBlogs = JSON.parse(stored);
+            }
+        } catch (e) {
+            console.error("Error parsing read blogs from localStorage", e);
+        }
+        
+        // Select all links in the blog navigation
+        const blogLinks = document.querySelectorAll('#include-blog-nav a');
+        
+        blogLinks.forEach(link => {
+            const linkPath = link.getAttribute('href');
+            if (readBlogs.includes(linkPath)) {
+                link.classList.add('opacity-70'); // Make it slightly transparent
+                if (!link.innerHTML.startsWith('✅')) {
+                    link.innerHTML = `✅ ${link.innerHTML}`;
+                }
+            }
+        });
+    }
+
     async function loadPartial(id, file) {
       try {
         const response = await fetch(file);
@@ -119,6 +170,7 @@
         const element = document.getElementById(id);
         if (element) {
           element.innerHTML = text;
+          // Execute scripts within the loaded partial
           Array.from(element.querySelectorAll("script")).forEach(oldScript => {
             const newScript = document.createElement("script");
             Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
@@ -131,10 +183,19 @@
       }
     }
 
-    window.addEventListener("DOMContentLoaded", () => {
-      loadPartial("include-nav", "../components/nav.html");
-      loadPartial("include-blog-nav", "../components/blog-nav.html");
-      loadPartial("include-footer", "../components/footer.html");
+    window.addEventListener("DOMContentLoaded", async () => {
+      // Mark this page as read as soon as it loads
+      markAsRead();
+
+      // Load all components
+      await Promise.all([
+        loadPartial("include-nav", "../components/nav.html"),
+        loadPartial("include-blog-nav", "../components/blog-nav.html"),
+        loadPartial("include-footer", "../components/footer.html")
+      ]);
+
+      // After components are loaded, update the visual status
+      updateReadStatusInNav();
     });
   </script>
 </body>
