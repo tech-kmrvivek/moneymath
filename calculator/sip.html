@@ -127,14 +127,10 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-1 xl:grid-cols-5 gap-8">
-            <div class="xl:col-span-3 bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg">
-              <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-2">Yearly Projection Graph</h3>
-              <canvas id="sipLineChart"></canvas>
-            </div>
-            <div class="xl:col-span-2 bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg flex flex-col justify-center">
-              <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-2">Wealth Breakdown</h3>
-              <canvas id="sipPieChart"></canvas>
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg">
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-2 text-center">Wealth Breakdown</h3>
+            <div class="max-w-xs mx-auto">
+                <canvas id="sipPieChart"></canvas>
             </div>
         </div>
       </section>
@@ -145,8 +141,8 @@
   <div id="include-footer"></div>
 
   <script>
-    // --- Chart instances ---
-    let sipLineChart, sipPieChart;
+    // --- Chart instance ---
+    let sipPieChart;
 
     // --- DOM Elements ---
     const sipAmountInput = document.getElementById('sipAmountInput');
@@ -169,12 +165,8 @@
 
     // --- Utility Functions ---
     function formatINR(num) {
-      if (num >= 10000000) {
-        return `₹${(num / 10000000).toFixed(2)} Cr`;
-      }
-      if (num >= 100000) {
-        return `₹${(num / 100000).toFixed(2)} L`;
-      }
+      if (num >= 10000000) return `₹${(num / 10000000).toFixed(2)} Cr`;
+      if (num >= 100000) return `₹${(num / 100000).toFixed(2)} L`;
       return `₹${num.toLocaleString('en-IN')}`;
     }
     
@@ -193,7 +185,7 @@
         return '';
     }
 
-    // --- Calculation Logic (Verified and Correct) ---
+    // --- Calculation Logic (REFACTORED AND VERIFIED) ---
     function calculateSIP() {
       const P = parseFloat(sipAmountInput.value) || 0;
       const years = parseInt(sipYearsInput.value) || 0;
@@ -201,41 +193,25 @@
       const stepUpEnabled = stepUpCheck.checked;
       const stepUpPercent = parseFloat(stepUpInput.value) || 0;
 
-      let totalInvested = 0, maturity = 0;
+      let totalInvested = 0;
+      let maturity = 0;
       const projection = [];
-      
-      if (stepUpEnabled) {
-        const r = rate / 100 / 12;
-        let currentP = P;
-        for (let y = 1; y <= years; y++) {
-          for (let m = 0; m < 12; m++) {
-            maturity = (maturity + currentP) * (1 + r);
-            totalInvested += currentP;
-          }
-           projection.push({ 
-            year: y, 
-            invested: totalInvested,
-            interest: maturity - totalInvested,
-            value: maturity 
-          });
-          currentP *= (1 + stepUpPercent / 100);
+      const monthlyRate = rate / 100 / 12;
+      let currentMonthlyInvestment = P;
+
+      for (let y = 1; y <= years; y++) {
+        for (let m = 1; m <= 12; m++) {
+          maturity = (maturity + currentMonthlyInvestment) * (1 + monthlyRate);
+          totalInvested += currentMonthlyInvestment;
         }
-      } else {
-        const r = rate / 100 / 12;
-        for (let y = 1; y <= years; y++) {
-            const n = y * 12;
-            if (r > 0) {
-                maturity = P * ((Math.pow(1 + r, n) - 1) / r) * (1 + r);
-            } else {
-                maturity = P * n;
-            }
-            totalInvested = P * n;
-            projection.push({ 
-                year: y, 
-                invested: totalInvested,
-                interest: maturity - totalInvested,
-                value: maturity 
-            });
+        projection.push({ 
+          year: y, 
+          invested: totalInvested,
+          interest: maturity - totalInvested,
+          value: maturity 
+        });
+        if (stepUpEnabled) {
+          currentMonthlyInvestment *= (1 + stepUpPercent / 100);
         }
       }
       
@@ -248,7 +224,7 @@
       sipAmountWords.textContent = numberToWords(P).split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') + ' Rupees';
       
       renderProjectionTable(projection);
-      renderCharts(totalInvested, finalGain, projection);
+      renderPieChart(totalInvested, finalGain);
     }
 
     // --- Table Rendering ---
@@ -281,7 +257,7 @@
 
 
     // --- Chart Rendering ---
-    function renderCharts(invested, gain, projection) {
+    function renderPieChart(invested, gain) {
       const pieCtx = document.getElementById('sipPieChart').getContext('2d');
       if (sipPieChart) sipPieChart.destroy();
       sipPieChart = new Chart(pieCtx, {
@@ -305,46 +281,6 @@
               }
             } 
           } 
-        }
-      });
-
-      const lineCtx = document.getElementById('sipLineChart').getContext('2d');
-      if (sipLineChart) sipLineChart.destroy();
-      sipLineChart = new Chart(lineCtx, {
-        type: 'line',
-        data: {
-          labels: projection.map(p => p.year),
-          datasets: [{
-            label: 'Investment Value',
-            data: projection.map(p => p.value),
-            borderColor: '#10b981',
-            backgroundColor: 'rgba(16, 185, 129, 0.1)',
-            fill: true,
-            tension: 0.4,
-            pointBackgroundColor: '#10b981',
-            pointBorderColor: '#fff',
-            pointHoverRadius: 7,
-            pointHoverBackgroundColor: '#fff',
-            pointHoverBorderColor: '#10b981'
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-          scales: {
-            y: {
-              ticks: { 
-                callback: value => formatINR(value),
-                color: document.body.classList.contains('dark') ? '#9ca3af' : '#6b7280'
-              },
-              grid: { color: document.body.classList.contains('dark') ? '#374151' : '#e5e7eb' }
-            },
-            x: {
-              ticks: { color: document.body.classList.contains('dark') ? '#9ca3af' : '#6b7280' },
-              grid: { display: false }
-            }
-          }
         }
       });
     }
@@ -371,24 +307,46 @@
     }
 
     function setupEventListeners() {
-      const inputs = [sipAmountInput, sipAmountSlider, sipYearsInput, sipYearsSlider, sipRateInput, sipRateSlider, stepUpCheck, stepUpInput, stepUpSlider];
-      inputs.forEach(input => input.addEventListener('input', calculateSIP));
-      
-      // Sync sliders and number inputs
-      sipAmountSlider.addEventListener('input', () => sipAmountInput.value = sipAmountSlider.value);
-      sipAmountInput.addEventListener('input', () => sipAmountSlider.value = sipAmountInput.value);
-      
-      sipYearsSlider.addEventListener('input', () => sipYearsInput.value = sipYearsSlider.value);
-      sipYearsInput.addEventListener('input', () => sipYearsSlider.value = sipYearsInput.value);
+      // Corrected, more explicit event handling
+      sipAmountSlider.addEventListener('input', () => {
+        sipAmountInput.value = sipAmountSlider.value;
+        calculateSIP();
+      });
+      sipAmountInput.addEventListener('input', () => {
+        sipAmountSlider.value = sipAmountInput.value;
+        calculateSIP();
+      });
 
-      sipRateSlider.addEventListener('input', () => sipRateInput.value = sipRateSlider.value);
-      sipRateInput.addEventListener('input', () => sipRateSlider.value = sipRateInput.value);
+      sipYearsSlider.addEventListener('input', () => {
+        sipYearsInput.value = sipYearsSlider.value;
+        calculateSIP();
+      });
+      sipYearsInput.addEventListener('input', () => {
+        sipYearsSlider.value = sipYearsInput.value;
+        calculateSIP();
+      });
 
-      stepUpSlider.addEventListener('input', () => stepUpInput.value = stepUpSlider.value);
-      stepUpInput.addEventListener('input', () => stepUpSlider.value = stepUpInput.value);
+      sipRateSlider.addEventListener('input', () => {
+        sipRateInput.value = sipRateSlider.value;
+        calculateSIP();
+      });
+      sipRateInput.addEventListener('input', () => {
+        sipRateSlider.value = sipRateInput.value;
+        calculateSIP();
+      });
+      
+      stepUpSlider.addEventListener('input', () => {
+        stepUpInput.value = stepUpSlider.value;
+        calculateSIP();
+      });
+      stepUpInput.addEventListener('input', () => {
+        stepUpSlider.value = stepUpInput.value;
+        calculateSIP();
+      });
 
       stepUpCheck.addEventListener('change', () => {
         stepUpSection.classList.toggle('hidden', !stepUpCheck.checked);
+        calculateSIP();
       });
     }
     
