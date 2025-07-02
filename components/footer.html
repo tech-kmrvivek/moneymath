@@ -1,23 +1,27 @@
 <!-- /components/footer.html -->
-<!-- This file contains the updated footer with more navigation links. -->
-<!-- Make sure you have the 'Montserrat' font linked in any page that uses this component. -->
+<!-- This file contains the updated and restyled footer. -->
 
 <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
-  <div class="max-w-7xl mx-auto px-4 py-8 flex flex-col items-center">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col items-center">
     
     <!-- Footer Navigation Links -->
-    <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-gray-600 dark:text-gray-400 mb-4">
-        <a href="/" class="hover:underline">Home</a>
-        <a href="/blogs/blogs.html" class="hover:underline">Blogs</a>
-        <a href="/about.html" class="hover:underline">About</a>
-        <a href="/privacy.html" class="hover:underline">Privacy Policy</a>
-        <a href="/terms.html" class="hover:underline">Terms of Service</a> 
+    <div class="flex flex-wrap justify-center items-center gap-x-5 sm:gap-x-8 gap-y-2 text-sm mb-6">
+        <a href="/" class="text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors duration-300 font-medium">Home</a>
+        <a href="/blogs/blogs.html" class="text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors duration-300 font-medium">Blogs</a>
+        <a href="/about.html" class="text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors duration-300 font-medium">About</a>
+        <a href="/privacy.html" class="text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors duration-300 font-medium">Privacy Policy</a>
+        <a href="/terms.html" class="text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors duration-300 font-medium">Terms of Service</a> 
     </div>
 
     <!-- Copyright -->
-    <p class="text-xs text-gray-500 dark:text-gray-500">
-      © 2025 <a href="/" class="font-semibold text-emerald-600 dark:text-emerald-500 hover:underline">RupeesWise</a>. All rights reserved. Made with ❤️ in India 🇮🇳
-    </p>
+    <div class="text-center">
+        <p class="text-sm text-gray-500 dark:text-gray-400">
+          © 2025 <a href="/" class="font-semibold text-emerald-600 dark:text-emerald-500 hover:underline">RupeesWise</a>. All rights reserved.
+        </p>
+        <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">
+          Made with <span class="text-red-500">❤️</span> in India 🇮🇳
+        </p>
+    </div>
 
   </div>
 </footer>

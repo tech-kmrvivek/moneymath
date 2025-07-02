@@ -140,6 +140,7 @@
         const element = document.getElementById(id);
         if (element) {
           element.innerHTML = text;
+          // This part is crucial to make the scripts inside the loaded components run
           Array.from(element.querySelectorAll("script")).forEach(oldScript => {
             const newScript = document.createElement("script");
             Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
@@ -153,8 +154,9 @@
     }
 
     window.addEventListener("DOMContentLoaded", () => {
-      loadPartial("include-nav", "./components/nav.html");
-      loadPartial("include-footer", "./components/footer.html");
+      // Since blogs.html is in the /blogs/ directory, we need to go up one level to find the components
+      loadPartial("include-nav", "../components/nav.html");
+      loadPartial("include-footer", "../components/footer.html");
     });
   </script>
 
