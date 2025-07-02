@@ -16,15 +16,31 @@
     .font-montserrat {
       font-family: 'Montserrat', sans-serif;
     }
+    /* Style for the post reveal animation */
+    .extra-post {
+        transition: all 0.5s ease-in-out;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    .extra-post.visible {
+        max-height: 500px; /* Adjust as needed */
+        opacity: 1;
+        transform: translateY(0);
+    }
   </style>
 </head>
 <body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 min-h-screen flex flex-col">
-  
+
+  <!-- Placeholder for the Navigation Bar -->
+  <div id="include-nav"></div>
+
   <!-- === Main Content === -->
   <main class="flex-1">
     <!-- Hero Section -->
     <section class="bg-white dark:bg-gray-800 text-center py-16 sm:py-24 px-6">
-      <h1 class="text-4xl sm:text-5xl font-extrabold text-emerald-600 dark:text-emerald-400 font-montserrat">Your Guide to Financial Wisdom</h1>
+      <h1 class="text-4xl sm:text-5xl font-extrabold text-emerald-600 dark:text-emerald-400 font-montserrat">Grow Smart. Grow Wise. With RupeesWise.</h1>
       <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-600 dark:text-gray-300">Powerful calculators and insightful blogs to help you master your money and achieve your financial goals.</p>
       
       <!-- Quick Links to Calculators -->
@@ -52,32 +68,137 @@
     <section class="py-16 sm:py-20 px-6">
       <div class="max-w-6xl mx-auto">
         <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-8 text-center">📘 From the Blog</h2>
-        <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          <!-- BLOG 1 -->
+        <div id="blog-posts-grid" class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          <!-- Initially visible posts -->
           <article class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
             <h3 class="text-xl font-semibold text-emerald-700 dark:text-emerald-400 mb-2">How SIP Can Build Wealth Over Time</h3>
             <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Understand how compounding and discipline help you grow your investments through SIPs.</p>
             <a href="/blogs/build_wealth_with_sip.html" class="text-emerald-600 dark:text-emerald-500 text-sm font-semibold hover:underline">Read more →</a>
           </article>
-          <!-- BLOG 2 -->
           <article class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
             <h3 class="text-xl font-semibold text-emerald-700 dark:text-emerald-400 mb-2">Lumpsum Investment vs SIP: Which is Better?</h3>
             <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Explore the pros and cons of both approaches to make informed financial decisions.</p>
             <a href="/blogs/lumpsum_vs_sip.html" class="text-emerald-600 dark:text-emerald-500 text-sm font-semibold hover:underline">Read more →</a>
           </article>
-          <!-- BLOG 3 -->
           <article class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
             <h3 class="text-xl font-semibold text-emerald-700 dark:text-emerald-400 mb-2">FIRE: Retire Early With Smart Planning</h3>
             <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Learn about the FIRE movement and how to calculate your early retirement number.</p>
             <a href="/blogs/fire-retire-early.html" class="text-emerald-600 dark:text-emerald-500 text-sm font-semibold hover:underline">Read more →</a>
           </article>
-          <!-- Add more blog posts here following the same structure -->
+          <article class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+            <h3 class="text-xl font-semibold text-emerald-700 dark:text-emerald-400 mb-2">Understanding SWP: Systematic Withdrawal Plan</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">A guide on using SWP to generate monthly income from your investments post-retirement.</p>
+            <a href="/blogs/swp.html" class="text-emerald-600 dark:text-emerald-500 text-sm font-semibold hover:underline">Read more →</a>
+          </article>
+          <article class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+            <h3 class="text-xl font-semibold text-emerald-700 dark:text-emerald-400 mb-2">Why Delaying Investment Costs You More</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">See how a few years’ delay can cost you lakhs. A must-read on compounding and early investing.</p>
+            <a href="/blogs/delaying-costs-more.html" class="text-emerald-600 dark:text-emerald-500 text-sm font-semibold hover:underline">Read more →</a>
+          </article>
+          <article class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+            <h3 class="text-xl font-semibold text-emerald-700 dark:text-emerald-400 mb-2">What is SIP and Why Every Investor Should Know It</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Learn the basics of SIP, how it works, and why it’s ideal for building wealth in India.</p>
+            <a href="/blogs/what-is-sip.html" class="text-emerald-600 dark:text-emerald-500 text-sm font-semibold hover:underline">Read more →</a>
+          </article>
+          
+          <!-- Initially hidden posts -->
+          <article class="extra-post bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+            <h3 class="text-xl font-semibold text-emerald-700 dark:text-emerald-400 mb-2">How Compound Interest Works</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Understand the magic of earning interest on interest with simple real-life numbers.</p>
+            <a href="/blogs/compound-interest-explained.html" class="text-emerald-600 dark:text-emerald-500 text-sm font-semibold hover:underline">Read more →</a>
+          </article>
+          <article class="extra-post bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+            <h3 class="text-xl font-semibold text-emerald-700 dark:text-emerald-400 mb-2">Mutual Funds vs Fixed Deposits</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">A side-by-side comparison of returns, risks, and when to choose which investment.</p>
+            <a href="/blogs/mutual-fund-vs-fd.html" class="text-emerald-600 dark:text-emerald-500 text-sm font-semibold hover:underline">Read more →</a>
+          </article>
+          <article class="extra-post bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+            <h3 class="text-xl font-semibold text-emerald-700 dark:text-emerald-400 mb-2">How Much Should I Save From My Salary?</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Learn the 50-30-20 budgeting rule and how much you should really be investing every month.</p>
+            <a href="/blogs/salary-saving-rule.html" class="text-emerald-600 dark:text-emerald-500 text-sm font-semibold hover:underline">Read more →</a>
+          </article>
+          <article class="extra-post bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+            <h3 class="text-xl font-semibold text-emerald-700 dark:text-emerald-400 mb-2">How to Retire by 40: A Practical Indian Case Study</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Is early retirement possible in India? See the numbers and plan that make it real.</p>
+            <a href="/blogs/retire-by-40-india.html" class="text-emerald-600 dark:text-emerald-500 text-sm font-semibold hover:underline">Read more →</a>
+          </article>
+          <article class="extra-post bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+            <h3 class="text-xl font-semibold text-emerald-700 dark:text-emerald-400 mb-2">FIRE Planning for Families</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">How to factor family goals like kids' education and weddings into your FIRE number.</p>
+            <a href="/blogs/family-fire-planning.html" class="text-emerald-600 dark:text-emerald-500 text-sm font-semibold hover:underline">Read more →</a>
+          </article>
+           <article class="extra-post bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+            <h3 class="text-xl font-semibold text-emerald-700 dark:text-emerald-400 mb-2">Plan a 1 Crore Corpus with Just ₹5000/month</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Discover how small SIPs over long periods can lead to big wealth, even on a modest income.</p>
+            <a href="/blogs/1cr-with-5000-sip.html" class="text-emerald-600 dark:text-emerald-500 text-sm font-semibold hover:underline">Read more →</a>
+          </article>
+           <article class="extra-post bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+            <h3 class="text-xl font-semibold text-emerald-700 dark:text-emerald-400 mb-2">How Much SIP is Needed for ₹1 Crore in 15 Years?</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Reverse engineer your goal! See how much monthly investment you need to hit ₹1 Cr target.</p>
+            <a href="/blogs/sip-for-1cr-in-15-years.html" class="text-emerald-600 dark:text-emerald-500 text-sm font-semibold hover:underline">Read more →</a>
+          </article>
         </div>
-        <div class="text-center mt-12">
-          <a href="/blog" class="bg-emerald-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-emerald-700 transition-all duration-300 shadow-md">View All Posts</a>
+        <div id="view-all-container" class="text-center mt-12">
+          <button id="view-all-btn" class="bg-emerald-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-emerald-700 transition-all duration-300 shadow-md">View All Posts</button>
         </div>
       </div>
     </section>
   </main>
+
+  <!-- Placeholder for the Footer -->
+  <div id="include-footer"></div>
+
+  <!-- Script to load components and handle 'View All' functionality -->
+  <script>
+    async function loadPartial(id, file) {
+      try {
+        const response = await fetch(file);
+        if (!response.ok) {
+          throw new Error(`Failed to load ${file}: ${response.statusText}`);
+        }
+        const text = await response.text();
+        const element = document.getElementById(id);
+        if (element) {
+          element.innerHTML = text;
+          Array.from(element.querySelectorAll("script")).forEach(oldScript => {
+            const newScript = document.createElement("script");
+            Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
+            newScript.appendChild(document.createTextNode(oldScript.innerHTML));
+            oldScript.parentNode.replaceChild(newScript, oldScript);
+          });
+        }
+      } catch (error) {
+        console.error(`Error loading partial: ${error}`);
+      }
+    }
+
+    // Handle 'View All' button click
+    function setupViewAllButton() {
+        const viewAllBtn = document.getElementById('view-all-btn');
+        const extraPosts = document.querySelectorAll('.extra-post');
+        const viewAllContainer = document.getElementById('view-all-container');
+
+        if (viewAllBtn) {
+            viewAllBtn.addEventListener('click', () => {
+                extraPosts.forEach(post => {
+                    // We'll use a class to trigger the CSS transition
+                    post.classList.add('visible');
+                });
+                // Hide the button's container after clicking
+                if(viewAllContainer) {
+                    viewAllContainer.style.display = 'none';
+                }
+            });
+        }
+    }
+
+    // Load components and set up event listeners when the page is ready
+    window.addEventListener("DOMContentLoaded", () => {
+      loadPartial("include-nav", "./components/nav.html");
+      loadPartial("include-footer", "./components/footer.html");
+      setupViewAllButton();
+    });
+  </script>
+
 </body>
 </html>
