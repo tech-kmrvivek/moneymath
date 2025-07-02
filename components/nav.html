@@ -1,9 +1,16 @@
 <!-- /components/nav.html -->
-<nav class="bg-gradient-to-r from-blue-600 to-blue-400 text-white sticky top-0 z-50 shadow">
+<!-- Make sure you have the 'Montserrat' font linked in your HTML <head> for the logo to display correctly -->
+<!-- <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet"> -->
+
+<nav class="bg-gradient-to-r from-emerald-600 to-emerald-400 text-white sticky top-0 z-50 shadow">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
     <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-4 sm:space-y-0">
       <!-- Logo -->
-      <a href="/" class="text-2xl font-bold">💸 MoneyMath</a>
+      <a href="/" class="flex items-center">
+        <!-- Updated Rupee Symbol: Made it bigger and a lighter green for contrast -->
+        <span class="text-4xl font-bold text-emerald-200">₹</span> 
+        <span class="text-2xl font-bold text-white ml-1.5" style="font-family: 'Montserrat', sans-serif;">Wise</span>
+      </a>
 
       <!-- Navigation Links -->
       <div class="flex flex-wrap gap-2 text-sm font-semibold justify-start sm:justify-end">
@@ -21,11 +28,14 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    const currentPath = window.location.pathname.replace(/\/+$/, '');
+    // This script highlights the current page's link in the navigation bar.
+    // It finds the link that matches the current URL and adds a special style to it.
+    const currentPath = window.location.pathname.replace(/\/+$/, '') || '/'; // Default to '/' for root
     document.querySelectorAll('.nav-link').forEach(link => {
       const href = link.getAttribute('href')?.replace(/\/+$/, '');
-      if (href === currentPath) {
-        link.classList.add('bg-blue-900/80', 'font-bold');
+      // Handle the case where the home link is '/' and the path is empty
+      if (href === currentPath || (currentPath === '/' && href === '/')) {
+        link.classList.add('bg-emerald-900/80', 'font-bold');
       }
     });
   });
