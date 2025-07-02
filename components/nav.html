@@ -1,6 +1,6 @@
 <!-- /components/nav.html -->
-<!-- This file contains the fully responsive navigation bar. -->
-<!-- Make sure you have the 'Montserrat' font linked in any page that uses this component. -->
+<!-- This file contains the fully responsive navigation bar with a dropdown menu. -->
+<!-- The "sticky top-0 z-50" classes ensure the navigation stays fixed at the top on scroll. -->
 
 <nav class="bg-gradient-to-r from-emerald-600 to-emerald-400 text-white sticky top-0 z-50 shadow-lg">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -14,17 +14,27 @@
       <!-- Desktop Navigation Links -->
       <div class="hidden sm:flex items-center space-x-2">
         <a href="/" class="nav-link px-3 py-2 rounded-full text-sm font-semibold transition-all duration-300 ease-in-out hover:bg-white/20">🏠 Home</a>
-        <a href="/calculator/sip.html" class="nav-link px-3 py-2 rounded-full text-sm font-semibold transition-all duration-300 ease-in-out hover:bg-white/20">📈 SIP</a>
-        <a href="/calculator/lumpsum.html" class="nav-link px-3 py-2 rounded-full text-sm font-semibold transition-all duration-300 ease-in-out hover:bg-white/20">💰 Lumpsum</a>
-        <a href="/calculator/fire-calculator.html" class="nav-link px-3 py-2 rounded-full text-sm font-semibold transition-all duration-300 ease-in-out hover:bg-white/20">🔥 FIRE</a>
-        <a href="/about.html" class="nav-link px-3 py-2 rounded-full text-sm font-semibold transition-all duration-300 ease-in-out hover:bg-white/20">ℹ️ About</a>
+        <a href="/blogs/blogs.html" class="nav-link px-3 py-2 rounded-full text-sm font-semibold transition-all duration-300 ease-in-out hover:bg-white/20">✍️ Blogs</a>
+        
+        <!-- Dropdown for Calculators -->
+        <div class="relative" id="calculators-dropdown-desktop">
+          <button id="calculators-btn-desktop" class="nav-link flex items-center px-3 py-2 rounded-full text-sm font-semibold transition-all duration-300 ease-in-out hover:bg-white/20 focus:outline-none">
+            <span>🧮 Investment Calculators</span>
+            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+          </button>
+          <div id="calculators-menu-desktop" class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-20 hidden">
+            <a href="/calculator/sip.html" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-emerald-50 dark:hover:bg-gray-700">📈 SIP</a>
+            <a href="/calculator/lumpsum.html" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-emerald-50 dark:hover:bg-gray-700">💰 Lumpsum</a>
+            <a href="/calculator/swp.html" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-emerald-50 dark:hover:bg-gray-700">💸 SWP</a>
+            <a href="/calculator/fire-calculator.html" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-emerald-50 dark:hover:bg-gray-700">🔥 FIRE</a>
+          </div>
+        </div>
       </div>
 
       <!-- Mobile Menu Button -->
       <div class="sm:hidden flex items-center">
         <button id="mobile-menu-button" class="p-2 rounded-md text-white hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
           <span class="sr-only">Open main menu</span>
-          <!-- Hamburger Icon -->
           <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
           </svg>
@@ -37,15 +47,24 @@
   <div id="mobile-menu" class="sm:hidden hidden">
     <div class="px-2 pt-2 pb-3 space-y-1">
       <a href="/" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-white/20">🏠 Home</a>
-      <a href="/calculator/sip.html" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-white/20">📈 SIP</a>
-      <a href="/calculator/lumpsum.html" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-white/20">💰 Lumpsum</a>
-      <a href="/calculator/fire-calculator.html" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-white/20">🔥 FIRE</a>
-      <a href="/about.html" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-white/20">ℹ️ About</a>
+      <a href="/blogs/blogs.html" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-white/20">✍️ Blogs</a>
+      <div>
+        <button id="calculators-btn-mobile" class="w-full text-left nav-link flex items-center justify-between px-3 py-2 rounded-md text-base font-medium text-white hover:bg-white/20">
+          <span>🧮 Investment Calculators</span>
+          <svg id="mobile-arrow" class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </button>
+        <div id="calculators-menu-mobile" class="pl-4 mt-1 space-y-1 hidden">
+          <a href="/calculator/sip.html" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-white/20">📈 SIP</a>
+          <a href="/calculator/lumpsum.html" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-white/20">💰 Lumpsum</a>
+          <a href="/calculator/swp.html" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-white/20">💸 SWP</a>
+          <a href="/calculator/fire-calculator.html" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-white/20">🔥 FIRE</a>
+        </div>
+      </div>
     </div>
   </div>
 </nav>
 
-<!-- This script handles the mobile menu toggle and active link highlighting. -->
+<!-- This script handles the mobile menu toggle, dropdowns, and active link highlighting. -->
 <script>
   (() => {
     // Mobile menu toggle
@@ -57,11 +76,32 @@
       });
     }
 
+    // Desktop dropdown toggle (on hover)
+    const dropdownDesktop = document.getElementById('calculators-dropdown-desktop');
+    const menuDesktop = document.getElementById('calculators-menu-desktop');
+    if(dropdownDesktop && menuDesktop) {
+        dropdownDesktop.addEventListener('mouseenter', () => menuDesktop.classList.remove('hidden'));
+        dropdownDesktop.addEventListener('mouseleave', () => menuDesktop.classList.add('hidden'));
+    }
+
+    // Mobile dropdown toggle (on click)
+    const btnMobile = document.getElementById('calculators-btn-mobile');
+    const menuMobile = document.getElementById('calculators-menu-mobile');
+    const arrowMobile = document.getElementById('mobile-arrow');
+    if(btnMobile && menuMobile && arrowMobile) {
+        btnMobile.addEventListener('click', (e) => {
+            e.preventDefault();
+            menuMobile.classList.toggle('hidden');
+            arrowMobile.classList.toggle('rotate-180');
+        });
+    }
+
     // Active link highlighting
     const currentPath = window.location.pathname.replace(/\/+$/, '') || '/';
     document.querySelectorAll('.nav-link').forEach(link => {
-      const href = link.getAttribute('href')?.replace(/\/+$/, '');
-      if (href === currentPath) {
+      const href = link.getAttribute('href');
+      // Ensure we don't highlight the dropdown button itself
+      if (href && href.replace(/\/+$/, '') === currentPath) {
         link.classList.add('bg-emerald-900/80', 'font-bold');
       }
     });

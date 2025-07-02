@@ -1,54 +1,76 @@
 <!-- /components/blog-nav.html -->
-<!-- This is the side navigation for your blog pages. -->
+<!-- This is the redesigned, stylish side navigation for your blog pages. -->
 
-<aside class="w-full sm:w-64 bg-white dark:bg-gray-800 shadow-lg rounded-2xl p-6 border border-gray-200 dark:border-gray-700">
-  <h2 class="text-xl font-bold text-emerald-700 dark:text-emerald-400 mb-5 flex items-center">
-    <svg class="w-5 h-5 mr-2 text-emerald-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
-    </svg>
-    Blog Topics
+<aside class="w-full sm:w-64 bg-white dark:bg-gray-800 shadow-lg rounded-2xl p-4 border border-gray-200 dark:border-gray-700">
+  <h2 class="text-lg font-bold text-emerald-800 dark:text-emerald-300 mb-4 px-2 flex items-center gap-2">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-emerald-500"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v16a2 2 0 0 0-2 2"></path><path d="M16 2v20"></path></svg>
+    <span>All Topics</span>
   </h2>
-  <ul class="space-y-2" id="blogLinks">
-    <!-- The links are now styled directly with Tailwind classes -->
-    <li><a href="/blogs/build_wealth_with_sip.html" class="blog-link">📈 How SIP Can Build Wealth Over Time</a></li>
-    <li><a href="/blogs/lumpsum_vs_sip.html" class="blog-link">💰 Lumpsum vs SIP: Which is Better?</a></li>
-    <li><a href="/blogs/swp.html" class="blog-link">🧾 Understanding SWP: Systematic Withdrawal Plan</a></li>
-    <li><a href="/blogs/fire-retire-early.html" class="blog-link">🔥 FIRE: Retire Early With Smart Planning</a></li>
-    <li><a href="/blogs/delaying-costs-more.html" class="blog-link">⏳ Why Delaying Investment Costs You More</a></li>
-    <li><a href="/blogs/what-is-sip.html" class="blog-link">💡 What is SIP and Why Every Investor Should Know It</a></li>
-    <li><a href="/blogs/compound-interest-explained.html" class="blog-link">🧠 How Compound Interest Works (with Examples)</a></li>
-    <li><a href="/blogs/mutual-fund-vs-fd.html" class="blog-link">🏦 Mutual Funds vs Fixed Deposits</a></li>
-    <li><a href="/blogs/salary-saving-rule.html" class="blog-link">📊 How Much Should I Save From My Salary?</a></li>
-    <li><a href="/blogs/retire-by-40-india.html" class="blog-link">🧓 How to Retire by 40: Indian Case Study</a></li>
-    <li><a href="/blogs/family-fire-planning.html" class="blog-link">👨‍👩‍👧 FIRE Planning for Families</a></li>
-    <li><a href="/blogs/1cr-with-5000-sip.html" class="blog-link">📈 Plan ₹1 Cr with Just ₹5000/month SIP</a></li>
-    <li><a href="/blogs/sip-for-1cr-in-15-years.html" class="blog-link">🧮 SIP Needed for ₹1 Cr in 15 Years</a></li>
+  <ul class="space-y-1" id="blogLinks">
+    <!-- Links will be populated and styled by the script -->
+    <li><a href="/blogs/what-is-sip.html" class="blog-link">What is SIP and Why Every Investor Should Know It</a></li>
+    <li><a href="/blogs/build_wealth_with_sip.html" class="blog-link">How SIP Can Build Wealth Over Time</a></li>
+    <li><a href="/blogs/lumpsum_vs_sip.html" class="blog-link">Lumpsum vs. SIP: Which is Better?</a></li>
+    <li><a href="/blogs/swp.html" class="blog-link">Understanding SWP: Systematic Withdrawal Plan</a></li>
+    <li><a href="/blogs/fire-retire-early.html" class="blog-link">FIRE: Retire Early With Smart Planning</a></li>
+    <li><a href="/blogs/delaying-costs-more.html" class="blog-link">Why Delaying Investment Costs You More</a></li>
+    <li><a href="/blogs/compound-interest-explained.html" class="blog-link">How Compound Interest Works (with Examples)</a></li>
+    <li><a href="/blogs/mutual-fund-vs-fd.html" class="blog-link">Mutual Funds vs. Fixed Deposits</a></li>
+    <li><a href="/blogs/salary-saving-rule.html" class="blog-link">How Much Should I Save From My Salary?</a></li>
+    <li><a href="/blogs/retire-by-40-india.html" class="blog-link">How to Retire by 40: A Practical Case Study</a></li>
+    <li><a href="/blogs/family-fire-planning.html" class="blog-link">FIRE Planning for Families</a></li>
+    <li><a href="/blogs/1cr-with-5000-sip.html" class="blog-link">Plan ₹1 Cr with Just ₹5000/month SIP</a></li>
+    <li><a href="/blogs/sip-for-1cr-in-15-years.html" class="blog-link">SIP Needed for ₹1 Cr in 15 Years</a></li>
   </ul>
 </aside>
 
-<!-- We no longer need a separate <style> block. The script now handles everything. -->
+<!-- This script handles all styling, active states, and read status markers -->
 <script>
-  // This script adds styling to the blog links and highlights the active one.
-  document.addEventListener("DOMContentLoaded", () => {
-    const links = document.querySelectorAll("#blogLinks a.blog-link");
-    const currentPath = window.location.pathname;
+  (() => {
+    const linksContainer = document.getElementById("blogLinks");
+    if (!linksContainer) return;
 
-    // Define the Tailwind classes for styling
-    const baseClasses = "block px-4 py-2 rounded-lg font-medium text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-gray-700 transition-all duration-200";
-    const hoverClasses = "hover:bg-emerald-100 dark:hover:bg-gray-600 hover:text-emerald-800 hover:shadow-sm";
-    const activeClasses = "bg-emerald-600 text-white font-semibold shadow-md";
-    const inactiveClasses = "bg-emerald-50 dark:bg-gray-700 text-emerald-700 dark:text-emerald-300";
+    const links = linksContainer.querySelectorAll("a.blog-link");
+    const currentPath = window.location.pathname;
+    const storageKey = 'rupeeswise_read_blogs';
+    
+    let readBlogs = [];
+    try {
+      const stored = localStorage.getItem(storageKey);
+      if (stored) readBlogs = JSON.parse(stored);
+    } catch (e) {
+      console.error("Error parsing read blogs from localStorage", e);
+    }
 
     links.forEach(link => {
-      // Apply base and hover styles to all links
-      link.className = `${baseClasses} ${hoverClasses}`;
+      const linkPath = link.getAttribute("href");
+      const isRead = readBlogs.includes(linkPath);
+      const isActive = linkPath === currentPath;
+
+      // Clear existing classes and apply base styling
+      link.className = 'blog-link group flex items-center justify-between px-3 py-2.5 rounded-lg transition-all duration-200';
       
-      // Check if the link is for the current page
-      if (link.getAttribute("href") === currentPath) {
-        // Add active styles and remove inactive ones
-        link.classList.add(...activeClasses.split(' '));
-        link.classList.remove(...inactiveClasses.split(' '));
+      let iconHTML = '';
+      if (isActive) {
+        // Style for the active link
+        link.classList.add('bg-emerald-600', 'text-white', 'font-semibold', 'shadow-md');
+        iconHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="opacity-100"><path d="m9 18 6-6-6-6"/></svg>`;
+      } else {
+        // Style for inactive links
+        link.classList.add('text-gray-600', 'dark:text-gray-300', 'hover:bg-emerald-50', 'dark:hover:bg-gray-700', 'hover:text-emerald-700', 'dark:hover:text-emerald-400');
+        if (isRead) {
+          // Style for read but inactive links
+          link.classList.add('opacity-80');
+          iconHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-emerald-500"><path d="M20 6 9 17l-5-5"/></svg>`;
+        } else {
+          // Default icon for unread, inactive links (visible on hover)
+          iconHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="opacity-0 group-hover:opacity-100 transition-opacity duration-200"><path d="m9 18 6-6-6-6"/></svg>`;
+        }
       }
+      
+      // Reconstruct the link content with the icon
+      const originalText = link.textContent;
+      link.innerHTML = `<span>${originalText}</span>${iconHTML}`;
     });
-  });
+  })();
 </script>
