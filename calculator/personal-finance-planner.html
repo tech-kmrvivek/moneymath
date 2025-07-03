@@ -6,7 +6,7 @@
   <title>Personal Finance Calculator | RupeesWise</title>
   <meta name="description" content="Plan your financial future with our comprehensive personal finance calculator. Track income, expenses, and savings to achieve your financial goals with confidence.">
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="icon" type="image/jpeg" href="/assets/images/fevicon.JPG"> <!-- Favicon added here -->
+  <link rel="icon" type="image/jpeg" href="/assets/images/fevicon.JPG">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
@@ -156,7 +156,7 @@
     .summary-value.positive {
         color: #059669; /* emerald-600 */
     }
-    .summary-value.positive {
+    .dark .summary-value.positive {
         color: #34d399; /* emerald-400 */
     }
     .summary-value.negative {
@@ -174,11 +174,20 @@
 
   <!-- Main Content -->
   <main class="flex-1 w-full max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+    
+    <!-- Page Header -->
+    <section class="text-center mb-10">
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-emerald-600 dark:text-emerald-400 font-montserrat">Personal Finance Planner</h1>
+        <p class="mt-3 text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+            Get a comprehensive overview of your financial future. Track your income, expenses, and savings to see if you're on track to meet your retirement goals.
+        </p>
+    </section>
+
     <div class="flex flex-col lg:flex-row gap-8">
 
       <!-- Left Side: Calculator Inputs -->
       <section class="w-full lg:w-1/3 bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg space-y-6">
-        <h2 class="text-2xl font-bold text-emerald-700 dark:text-emerald-400 font-montserrat">Personal Finance Planner</h2>
+        <h2 class="text-2xl font-bold text-gray-800 dark:text-white font-montserrat">Enter Your Financial Details</h2>
         
         <!-- 1st Section: Ages & Timeline -->
         <div class="space-y-4 border-b border-gray-200 dark:border-gray-700 pb-6">
@@ -519,14 +528,11 @@
         `;
         additionalExpensesContainer.appendChild(expenseDiv);
 
-        // Get references to the newly created elements
         const expenseAmountInput = expenseDiv.querySelector('.expense-amount');
         const expenseAmountWordsSpan = expenseDiv.querySelector('.expense-amount-words');
 
-        // Initial update of words
         expenseAmountWordsSpan.textContent = numberToWords(parseFloat(expenseAmountInput.value) || 0) + ' Rupees';
 
-        // Add event listeners to the new inputs and button
         expenseDiv.querySelector('.expense-description').addEventListener('input', calculateFinancialPlan);
         expenseAmountInput.addEventListener('input', () => {
             expenseAmountWordsSpan.textContent = numberToWords(parseFloat(expenseAmountInput.value) || 0) + ' Rupees';
@@ -534,14 +540,10 @@
         });
         expenseDiv.querySelector('.remove-expense-btn').addEventListener('click', () => {
             expenseDiv.remove();
-            calculateFinancialPlan(); // Recalculate after removing
+            calculateFinancialPlan();
         });
     }
 
-    /**
-     * Calculates the total amount from all dynamic expense inputs.
-     * @returns {number} The total sum of all dynamic expenses.
-     */
     function getTotalDynamicExpenses() {
         let total = 0;
         document.querySelectorAll('.expense-item .expense-amount').forEach(input => {
@@ -560,13 +562,11 @@
       const currentSavings = parseFloat(currentSavingsInput.value) || 0;
       const postRetirementMonthlyAmount = parseFloat(postRetirementMonthlyAmountInput.value) || 0;
 
-      // Total expenses now only come from dynamic fields
       const totalCurrentMonthlyExpenses = getTotalDynamicExpenses();
       const totalCurrentAnnualExpenses = totalCurrentMonthlyExpenses * 12;
-      const totalAnnualIncome = (monthlyIncome * 12) + yearlyIncome; // Calculate total annual income
+      const totalAnnualIncome = (monthlyIncome * 12) + yearlyIncome;
       const desiredPostRetirementAnnualAmount = postRetirementMonthlyAmount * 12;
 
-      // Monthly Excess/Deficit calculation
       const monthlyExcess = (totalAnnualIncome / 12) - totalCurrentMonthlyExpenses;
       const yearlyExcess = totalAnnualIncome - totalCurrentAnnualExpenses;
 
@@ -576,10 +576,8 @@
       let fundsDepletedAge = null;
       let fiAchievedAge = null;
 
-      // Clear previous results
       financialPlanTableBody.innerHTML = '';
 
-      // Input validation and remarks
       if (currentAge >= retirementAge) {
           planRemarksEl.textContent = "You are already at or past retirement age. The plan will start from your current age as retired.";
       } else if (currentAge >= lifeExpectancy) {
@@ -598,45 +596,40 @@
           return;
       }
 
-      // Calculate inflated desired monthly income at retirement
       const yearsToRetirement = retirementAge - currentAge;
       const inflatedDesiredMonthlyIncomeAtRetirement = inflateAmount(postRetirementMonthlyAmount, INFLATION_RATE, yearsToRetirement);
 
 
       for (let age = currentAge; age <= lifeExpectancy; age++) {
         let startingSavings = currentSavingsBalance;
-        let annualNetCashFlow = 0; // This will be income - expenses OR -withdrawal
+        let annualNetCashFlow = 0;
         let status = '';
         let effectiveReturnRate = 0;
         
-        // Inflated amounts for the current year
         let inflatedAnnualExpenses = inflateAmount(totalCurrentMonthlyExpenses * 12, INFLATION_RATE, age - currentAge);
         let inflatedPostRetirementAnnualWithdrawal = inflateAmount(desiredPostRetirementAnnualAmount, INFLATION_RATE, age - currentAge);
         let inflatedAnnualIncome = inflateAmount(totalAnnualIncome, INFLATION_RATE, age - currentAge);
 
         if (age < retirementAge) {
-          // Earning Phase
           status = 'Earning';
           effectiveReturnRate = PRE_RETIREMENT_RETURN;
           annualNetCashFlow = inflatedAnnualIncome - inflatedAnnualExpenses;
           
           currentSavingsBalance = compoundAmount(startingSavings + annualNetCashFlow, effectiveReturnRate);
 
-          // Check for Financial Independence (25x rule for annual expenses)
           if (fiAchievedAge === null && currentSavingsBalance >= inflatedAnnualExpenses * 25) {
               fiAchievedAge = age;
           }
 
         } else {
-          // Retired Phase
           status = 'Retired';
           effectiveReturnRate = POST_RETIREMENT_RETURN;
-          annualNetCashFlow = -inflatedPostRetirementAnnualWithdrawal; // Negative for withdrawal
+          annualNetCashFlow = -inflatedPostRetirementAnnualWithdrawal;
           
           currentSavingsBalance = compoundAmount(startingSavings, effectiveReturnRate) + annualNetCashFlow;
 
           if (fundsDepletedAge === null && currentSavingsBalance < 0) {
-              fundsDepletedAge = age; // Funds depleted in this year
+              fundsDepletedAge = age;
           }
         }
 
@@ -649,7 +642,6 @@
         });
       }
 
-      // Populate the table
       if (financialPlan.length === 0) {
           financialPlanTableBody.innerHTML = `<tr><td colspan="5" class="text-center py-4 text-gray-500 dark:text-gray-400">No plan generated. Check inputs.</td></tr>`;
       } else {
@@ -666,13 +658,11 @@
           });
       }
 
-      // Update summary info in sections
       retirementYearsLeftDisplay.textContent = `${Math.max(0, retirementAge - currentAge)} years`;
       totalAnnualIncomeDisplay.textContent = formatINR(totalAnnualIncome);
       totalCurrentMonthlyExpensesDisplay.textContent = formatINR(totalCurrentMonthlyExpenses);
       totalCurrentAnnualExpensesDisplay.textContent = formatINR(totalCurrentAnnualExpenses);
       
-      // Apply color based on positive/negative for excess/deficit
       monthlyExcessDisplay.textContent = formatINR(monthlyExcess);
       monthlyExcessDisplay.classList.toggle('positive', monthlyExcess >= 0);
       monthlyExcessDisplay.classList.toggle('negative', monthlyExcess < 0);
@@ -700,18 +690,15 @@
     }
 
     // --- Event Listeners and Initializer ---
-    /**
-     * Syncs a number input with its corresponding range slider and triggers calculation.
-     * @param {HTMLElement} inputEl - The number input element.
-     * @param {HTMLElement} sliderEl - The range slider element.
-     * @param {HTMLElement|null} wordsEl - The span element to display words, or null if not needed.
-     * @param {string} unit - The unit for the words (e.g., 'Rupees').
-     */
     function syncInputs(inputEl, sliderEl, wordsEl, unit = '') {
         const updateWords = () => {
-            if (wordsEl) { // Only update if wordsEl is provided
+            if (wordsEl) {
                 wordsEl.textContent = numberToWords(parseFloat(inputEl.value) || 0) + (unit ? ' ' + unit : '');
             }
+        };
+
+        const updateCalculator = () => {
+            calculateFinancialPlan();
         };
 
         sliderEl.addEventListener('input', () => {
@@ -720,19 +707,13 @@
             updateCalculator();
         });
         inputEl.addEventListener('input', () => {
-            sliderEl.value = inputEl.value; // Ensure slider updates when input changes
+            sliderEl.value = inputEl.value;
             updateWords();
             updateCalculator();
         });
-        // Initial update for words when the page loads
         updateWords();
     }
 
-    /**
-     * Loads HTML partials into specified elements.
-     * @param {string} id - The ID of the element to load the partial into.
-     * @param {string} file - The path to the HTML partial file.
-     */
     async function loadPartial(id, file) {
       try {
         const response = await fetch(file);
@@ -756,28 +737,27 @@
     }
     
     document.addEventListener('DOMContentLoaded', async () => {
-      // Load navigation and footer
       await Promise.all([
         loadPartial("include-nav", "/components/nav.html"),
         loadPartial("include-footer", "/components/footer.html")
       ]);
 
-      // Sync inputs and sliders, passing null for wordsEl if not needed
-      syncInputs(currentAgeInput, currentAgeSlider, null); // No words for Current Age
-      syncInputs(retirementAgeInput, retirementAgeSlider, null); // No words for Retirement Age
-      syncInputs(lifeExpectancyInput, lifeExpectancySlider, null); // No words for Life Expectancy
+      syncInputs(currentAgeInput, currentAgeSlider, null);
+      syncInputs(retirementAgeInput, retirementAgeSlider, null);
+      syncInputs(lifeExpectancyInput, lifeExpectancySlider, null);
       syncInputs(monthlyIncomeInput, monthlyIncomeSlider, monthlyIncomeWords, 'Rupees');
       syncInputs(yearlyIncomeInput, yearlyIncomeSlider, yearlyIncomeWords, 'Rupees');
       syncInputs(currentSavingsInput, currentSavingsSlider, currentSavingsWords, 'Rupees');
       syncInputs(postRetirementMonthlyAmountInput, postRetirementMonthlyAmountSlider, postRetirementMonthlyAmountWords, 'Rupees');
 
-      // Dynamic expense button
       addExpenseBtn.addEventListener('click', addExpenseItem);
 
-      // Initial calculation
+      // Add a few default expense items for better user experience
+      addExpenseItem();
+      addExpenseItem();
+      
       calculateFinancialPlan();
 
-      // Display fixed assumption rates
       displayInflationRate.textContent = `${(INFLATION_RATE * 100).toFixed(0)}%`;
       displayPreRetirementRate.textContent = `${(PRE_RETIREMENT_RETURN * 100).toFixed(0)}%`;
       displayPostRetirementRate.textContent = `${(POST_RETIREMENT_RETURN * 100).toFixed(0)}%`;

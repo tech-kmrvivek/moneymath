@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>RupeesWise - Grow Smart. Grow Wise. With RupeesWise.</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="icon" type="image/jpeg" href="/assets/images/fevicon.JPG"> <!-- Favicon added here -->
+  <link rel="icon" type="image/jpeg" href="/assets/images/fevicon.JPG">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
@@ -32,7 +32,6 @@
         background-color: #042f2e;
         background-image: radial-gradient(circle at top right, #065f46, transparent 40%), radial-gradient(circle at bottom left, #047857, transparent 50%);
     }
-    /* New styles for gradient text */
     .gradient-text-black {
       background: linear-gradient(to right, #1a1a1a, #000000); /* Dark gray to black */
       -webkit-background-clip: text;
@@ -44,6 +43,9 @@
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
+    }
+    .calculator-card {
+        transition: all 0.3s ease-in-out;
     }
   </style>
 </head>
@@ -58,7 +60,7 @@
                 <span class="gradient-text-black">Grow Smart. Grow Wise. <br class="hidden sm:block">With </span><span class="text-emerald-600 dark:text-emerald-400">RupeesWise</span><span class="gradient-text-black">.</span>
             </h1>
             <p class="mt-6 max-w-2xl mx-auto text-lg text-emerald-800 dark:text-gray-300">
-                <span class="gradient-text-black-paragraph">Your trusted guide to mastering personal finance. Powerful calculators and insightful blogs to help you achieve your financial goals with confidence.</span>
+                Your trusted guide to mastering personal finance. Powerful calculators and insightful blogs to help you achieve your financial goals with confidence.
             </p>
             <a href="#calculators" class="mt-8 inline-block bg-emerald-600 text-white font-bold py-3 px-8 rounded-full hover:bg-emerald-700 transition-all duration-300 shadow-lg text-lg">Explore Calculators</a>
         </div>
@@ -71,48 +73,59 @@
             <!-- Investment Calculators Section -->
             <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-6 text-center">Investment Calculators</h3>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
-                <a href="/calculator/sip-calculator" class="group p-6 bg-gray-50 dark:bg-gray-800 rounded-xl hover:bg-emerald-100 dark:hover:bg-emerald-900/40 transition-all duration-300 shadow-sm hover:shadow-emerald-200/50 hover:shadow-lg text-center">
-                    <div class="text-4xl mb-3">📈</div>
+                <!-- SIP Calculator -->
+                <a href="/calculator/sip-calculator" class="calculator-card group p-6 bg-gray-50 dark:bg-gray-800 rounded-xl hover:bg-emerald-100 dark:hover:bg-emerald-900/40 shadow-sm hover:shadow-emerald-200/50 hover:shadow-lg text-center transform hover:-translate-y-1">
+                    <div class="text-emerald-500 dark:text-emerald-400 mb-3 mx-auto h-12 w-12 flex items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/50 group-hover:bg-white"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.02c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10z"/><path d="M12 12v6"/><path d="M12 6v2"/><path d="M16 8l-2 2-2-2"/><path d="M8 8l2 2 2-2"/></svg></div>
                     <h3 class="font-semibold text-emerald-800 dark:text-emerald-300">SIP Calculator</h3>
                 </a>
-                <a href="/calculator/lumpsum-calculator" class="group p-6 bg-gray-50 dark:bg-gray-800 rounded-xl hover:bg-emerald-100 dark:hover:bg-emerald-900/40 transition-all duration-300 shadow-sm hover:shadow-emerald-200/50 hover:shadow-lg text-center">
-                    <div class="text-4xl mb-3">💰</div>
+                <!-- Lumpsum Calculator -->
+                <a href="/calculator/lumpsum-calculator" class="calculator-card group p-6 bg-gray-50 dark:bg-gray-800 rounded-xl hover:bg-emerald-100 dark:hover:bg-emerald-900/40 shadow-sm hover:shadow-emerald-200/50 hover:shadow-lg text-center transform hover:-translate-y-1">
+                    <div class="text-emerald-500 dark:text-emerald-400 mb-3 mx-auto h-12 w-12 flex items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/50 group-hover:bg-white"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
                     <h3 class="font-semibold text-emerald-800 dark:text-emerald-300">Lumpsum Calculator</h3>
                 </a>
-                <a href="/calculator/swp-calculator" class="group p-6 bg-gray-50 dark:bg-gray-800 rounded-xl hover:bg-emerald-100 dark:hover:bg-emerald-900/40 transition-all duration-300 shadow-sm hover:shadow-emerald-200/50 hover:shadow-lg text-center">
-                    <div class="text-4xl mb-3">💸</div>
+                <!-- SWP Calculator -->
+                <a href="/calculator/swp-calculator" class="calculator-card group p-6 bg-gray-50 dark:bg-gray-800 rounded-xl hover:bg-emerald-100 dark:hover:bg-emerald-900/40 shadow-sm hover:shadow-emerald-200/50 hover:shadow-lg text-center transform hover:-translate-y-1">
+                    <div class="text-emerald-500 dark:text-emerald-400 mb-3 mx-auto h-12 w-12 flex items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/50 group-hover:bg-white"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8c-4.418 0-8 3.582-8 8s3.582 8 8 8 8-3.582 8-8-3.582-8-8-8z"/><path d="M12 2v6"/><path d="M16 4h-8"/></svg></div>
                     <h3 class="font-semibold text-emerald-800 dark:text-emerald-300">SWP Calculator</h3>
                 </a>
-                <a href="/calculator/fire-calculator" class="group p-6 bg-gray-50 dark:bg-gray-800 rounded-xl hover:bg-emerald-100 dark:hover:bg-emerald-900/40 transition-all duration-300 shadow-sm hover:shadow-emerald-200/50 hover:shadow-lg text-center">
-                    <div class="text-4xl mb-3">🔥</div>
+                <!-- FIRE Calculator -->
+                <a href="/calculator/fire-calculator" class="calculator-card group p-6 bg-gray-50 dark:bg-gray-800 rounded-xl hover:bg-emerald-100 dark:hover:bg-emerald-900/40 shadow-sm hover:shadow-emerald-200/50 hover:shadow-lg text-center transform hover:-translate-y-1">
+                    <div class="text-emerald-500 dark:text-emerald-400 mb-3 mx-auto h-12 w-12 flex items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/50 group-hover:bg-white"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 9.5L9.5 14.5M14.5 14.5L9.5 9.5M2 12s5-8 10-8 10 8 10 8-5 8-10 8-10-8-10-8z"/></svg></div>
                     <h3 class="font-semibold text-emerald-800 dark:text-emerald-300">FIRE Calculator</h3>
                 </a>
-                <a href="/calculator/inflation-calculator" class="group p-6 bg-gray-50 dark:bg-gray-800 rounded-xl hover:bg-emerald-100 dark:hover:bg-emerald-900/40 transition-all duration-300 shadow-sm hover:shadow-emerald-200/50 hover:shadow-lg text-center">
-                    <div class="text-4xl mb-3">📈</div>
+                <!-- Inflation Calculator -->
+                <a href="/calculator/inflation-calculator" class="calculator-card group p-6 bg-gray-50 dark:bg-gray-800 rounded-xl hover:bg-emerald-100 dark:hover:bg-emerald-900/40 shadow-sm hover:shadow-emerald-200/50 hover:shadow-lg text-center transform hover:-translate-y-1">
+                    <div class="text-emerald-500 dark:text-emerald-400 mb-3 mx-auto h-12 w-12 flex items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/50 group-hover:bg-white"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg></div>
                     <h3 class="font-semibold text-emerald-800 dark:text-emerald-300">Inflation Calculator</h3>
                 </a>
-                <a href="/calculator/goal-sip-calculator" class="group p-6 bg-gray-50 dark:bg-gray-800 rounded-xl hover:bg-emerald-100 dark:hover:bg-emerald-900/40 transition-all duration-300 shadow-sm hover:shadow-emerald-200/50 hover:shadow-lg text-center">
-                    <div class="text-4xl mb-3">🎯</div>
+                <!-- Goal SIP Calculator -->
+                <a href="/calculator/goal-sip-calculator" class="calculator-card group p-6 bg-gray-50 dark:bg-gray-800 rounded-xl hover:bg-emerald-100 dark:hover:bg-emerald-900/40 shadow-sm hover:shadow-emerald-200/50 hover:shadow-lg text-center transform hover:-translate-y-1">
+                    <div class="text-emerald-500 dark:text-emerald-400 mb-3 mx-auto h-12 w-12 flex items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/50 group-hover:bg-white"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
                     <h3 class="font-semibold text-emerald-800 dark:text-emerald-300">Goal SIP Calculator</h3>
                 </a>
-                <a href="/calculator/personal-finance-planner" class="group p-6 bg-gray-50 dark:bg-gray-800 rounded-xl hover:bg-emerald-100 dark:hover:bg-emerald-900/40 transition-all duration-300 shadow-sm hover:shadow-emerald-200/50 hover:shadow-lg text-center">
-                    <div class="text-4xl mb-3">📊</div>
+                <!-- Personal Finance Planner -->
+                <a href="/calculator/personal-finance-planner" class="calculator-card group p-6 bg-gray-50 dark:bg-gray-800 rounded-xl hover:bg-emerald-100 dark:hover:bg-emerald-900/40 shadow-sm hover:shadow-emerald-200/50 hover:shadow-lg text-center transform hover:-translate-y-1">
+                    <div class="text-emerald-500 dark:text-emerald-400 mb-3 mx-auto h-12 w-12 flex items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/50 group-hover:bg-white"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><polyline points="17 11 19 13 23 9"/></svg></div>
                     <h3 class="font-semibold text-emerald-800 dark:text-emerald-300">Personal Finance Planner</h3>
                 </a>
-                <a href="/calculator/ppf-calculator" class="group p-6 bg-gray-50 dark:bg-gray-800 rounded-xl hover:bg-emerald-100 dark:hover:bg-emerald-900/40 transition-all duration-300 shadow-sm hover:shadow-emerald-200/50 hover:shadow-lg text-center">
-                    <div class="text-4xl mb-3">🏦</div>
+                <!-- PPF Calculator -->
+                <a href="/calculator/ppf-calculator" class="calculator-card group p-6 bg-gray-50 dark:bg-gray-800 rounded-xl hover:bg-emerald-100 dark:hover:bg-emerald-900/40 shadow-sm hover:shadow-emerald-200/50 hover:shadow-lg text-center transform hover:-translate-y-1">
+                    <div class="text-emerald-500 dark:text-emerald-400 mb-3 mx-auto h-12 w-12 flex items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/50 group-hover:bg-white"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/><path d="M12 15v-4"/><path d="M10 13h4"/></svg></div>
                     <h3 class="font-semibold text-emerald-800 dark:text-emerald-300">PPF Calculator</h3>
                 </a>
-                <a href="/calculator/fd-calculator" class="group p-6 bg-gray-50 dark:bg-gray-800 rounded-xl hover:bg-emerald-100 dark:hover:bg-emerald-900/40 transition-all duration-300 shadow-sm hover:shadow-emerald-200/50 hover:shadow-lg text-center">
-                    <div class="text-4xl mb-3">💰</div>
+                <!-- FD Calculator -->
+                <a href="/calculator/fd-calculator" class="calculator-card group p-6 bg-gray-50 dark:bg-gray-800 rounded-xl hover:bg-emerald-100 dark:hover:bg-emerald-900/40 shadow-sm hover:shadow-emerald-200/50 hover:shadow-lg text-center transform hover:-translate-y-1">
+                    <div class="text-emerald-500 dark:text-emerald-400 mb-3 mx-auto h-12 w-12 flex items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/50 group-hover:bg-white"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/><path d="M12 6v6l4 2"/></svg></div>
                     <h3 class="font-semibold text-emerald-800 dark:text-emerald-300">FD Calculator</h3>
                 </a>
-                <a href="/calculator/rd-calculator" class="group p-6 bg-gray-50 dark:bg-gray-800 rounded-xl hover:bg-emerald-100 dark:hover:bg-emerald-900/40 transition-all duration-300 shadow-sm hover:shadow-emerald-200/50 hover:shadow-lg text-center">
-                    <div class="text-4xl mb-3">🔄</div>
+                <!-- RD Calculator -->
+                <a href="/calculator/rd-calculator" class="calculator-card group p-6 bg-gray-50 dark:bg-gray-800 rounded-xl hover:bg-emerald-100 dark:hover:bg-emerald-900/40 shadow-sm hover:shadow-emerald-200/50 hover:shadow-lg text-center transform hover:-translate-y-1">
+                    <div class="text-emerald-500 dark:text-emerald-400 mb-3 mx-auto h-12 w-12 flex items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/50 group-hover:bg-white"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/><path d="M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0z"/></svg></div>
                     <h3 class="font-semibold text-emerald-800 dark:text-emerald-300">RD Calculator</h3>
                 </a>
-                <a href="/calculator/nps-calculator" class="group p-6 bg-gray-50 dark:bg-gray-800 rounded-xl hover:bg-emerald-100 dark:hover:bg-emerald-900/40 transition-all duration-300 shadow-sm hover:shadow-emerald-200/50 hover:shadow-lg text-center">
-                    <div class="text-4xl mb-3">👴</div>
+                <!-- NPS Calculator -->
+                <a href="/calculator/nps-calculator" class="calculator-card group p-6 bg-gray-50 dark:bg-gray-800 rounded-xl hover:bg-emerald-100 dark:hover:bg-emerald-900/40 shadow-sm hover:shadow-emerald-200/50 hover:shadow-lg text-center transform hover:-translate-y-1">
+                    <div class="text-emerald-500 dark:text-emerald-400 mb-3 mx-auto h-12 w-12 flex items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/50 group-hover:bg-white"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
                     <h3 class="font-semibold text-emerald-800 dark:text-emerald-300">NPS Calculator</h3>
                 </a>
             </div>
@@ -120,16 +133,19 @@
             <!-- Loan Calculators Section -->
             <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-6 text-center">Loan Calculators</h3>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                <a href="/calculator/home-loan-calculator" class="group p-6 bg-gray-50 dark:bg-gray-800 rounded-xl hover:bg-emerald-100 dark:hover:bg-emerald-900/40 transition-all duration-300 shadow-sm hover:shadow-emerald-200/50 hover:shadow-lg text-center">
-                    <div class="text-4xl mb-3">🏠</div>
+                <!-- Home Loan Calculator -->
+                <a href="/calculator/home-loan-calculator" class="calculator-card group p-6 bg-gray-50 dark:bg-gray-800 rounded-xl hover:bg-emerald-100 dark:hover:bg-emerald-900/40 shadow-sm hover:shadow-emerald-200/50 hover:shadow-lg text-center transform hover:-translate-y-1">
+                    <div class="text-emerald-500 dark:text-emerald-400 mb-3 mx-auto h-12 w-12 flex items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/50 group-hover:bg-white"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
                     <h3 class="font-semibold text-emerald-800 dark:text-emerald-300">Home Loan Calculator</h3>
                 </a>
-                <a href="/calculator/car-loan-calculator" class="group p-6 bg-gray-50 dark:bg-gray-800 rounded-xl hover:bg-emerald-100 dark:hover:bg-emerald-900/40 transition-all duration-300 shadow-sm hover:shadow-emerald-200/50 hover:shadow-lg text-center">
-                    <div class="text-4xl mb-3">🚗</div>
+                <!-- Car Loan Calculator -->
+                <a href="/calculator/car-loan-calculator" class="calculator-card group p-6 bg-gray-50 dark:bg-gray-800 rounded-xl hover:bg-emerald-100 dark:hover:bg-emerald-900/40 shadow-sm hover:shadow-emerald-200/50 hover:shadow-lg text-center transform hover:-translate-y-1">
+                    <div class="text-emerald-500 dark:text-emerald-400 mb-3 mx-auto h-12 w-12 flex items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/50 group-hover:bg-white"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 16.5V15a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v1.5"/><path d="M14 9.5V8a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v1.5"/><path d="M19 19l-3-3"/><circle cx="6.5" cy="16.5" r="2.5"/><circle cx="17.5" cy="16.5" r="2.5"/></svg></div>
                     <h3 class="font-semibold text-emerald-800 dark:text-emerald-300">Car Loan Calculator</h3>
                 </a>
-                <a href="/calculator/personal-loan-calculator" class="group p-6 bg-gray-50 dark:bg-gray-800 rounded-xl hover:bg-emerald-100 dark:hover:bg-emerald-900/40 transition-all duration-300 shadow-sm hover:shadow-emerald-200/50 hover:shadow-lg text-center">
-                    <div class="text-4xl mb-3">🤝</div>
+                <!-- Personal Loan Calculator -->
+                <a href="/calculator/personal-loan-calculator" class="calculator-card group p-6 bg-gray-50 dark:bg-gray-800 rounded-xl hover:bg-emerald-100 dark:hover:bg-emerald-900/40 shadow-sm hover:shadow-emerald-200/50 hover:shadow-lg text-center transform hover:-translate-y-1">
+                    <div class="text-emerald-500 dark:text-emerald-400 mb-3 mx-auto h-12 w-12 flex items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/50 group-hover:bg-white"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg></div>
                     <h3 class="font-semibold text-emerald-800 dark:text-emerald-300">Personal Loan Calculator</h3>
                 </a>
             </div>
@@ -235,20 +251,15 @@
             oldScript.parentNode.replaceChild(newScript, oldScript);
           });
 
-          // **********************************************
-          // ** ADD THIS LINE AFTER INJECTING THE HTML **
-          // **********************************************
           if (typeof tailwind !== 'undefined' && typeof tailwind.config === 'function') {
-            tailwind.config({}); // Re-run Tailwind's internal processing for new content
+            tailwind.config({}); 
           }
-          // **********************************************
         }
       } catch (error) {
         console.error(`Error loading partial: ${error}`);
       }
     }
 
-    // Handle 'View All' button click
     function setupViewAllButton() {
         const viewAllBtn = document.getElementById('view-all-btn');
         const extraPosts = document.querySelectorAll('.extra-post');
@@ -261,7 +272,7 @@
                     setTimeout(() => {
                         post.classList.add('visible');
                     }, delay);
-                    delay += 100; // Stagger the animation
+                    delay += 100;
                 });
                 if(viewAllContainer) {
                     viewAllContainer.style.display = 'none';
