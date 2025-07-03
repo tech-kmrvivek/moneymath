@@ -1,6 +1,7 @@
 /* /assets/css/style.css */
 /* This file contains all the custom styles for the RupeesWise website. */
 
+/* --- Base & Font Styles --- */
 body { 
   font-family: 'Inter', sans-serif; 
 }
@@ -94,7 +95,7 @@ input[type="range"]::-moz-range-thumb {
   color: #34d399; /* emerald-400 */
 }
 
-/* --- Styles for content-heavy pages (Privacy, Terms) --- */
+/* --- Styles for Static Content Pages (Privacy, Terms) --- */
 .content-section p, .content-section ul {
     margin-bottom: 1rem;
     line-height: 1.75;
@@ -105,8 +106,8 @@ input[type="range"]::-moz-range-thumb {
     padding-left: 1rem;
 }
 .content-section h2 {
-    font-size: 1.5rem; /* text-2xl */
-    font-weight: 700; /* font-bold */
+    font-size: 1.5rem;
+    font-weight: 700;
     margin-top: 2rem;
     margin-bottom: 1rem;
     padding-bottom: 0.5rem;
@@ -118,8 +119,8 @@ input[type="range"]::-moz-range-thumb {
     color: #34d399; /* emerald-400 */
 }
 .content-section h3 {
-    font-size: 1.25rem; /* text-xl */
-    font-weight: 600; /* font-semibold */
+    font-size: 1.25rem;
+    font-weight: 600;
     margin-top: 1.5rem;
     margin-bottom: 0.75rem;
     color: #111827; /* gray-900 */
@@ -142,3 +143,158 @@ input[type="range"]::-moz-range-thumb {
     border-left-color: #d97706; /* amber-600 */
     color: #fcd34d; /* amber-300 */
 }
+
+/* --- General Calculator Styles --- */
+.summary-label {
+    font-weight: 500;
+    color: #4b5563; /* gray-600 */
+    font-size: 0.875rem;
+}
+.dark .summary-label {
+    color: #d1d5db; /* gray-300 */
+}
+.summary-value {
+    font-weight: 600;
+    color: #059669; /* emerald-600 */
+    font-size: 1.125rem;
+}
+.dark .summary-value {
+    color: #34d399; /* emerald-400 */
+}
+.summary-value.positive { color: #059669; }
+.dark .summary-value.positive { color: #34d399; }
+.summary-value.negative { color: #ef4444; }
+.dark .summary-value.negative { color: #f87171; }
+
+/* --- Tooltip Styles (from FIRE Calculator) --- */
+.tooltip-container {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+.tooltip {
+    position: absolute;
+    bottom: 140%;
+    left: 50%;
+    transform: translateX(-50%) scale(0.95);
+    background-color: #1f2937; /* gray-800 */
+    color: #f9fafb; /* gray-50 */
+    text-align: left;
+    padding: 10px 14px;
+    border-radius: 8px;
+    z-index: 50;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+    width: 280px;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    pointer-events: none;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+.tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -6px;
+    border-width: 6px;
+    border-style: solid;
+    border-color: #1f2937 transparent transparent transparent;
+}
+.tooltip-container:hover .tooltip {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+}
+
+/* --- Dynamic Expense Item Styles (from Personal Finance Planner) --- */
+.expense-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    padding: 0.5rem;
+    background-color: #f9fafb; /* gray-50 */
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+.dark .expense-item {
+    background-color: #374151; /* gray-700 */
+}
+.expense-item .expense-main-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: nowrap;
+    width: 100%;
+}
+.expense-item input, .expense-item select {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #d1d5db; /* gray-300 */
+    border-radius: 0.375rem;
+    background-color: #ffffff;
+    color: #1f2937;
+    flex-shrink: 1;
+    min-width: 0;
+}
+.dark .expense-item input, .dark .expense-item select {
+    border-color: #4b5563;
+    background-color: #4b5563;
+    color: #f9fafb;
+}
+.expense-item .expense-description { flex: 2 1 auto; min-width: 80px; }
+.expense-item .flex.items-center { flex: 1 1 auto; min-width: 80px; }
+.expense-item .remove-expense-btn { flex: 0 0 auto; width: auto; padding: 0.5rem; }
+.expense-item .expense-amount-words { text-align: right; margin-top: 0.25rem; width: 100%; }
+
+@media (min-width: 640px) {
+    .expense-item {
+        display: grid;
+        grid-template-columns: 1fr 0.8fr auto;
+        gap: 1rem;
+    }
+    .expense-item .expense-main-row { display: contents; }
+    .expense-item .expense-description { grid-column: 1; }
+    .expense-item .flex.items-center { grid-column: 2; }
+    .expense-item .remove-expense-btn { grid-column: 3; justify-self: center; align-self: center; }
+    .expense-item .expense-amount-words { grid-column: 2 / span 2; text-align: right; margin-top: 0; }
+}
+
+/* --- Affordability Check & Toggle Styles (from Loan Calculators) --- */
+.affordability-risk-level { display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 500; margin-top: 0.5rem; }
+.risk-level-bar { height: 8px; border-radius: 4px; background-color: #e5e7eb; overflow: hidden; margin-top: 0.5rem; }
+.risk-level-fill { height: 100%; width: 0%; border-radius: 4px; transition: width 0.5s ease-in-out; }
+.risk-level-fill.very-safe { background-color: #10b981; }
+.risk-level-fill.safe { background-color: #34d399; }
+.risk-level-fill.moderate { background-color: #f59e0b; }
+.risk-level-fill.caution { background-color: #f97316; }
+.risk-level-fill.high-risk { background-color: #ef4444; }
+
+.affordability-message { font-size: 0.875rem; font-weight: 500; margin-top: 0.75rem; }
+.affordability-message.very-safe { color: #059669; }
+.affordability-message.safe { color: #059669; }
+.affordability-message.moderate { color: #d97706; }
+.affordability-message.caution { color: #ea580c; }
+.affordability-message.high-risk { color: #dc2626; }
+
+.toggle-container { display: flex; align-items: center; justify-content: center; background-color: #e5e7eb; border-radius: 9999px; padding: 0.125rem; width: 100%; max-width: 250px; margin-top: 0.5rem; box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.1); }
+.dark .toggle-container { background-color: #4b5563; }
+.toggle-button { flex: 1; padding: 0.375rem 0.625rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 500; text-align: center; cursor: pointer; transition: all 0.2s ease-in-out; color: #4b5563; }
+.dark .toggle-button { color: #d1d5db; }
+.toggle-button.active { background-color: #059669; color: #ffffff; box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2); }
+.dark .toggle-button.active { background-color: #34d399; }
+
+/* --- Compounding Frequency Button Styles (from FD/RD Calculators) --- */
+.compounding-btn { padding: 0.5rem 1rem; border-radius: 0.375rem; font-size: 0.875rem; font-weight: 500; transition: all 0.2s ease-in-out; background-color: #e5e7eb; color: #374151; }
+.dark .compounding-btn { background-color: #4b5563; color: #f9fafb; }
+.compounding-btn.active { background-color: #059669; color: #ffffff; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+.compounding-btn:hover:not(.active) { background-color: #d1fae5; color: #065f46; }
+.dark .compounding-btn:hover:not(.active) { background-color: #064e3b; color: #d1fae5; }
+
+/* --- Inflation-Adjusted Box Styles (from FD/PPF Calculators) --- */
+.inflation-adjusted-box { background-color: #fffbeb; border-left: 4px solid #fcd34d; padding: 1rem; border-radius: 0.5rem; margin-top: 1.5rem; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); }
+.dark .inflation-adjusted-box { background-color: #451a03; border-left-color: #d97706; color: #fcd34d; }
+.inflation-adjusted-box p { margin-bottom: 0.5rem; }
+.inflation-adjusted-box .value { font-size: 1.75rem; font-weight: 700; color: #b45309; font-family: 'Montserrat', sans-serif; }
+.dark .inflation-adjusted-box .value { color: #fcd34d; }
+.inflation-adjusted-box .description { font-size: 0.875rem; color: #78350f; }
+.dark .inflation-adjusted-box .description { color: #fcd34d; }

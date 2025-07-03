@@ -8,6 +8,7 @@
  *
  * @param {string} id The ID of the HTML element where the content will be injected.
  * @param {string} file The URL path to the HTML partial file to be loaded.
+ * @returns {Promise<void>} A promise that resolves when the partial is loaded and scripts are handled.
  */
 async function loadPartial(id, file) {
   try {

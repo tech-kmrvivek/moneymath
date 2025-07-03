@@ -6,135 +6,12 @@
   <title>NPS Calculator | RupeesWise</title>
   <meta name="description" content="Calculate the maturity amount and pension from your National Pension System (NPS) investments.">
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="icon" type="image/jpeg" href="/assets/images/fevicon.JPG"> <!-- Favicon added here -->
+  <link rel="icon" type="image/jpeg" href="/assets/images/fevicon.JPG">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
-  <style>
-    body { font-family: 'Inter', sans-serif; }
-    .font-montserrat { font-family: 'Montserrat', sans-serif; }
-    /* Custom styles for range sliders */
-    input[type="range"] {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 100%;
-      height: 8px;
-      background: #d1fae5; /* emerald-100 */
-      border-radius: 5px;
-      outline: none;
-      opacity: 0.7;
-      transition: opacity .2s;
-    }
-    input[type="range"]:hover {
-      opacity: 1;
-    }
-    input[type="range"]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 20px;
-      height: 20px;
-      background: #10b981; /* emerald-500 */
-      cursor: pointer;
-      border-radius: 50%;
-      border: 2px solid white;
-    }
-    input[type="range"]::-moz-range-thumb {
-      width: 20px;
-      height: 20px;
-      background: #10b981; /* emerald-500 */
-      cursor: pointer;
-      border-radius: 50%;
-      border: 2px solid white;
-    }
-    /* Styles for summary values */
-    .summary-label {
-        font-weight: 500; /* Medium weight */
-        color: #4b5563; /* gray-700 */
-        font-size: 0.875rem; /* text-sm */
-    }
-    .dark .summary-label {
-        color: #d1d5db; /* gray-300 */
-    }
-    .summary-value {
-        font-weight: 600; /* Semi-bold */
-        color: #059669; /* emerald-600 */
-        font-size: 0.875rem; /* text-sm */
-    }
-    .dark .summary-value {
-        color: #34d399; /* emerald-400 */
-    }
-    .summary-value.positive {
-        color: #059669; /* emerald-600 */
-    }
-    .dark .summary-value.positive {
-        color: #34d399; /* emerald-400 */
-    }
-    .summary-value.negative {
-        color: #ef4444; /* red-600 */
-    }
-    .dark .summary-value.negative {
-        color: #f87171; /* red-400 */
-    }
-    /* Compounding frequency button styles */
-    .compounding-btn {
-        padding: 0.5rem 1rem;
-        border-radius: 0.375rem;
-        font-size: 0.875rem;
-        font-weight: 500;
-        transition: all 0.2s ease-in-out;
-        background-color: #e5e7eb; /* gray-200 */
-        color: #374151; /* gray-800 */
-    }
-    .dark .compounding-btn {
-        background-color: #4b5563; /* gray-600 */
-        color: #f9fafb; /* gray-50 */
-    }
-    .compounding-btn.active {
-        background-color: #059669; /* emerald-600 */
-        color: #ffffff;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    }
-    .compounding-btn:hover:not(.active) {
-        background-color: #d1fae5; /* emerald-100 */
-        color: #065f46; /* emerald-900 */
-    }
-    .dark .compounding-btn:hover:not(.active) {
-        background-color: #064e3b; /* emerald-900 */
-        color: #d1fae5; /* emerald-100 */
-    }
-    /* Inflation Adjusted Value box styling */
-    .inflation-adjusted-box {
-        background-color: #fffbeb; /* yellow-50 */
-        border-left: 4px solid #fcd34d; /* amber-300 */
-        padding: 1rem;
-        border-radius: 0.5rem;
-        margin-top: 1.5rem;
-        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    }
-    .dark .inflation-adjusted-box {
-        background-color: #451a03; /* amber-950 */
-        border-left-color: #d97706; /* amber-600 */
-    }
-    .inflation-adjusted-box p {
-        margin-bottom: 0.5rem;
-    }
-    .inflation-adjusted-box .value {
-        font-size: 1.75rem; /* text-3xl */
-        font-weight: 700; /* font-bold */
-        color: #b45309; /* amber-700 */
-        font-family: 'Montserrat', sans-serif;
-    }
-    .dark .inflation-adjusted-box .value {
-        color: #fcd34d; /* amber-300 */
-    }
-    .inflation-adjusted-box .description {
-        font-size: 0.875rem; /* text-sm */
-        color: #78350f; /* amber-900 */
-    }
-    .dark .inflation-adjusted-box .description {
-        color: #fcd34d; /* amber-300 */
-    }
-  </style>
+  <!-- Link to the external stylesheet -->
+  <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 min-h-screen flex flex-col">
 
@@ -152,7 +29,6 @@
       <section class="w-full lg:w-1/3 bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg space-y-6">
         <h2 class="text-2xl font-bold text-emerald-700 dark:text-emerald-400 font-montserrat">Adjust Parameters</h2>
         
-        <!-- Current Age -->
         <div>
           <label for="currentAgeInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Current Age</label>
           <input id="currentAgeInput" type="number" value="30" min="18" max="60" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white">
@@ -163,7 +39,6 @@
           </div>
         </div>
 
-        <!-- Monthly Investment -->
         <div>
           <label for="monthlyInvestmentInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Monthly Investment</label>
           <div class="mt-1 flex rounded-md shadow-sm">
@@ -178,7 +53,6 @@
           </div>
         </div>
 
-        <!-- Expected Return Rate -->
         <div>
           <label for="returnRateInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Expected Return Rate (%)</label>
           <input id="returnRateInput" type="number" value="10" min="5" max="15" step="0.1" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white">
@@ -189,7 +63,6 @@
           </div>
         </div>
         
-        <!-- Annuity Purchase Rate -->
         <div>
           <label for="annuityRateInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Annuity Purchase Rate (%)</label>
           <input id="annuityRateInput" type="number" value="6" min="3" max="10" step="0.1" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white">
@@ -200,7 +73,6 @@
           </div>
         </div>
 
-        <!-- Annuity Reinvestment (%) -->
         <div>
           <label for="annuityReinvestmentInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Annuity Reinvestment (%)</label>
           <input id="annuityReinvestmentInput" type="number" value="40" min="0" max="100" step="5" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white">
@@ -211,13 +83,11 @@
           </div>
         </div>
 
-        <!-- Adjust for Inflation Checkbox -->
         <div class="flex items-center pt-4">
           <input id="adjustForInflation" type="checkbox" class="h-4 w-4 text-emerald-600 focus:ring-emerald-500 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600">
           <label for="adjustForInflation" class="ml-2 block text-sm text-gray-900 dark:text-gray-200">Shows inflation-adjusted returns</label>
         </div>
 
-        <!-- Inflation Rate Input (Conditionally Visible) -->
         <div id="inflationRateContainer" class="hidden">
           <label for="inflationRateNPSInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Inflation Rate (%)</label>
           <input id="inflationRateNPSInput" type="number" value="5.5" min="0" max="10" step="0.1" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white">
@@ -240,7 +110,6 @@
               <p id="corpusMultiplier" class="text-sm text-gray-600 dark:text-gray-300">0x your investment</p>
             </div>
             
-            <!-- Inflation-Adjusted Value Box (Conditionally Visible) -->
             <div id="inflationAdjustedValueBox" class="inflation-adjusted-box hidden">
                 <p class="text-sm text-gray-600 dark:text-gray-400">Inflation-Adjusted Value</p>
                 <p id="inflationAdjustedCorpus" class="value">₹0</p>
@@ -299,14 +168,12 @@
                         </tr>
                     </thead>
                     <tbody id="returnsTableBody" class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
-                        <!-- Table rows will be populated by JavaScript -->
                         <tr><td colspan="4" class="text-center py-4 text-gray-500 dark:text-gray-400">Enter parameters to see projections.</td></tr>
                     </tbody>
                 </table>
             </div>
         </div>
 
-        <!-- Quick Summary -->
         <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg">
             <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-4">Quick Summary</h3>
             <div class="grid grid-cols-2 gap-4 text-center">
@@ -327,448 +194,14 @@
   <!-- Placeholder for the Footer -->
   <div id="include-footer"></div>
 
+  <!-- External JavaScript files -->
+  <script src="/assets/js/main.js"></script>
+  <script src="/assets/js/nps-calculator.js"></script>
   <script>
-    // --- DOM Elements ---
-    const currentAgeInput = document.getElementById('currentAgeInput');
-    const currentAgeSlider = document.getElementById('currentAgeSlider');
-    const monthlyInvestmentInput = document.getElementById('monthlyInvestmentInput');
-    const monthlyInvestmentSlider = document.getElementById('monthlyInvestmentSlider');
-    const returnRateInput = document.getElementById('returnRateInput');
-    const returnRateSlider = document.getElementById('returnRateSlider');
-    const annuityRateInput = document.getElementById('annuityRateInput');
-    const annuityRateSlider = document.getElementById('annuityRateSlider');
-    const annuityReinvestmentInput = document.getElementById('annuityReinvestmentInput');
-    const annuityReinvestmentSlider = document.getElementById('annuityReinvestmentSlider');
-    const adjustForInflationCheckbox = document.getElementById('adjustForInflation');
-    const inflationRateNPSInput = document.getElementById('inflationRateNPSInput');
-    const inflationRateNPSSlider = document.getElementById('inflationRateNPSSlider');
-    const inflationRateContainer = document.getElementById('inflationRateContainer');
-
-    const totalCorpusEl = document.getElementById('totalCorpus');
-    const corpusMultiplierEl = document.getElementById('corpusMultiplier');
-    const monthlyPensionEl = document.getElementById('monthlyPension');
-    const lumpsumAmountEl = document.getElementById('lumpsumAmount');
-    const donutInvestmentPath = document.getElementById('donutInvestment');
-    const donutInterestPath = document.getElementById('donutInterest');
-    const totalCorpusDonutEl = document.getElementById('totalCorpusDonut');
-    const returnsTableHeader = document.getElementById('returnsTableHeader');
-    const returnsTableBody = document.getElementById('returnsTableBody');
-    const totalContributionSummary = document.getElementById('totalContributionSummary');
-    const totalInterestSummary = document.getElementById('totalInterestSummary');
-
-    // New DOM elements for inflation-adjusted display
-    const inflationAdjustedValueBox = document.getElementById('inflationAdjustedValueBox');
-    const inflationAdjustedCorpus = document.getElementById('inflationAdjustedCorpus');
-    const inflationAdjustedDescription = document.getElementById('inflationAdjustedDescription');
-    const inflationAdjustedMultiplier = document.getElementById('inflationAdjustedMultiplier');
-
-
-    // DOM elements for amount words
-    const monthlyInvestmentWords = document.getElementById('monthlyInvestmentWords');
-
-
-    // --- Utility Functions ---
-    /**
-     * Formats a number to Indian Rupee currency string.
-     * @param {number} num - The number to format.
-     * @returns {string} Formatted currency string.
-     */
-    function formatINR(num) {
-      if (isNaN(num)) return '₹0';
-      const absNum = Math.abs(num);
-      let formatted;
-      if (absNum >= 10000000) { // Crores
-        formatted = (absNum / 10000000).toFixed(2) + ' Cr';
-      } else if (absNum >= 100000) { // Lakhs
-        formatted = (absNum / 100000).toFixed(2) + ' L';
-      } else {
-        formatted = absNum.toLocaleString('en-IN', { maximumFractionDigits: 0 });
-      }
-      return (num < 0 ? '-₹' : '₹') + formatted;
-    }
-
-    /**
-     * Converts a number to words in Indian numbering system.
-     * Handles decimals for percentages.
-     * @param {number} num - The number to convert.
-     * @returns {string} The number in words.
-     */
-    function numberToWords(num) {
-        if (num === 0) return 'Zero';
-        if (num < 0) return 'Minus ' + numberToWords(Math.abs(num));
-
-        const [integerPart, decimalPart] = num.toString().split('.');
-
-        const words = [];
-        const units = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
-        const tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
-
-        function convertChunk(n) {
-            let chunkWords = [];
-            if (n >= 100) {
-                chunkWords.push(units[Math.floor(n / 100)]);
-                chunkWords.push('Hundred');
-                n %= 100;
-            }
-            if (n > 0) {
-                if (n < 20) {
-                    chunkWords.push(units[n]);
-                } else {
-                    chunkWords.push(tens[Math.floor(n / 10)]);
-                    if (n % 10 > 0) {
-                        chunkWords.push(units[n % 10]);
-                    }
-                }
-            }
-            return chunkWords.join(' ');
-        }
-
-        let tempNum = parseInt(integerPart);
-        let crore = Math.floor(tempNum / 10000000);
-        tempNum %= 10000000;
-        let lakh = Math.floor(tempNum / 100000);
-        tempNum %= 100000;
-        let thousand = Math.floor(tempNum / 1000);
-        tempNum %= 1000;
-
-        if (crore > 0) {
-            words.push(convertChunk(crore));
-            words.push('Crore');
-        }
-        if (lakh > 0) {
-            words.push(convertChunk(lakh));
-            words.push('Lakh');
-        }
-        if (thousand > 0) {
-            words.push(convertChunk(thousand));
-            words.push('Thousand');
-        }
-        if (tempNum > 0) {
-            words.push(convertChunk(tempNum));
-        }
-
-        let result = words.join(' ');
-
-        if (decimalPart) {
-            const decimalWords = decimalPart.split('').map(digit => units[parseInt(digit)]).join(' ');
-            result += ' Point ' + decimalWords;
-        }
-
-        return result;
-    }
-
-
-    /**
-     * Calculates NPS maturity and pension details.
-     * @param {number} currentAge - User's current age.
-     * @param {number} monthlyInvestment - Monthly investment in NPS.
-     * @param {number} expectedReturnRate - Annual expected return rate on investments.
-     * @param {number} annuityPurchaseRate - Annual rate at which annuity is purchased.
-     * @param {number} annuityReinvestmentPercentage - Percentage of corpus to reinvest in annuity (0-100).
-     * @returns {object} Calculated NPS details.
-     */
-    function calculateNPS(currentAge, monthlyInvestment, expectedReturnRate, annuityPurchaseRate, annuityReinvestmentPercentage) {
-        const retirementAge = 60; // NPS retirement age is typically 60
-        const yearsToRetirement = retirementAge - currentAge;
-
-        let finalCorpus = 0;
-        let totalContribution = 0;
-        let yearlyData = [];
-
-        let currentCorpus = 0;
-        let cumulativeContribution = 0;
-
-        for (let year = 1; year <= yearsToRetirement; year++) {
-            cumulativeContribution += monthlyInvestment * 12; // Add yearly contribution
-            // Compound the current corpus (including previous year's balance and current year's contribution)
-            currentCorpus = (currentCorpus + (monthlyInvestment * 12)) * (1 + expectedReturnRate);
-            
-            yearlyData.push({
-                age: currentAge + year,
-                totalContribution: cumulativeContribution,
-                interestEarned: currentCorpus - cumulativeContribution,
-                corpusValue: currentCorpus
-            });
-        }
-
-        finalCorpus = currentCorpus;
-        totalContribution = monthlyInvestment * 12 * yearsToRetirement; // Actual total contribution
-        totalInterestEarned = finalCorpus - totalContribution;
-
-        // Calculate pension and lumpsum
-        const annuityAmount = finalCorpus * (annuityReinvestmentPercentage / 100);
-        const lumpsumAmount = finalCorpus - annuityAmount;
-        const monthlyPension = (annuityAmount * annuityPurchaseRate) / 12;
-
-
-        return {
-            totalCorpus: finalCorpus,
-            totalContribution: totalContribution,
-            totalInterestEarned: totalInterestEarned,
-            monthlyPension: monthlyPension,
-            lumpsumAmount: lumpsumAmount,
-            yearlyData: yearlyData
-        };
-    }
-
-    /**
-     * Updates the donut chart based on investment and interest amounts.
-     * @param {number} totalInvestment - The total investment (contribution).
-     * @param {number} totalInterest - The total interest earned.
-     */
-    function updateDonutChart(totalInvestment, totalInterest) {
-        const total = totalInvestment + totalInterest;
-        if (total === 0) {
-            donutInvestmentPath.setAttribute('d', 'M18 18 L18 0 A18 18 0 0 1 18 0 Z'); // Full circle investment if no interest
-            donutInterestPath.setAttribute('d', 'M18 18 L18 0 A18 18 0 0 1 18 0 Z'); // Hide interest
-            totalCorpusDonutEl.textContent = formatINR(0);
-            return;
-        }
-
-        const investmentAngle = (totalInvestment / total) * 360;
-        const interestAngle = (totalInterest / total) * 360;
-
-        // Function to convert angle to SVG path coordinates
-        function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
-            const angleInRadians = (angleInDegrees - 90) * Math.PI / 180.0;
-            return {
-                x: centerX + (radius * Math.cos(angleInRadians)),
-                y: centerY + (radius * Math.sin(angleInRadians))
-            };
-        }
-
-        const startPointInvestment = polarToCartesian(18, 18, 18, 0);
-        const endPointInvestment = polarToCartesian(18, 18, 18, investmentAngle);
-        const largeArcFlagInvestment = investmentAngle > 180 ? 1 : 0;
-
-        const investmentPath = [
-            `M ${18} ${18}`,
-            `L ${startPointInvestment.x} ${startPointInvestment.y}`,
-            `A ${18} ${18} 0 ${largeArcFlagInvestment} 1 ${endPointInvestment.x} ${endPointInvestment.y}`,
-            `Z`
-        ].join(' ');
-        donutInvestmentPath.setAttribute('d', investmentPath);
-
-        const startPointInterest = polarToCartesian(18, 18, 18, investmentAngle);
-        const endPointInterest = polarToCartesian(18, 18, 18, investmentAngle + interestAngle);
-        const largeArcFlagInterest = interestAngle > 180 ? 1 : 0;
-
-        const interestPath = [
-            `M ${18} ${18}`,
-            `L ${startPointInterest.x} ${startPointInterest.y}`,
-            `A ${18} ${18} 0 ${largeArcFlagInterest} 1 ${endPointInterest.x} ${endPointInterest.y}`,
-            `Z`
-        ].join(' ');
-        donutInterestPath.setAttribute('d', interestPath);
-
-        totalCorpusDonutEl.textContent = formatINR(total);
-    }
-
-
-    // --- Main Calculation and UI Update Function ---
-    function updateCalculator() {
-      const currentAge = parseInt(currentAgeInput.value) || 0;
-      const monthlyInvestment = parseFloat(monthlyInvestmentInput.value) || 0;
-      const returnRate = parseFloat(returnRateInput.value) / 100 || 0;
-      const annuityRate = parseFloat(annuityRateInput.value) / 100 || 0;
-      const annuityReinvestmentPercentage = parseFloat(annuityReinvestmentInput.value) || 0;
-      const inflationRateNPS = parseFloat(inflationRateNPSInput.value) / 100 || 0;
-      const adjustForInflation = adjustForInflationCheckbox.checked;
-
-      // Toggle visibility of inflation rate input and inflation adjusted box based on checkbox
-      if (adjustForInflation) {
-          inflationRateContainer.classList.remove('hidden');
-          inflationAdjustedValueBox.classList.remove('hidden'); // Show inflation box
-      } else {
-          inflationRateContainer.classList.add('hidden');
-          inflationAdjustedValueBox.classList.add('hidden'); // Hide inflation box
-      }
-
-      // Update amount in words (only for Monthly Investment)
-      if (monthlyInvestmentWords) {
-          monthlyInvestmentWords.textContent = numberToWords(monthlyInvestment) + ' Rupees';
-      }
-
-      if (currentAge <= 0 || monthlyInvestment <= 0 || returnRate <= 0 || annuityRate <= 0 || annuityReinvestmentPercentage < 0 || currentAge >= 60) {
-          totalCorpusEl.textContent = formatINR(0);
-          corpusMultiplierEl.textContent = '0x your investment';
-          monthlyPensionEl.textContent = formatINR(0);
-          lumpsumAmountEl.textContent = formatINR(0);
-          inflationAdjustedCorpus.textContent = formatINR(0);
-          inflationAdjustedDescription.textContent = `Adjusted for ${inflationRateNPS * 100}% annual inflation`;
-          inflationAdjustedMultiplier.textContent = `0x your investment in real terms`;
-          totalContributionSummary.textContent = formatINR(0);
-          totalInterestSummary.textContent = formatINR(0);
-          returnsTableBody.innerHTML = `<tr><td colspan="4" class="text-center py-4 text-gray-500 dark:text-gray-400">Please enter valid parameters.</td></tr>`;
-          updateDonutChart(0, 0);
-          return;
-      }
-
-      // Always calculate nominal values first
-      const nominalResults = calculateNPS(currentAge, monthlyInvestment, returnRate, annuityRate, annuityReinvestmentPercentage);
-      let displayTotalCorpus = nominalResults.totalCorpus;
-      let displayTotalContribution = nominalResults.totalContribution;
-      let displayTotalInterestEarned = nominalResults.totalInterestEarned;
-      let displayMonthlyPension = nominalResults.monthlyPension;
-      let displayLumpsumAmount = nominalResults.lumpsumAmount;
-      let displayYearlyData = nominalResults.yearlyData;
-
-      // Calculate inflation-adjusted values for the dedicated box and main display when checkbox is checked
-      const yearsToRetirement = 60 - currentAge;
-      const realTotalCorpus = nominalResults.totalCorpus / Math.pow(1 + inflationRateNPS, yearsToRetirement);
-      const realCorpusMultiplier = nominalResults.totalContribution > 0 ? (realTotalCorpus / nominalResults.totalContribution).toFixed(2) : 0;
-      const realMonthlyPension = nominalResults.monthlyPension / Math.pow(1 + inflationRateNPS, yearsToRetirement);
-      const realLumpsumAmount = nominalResults.lumpsumAmount / Math.pow(1 + inflationRateNPS, yearsToRetirement);
-
-
-      // Apply inflation adjustment for display if checkbox is checked
-      if (adjustForInflation) {
-          // Update the main displays to real values
-          totalCorpusEl.textContent = formatINR(realTotalCorpus);
-          corpusMultiplierEl.textContent = `${realCorpusMultiplier}x your investment in real terms`;
-          monthlyPensionEl.textContent = formatINR(realMonthlyPension);
-          lumpsumAmountEl.textContent = formatINR(realLumpsumAmount);
-
-          // Update the dedicated inflation adjusted box
-          inflationAdjustedCorpus.textContent = formatINR(realTotalCorpus);
-          inflationAdjustedDescription.textContent = `Adjusted for ${inflationRateNPS * 100}% annual inflation`;
-          inflationAdjustedMultiplier.textContent = `${realCorpusMultiplier}x your investment in real terms`;
-
-          // Adjust each year's data for inflation for the table
-          displayYearlyData = nominalResults.yearlyData.map(data => {
-              const deflatedFactor = Math.pow(1 + inflationRateNPS, data.age - currentAge); // Deflate by years passed
-              return {
-                  age: data.age,
-                  totalContribution: data.totalContribution / deflatedFactor, // Real contribution
-                  interestEarned: (data.corpusValue / deflatedFactor) - (data.totalContribution / deflatedFactor), // Real interest
-                  corpusValue: data.corpusValue / deflatedFactor // Real corpus value
-              };
-          });
-      } else {
-          // If not adjusting for inflation, ensure main displays show nominal values
-          totalCorpusEl.textContent = formatINR(nominalResults.totalCorpus);
-          const nominalMultiplier = nominalResults.totalContribution > 0 ? (nominalResults.totalCorpus / nominalResults.totalContribution).toFixed(2) : 0;
-          corpusMultiplierEl.textContent = `${nominalMultiplier}x your investment`;
-          monthlyPensionEl.textContent = formatINR(nominalResults.monthlyPension);
-          lumpsumAmountEl.textContent = formatINR(nominalResults.lumpsumAmount);
-      }
-
-      // Donut chart always uses nominal values
-      updateDonutChart(nominalResults.totalContribution, nominalResults.totalInterestEarned);
-
-      // Update Quick Summary
-      totalContributionSummary.textContent = formatINR(nominalResults.totalContribution);
-      totalInterestSummary.textContent = formatINR(nominalResults.totalInterestEarned);
-
-
-      // Populate Returns Table
-      returnsTableBody.innerHTML = ''; // Clear previous data
-
-      // Update table headers based on inflation adjustment
-      returnsTableHeader.innerHTML = `
-        <tr>
-            <th scope="col" class="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Age</th>
-            <th scope="col" class="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">${adjustForInflation ? 'Real Contribution' : 'Total Contribution'}</th>
-            <th scope="col" class="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">${adjustForInflation ? 'Real Interest Earned' : 'Interest Earned'}</th>
-            <th scope="col" class="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">${adjustForInflation ? 'Real Corpus Value' : 'Corpus Value'}</th>
-        </tr>
-      `;
-
-      displayYearlyData.forEach(data => {
-          const row = returnsTableBody.insertRow();
-          row.className = 'hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors duration-150';
-          row.innerHTML = `
-              <td class="px-3 py-2 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">${data.age}</td>
-              <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">${formatINR(data.totalContribution)}</td>
-              <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">${formatINR(data.interestEarned)}</td>
-              <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">${formatINR(data.corpusValue)}</td>
-          `;
-      });
-    }
-
-    // --- Event Listeners and Initializer ---
-    /**
-     * Syncs a number input with its corresponding range slider and triggers calculation.
-     * @param {HTMLElement} inputEl - The number input element.
-     * @param {HTMLElement} sliderEl - The range slider element.
-     * @param {HTMLElement|null} wordsEl - The span element to display words, or null if not needed.
-     * @param {string} unit - The unit for the words (e.g., 'Rupees').
-     */
-    function syncInputs(inputEl, sliderEl, wordsEl, unit = '') {
-        const updateWords = () => {
-            if (wordsEl) { // Only update if wordsEl is provided
-                wordsEl.textContent = numberToWords(parseFloat(inputEl.value) || 0) + (unit ? ' ' + unit : '');
-            }
-        };
-
-        sliderEl.addEventListener('input', () => {
-            inputEl.value = sliderEl.value;
-            updateWords();
-            updateCalculator();
-        });
-        inputEl.addEventListener('input', () => {
-            sliderEl.value = inputEl.value;
-            updateWords();
-            updateCalculator();
-        });
-        // Initial update for words when the page loads
-        updateWords();
-    }
-
-    /**
-     * Loads HTML partials into specified elements.
-     * @param {string} id - The ID of the element to load the partial into.
-     * @param {string} file - The path to the HTML partial file.
-     */
-    async function loadPartial(id, file) {
-      try {
-        const response = await fetch(file);
-        if (!response) { // Check if response is null or undefined
-          throw new Error(`Failed to load ${file}: Response is null.`);
-        }
-        if (!response.ok) {
-          throw new Error(`Failed to load ${file}: ${response.statusText}`);
-        }
-        const text = await response.text();
-        const element = document.getElementById(id);
-        if (element) {
-          element.innerHTML = text;
-          Array.from(element.querySelectorAll("script")).forEach(oldScript => {
-            const newScript = document.createElement("script");
-            Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
-            newScript.appendChild(document.createTextNode(oldScript.innerHTML));
-            oldScript.parentNode.replaceChild(newScript, oldScript);
-          });
-        }
-      } catch (error) {
-        console.error(`Error loading partial: ${error}`);
-      }
-    }
-    
-    document.addEventListener('DOMContentLoaded', async () => {
-      // Load navigation and footer
-      await Promise.all([
-        loadPartial("include-nav", "/components/nav.html"),
-        loadPartial("include-footer", "/components/footer.html")
-      ]);
-
-      // Sync inputs and sliders, passing null for wordsEl if not needed
-      syncInputs(currentAgeInput, currentAgeSlider, null);
-      syncInputs(monthlyInvestmentInput, monthlyInvestmentSlider, monthlyInvestmentWords, 'Rupees');
-      syncInputs(returnRateInput, returnRateSlider, null);
-      syncInputs(annuityRateInput, annuityRateSlider, null);
-      syncInputs(annuityReinvestmentInput, annuityReinvestmentSlider, null);
-      syncInputs(inflationRateNPSInput, inflationRateNPSSlider, null);
-
-      // Compounding frequency buttons (NPS doesn't have this, but keeping the structure for consistency)
-      // If NPS had compounding frequency, you'd add event listeners here.
-      // For NPS, the image doesn't show compounding frequency options like FD/RD, so this part is not needed.
-
-      // Add event listener for checkbox
-      adjustForInflationCheckbox.addEventListener('change', updateCalculator);
-
-      // Initial calculation and word display
-      updateCalculator();
+    document.addEventListener("DOMContentLoaded", () => {
+      // Use relative paths for components since this page is in a subdirectory
+      loadPartial("include-nav", "../components/nav.html");
+      loadPartial("include-footer", "../components/footer.html");
     });
   </script>
 </body>

@@ -10,43 +10,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
-  <style>
-    body { font-family: 'Inter', sans-serif; }
-    .font-montserrat { font-family: 'Montserrat', sans-serif; }
-    /* Custom styles for range sliders */
-    input[type="range"] {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 100%;
-      height: 8px;
-      background: #d1fae5; /* emerald-100 */
-      border-radius: 5px;
-      outline: none;
-      opacity: 0.7;
-      transition: opacity .2s;
-    }
-    input[type="range"]:hover {
-      opacity: 1;
-    }
-    input[type="range"]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 20px;
-      height: 20px;
-      background: #10b981; /* emerald-500 */
-      cursor: pointer;
-      border-radius: 50%;
-      border: 2px solid white;
-    }
-    input[type="range"]::-moz-range-thumb {
-      width: 20px;
-      height: 20px;
-      background: #10b981; /* emerald-500 */
-      cursor: pointer;
-      border-radius: 50%;
-      border: 2px solid white;
-    }
-  </style>
+  <!-- Link to the external stylesheet -->
+  <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 min-h-screen flex flex-col">
 
@@ -136,164 +101,14 @@
   <!-- Placeholder for the Footer -->
   <div id="include-footer"></div>
 
+  <!-- External JavaScript files -->
+  <script src="/assets/js/main.js"></script>
+  <script src="/assets/js/goal-sip-calculator.js"></script>
   <script>
-    // --- DOM Elements ---
-    const targetAmountInput = document.getElementById('targetAmountInput');
-    const targetAmountSlider = document.getElementById('targetAmountSlider');
-    const targetAmountWords = document.getElementById('targetAmountWords');
-    const initialInvestmentInput = document.getElementById('initialInvestmentInput');
-    const initialInvestmentSlider = document.getElementById('initialInvestmentSlider');
-    const initialInvestmentWords = document.getElementById('initialInvestmentWords');
-    const yearsInput = document.getElementById('yearsInput');
-    const yearsSlider = document.getElementById('yearsSlider');
-    const rateInput = document.getElementById('rateInput');
-    const rateSlider = document.getElementById('rateSlider');
-    const projectionTableContainer = document.getElementById('projectionTableContainer');
-
-    // --- Output Elements ---
-    const lumpsumFutureValueEl = document.getElementById('lumpsumFutureValue');
-    const amountRemainingEl = document.getElementById('amountRemaining');
-    const requiredSipEl = document.getElementById('requiredSip');
-
-    // --- Utility Functions ---
-    function formatINR(num) {
-      if (num >= 10000000) return `₹${(num / 10000000).toFixed(2)} Cr`;
-      if (num >= 100000) return `₹${(num / 100000).toFixed(2)} L`;
-      return `₹${num.toLocaleString('en-IN')}`;
-    }
-    
-    function numberToWords(num) {
-        const a = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
-        const b = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
-        const numStr = num.toString();
-        if (num < 0) return 'minus ' + numberToWords(-num);
-        if (num === 0) return 'zero';
-        if (num < 20) return a[num];
-        if (numStr.length === 2) return b[numStr[0]] + (numStr[1] === '0' ? '' : ' ' + a[numStr[1]]);
-        if (numStr.length === 3) return a[numStr[0]] + ' hundred' + (num % 100 === 0 ? '' : ' and ' + numberToWords(num % 100));
-        if (numStr.length === 4 || numStr.length === 5) return numberToWords(Math.floor(num / 1000)) + ' thousand' + (num % 1000 !== 0 ? ' ' + numberToWords(num % 1000) : '');
-        if (numStr.length === 6 || numStr.length === 7) return numberToWords(Math.floor(num / 100000)) + ' lakh' + (num % 100000 !== 0 ? ' ' + numberToWords(num % 100000) : '');
-        if (numStr.length > 7) return numberToWords(Math.floor(num / 10000000)) + ' crore' + (num % 10000000 !== 0 ? ' ' + numberToWords(num % 10000000) : '');
-        return '';
-    }
-
-    // --- Calculation Logic ---
-    function calculateGoalSip() {
-      const targetAmount = parseFloat(targetAmountInput.value) || 0;
-      const initialInvestment = parseFloat(initialInvestmentInput.value) || 0;
-      const years = parseInt(yearsInput.value) || 0;
-      const rate = parseFloat(rateInput.value) / 100 || 0;
-
-      // 1. Future value of the initial lumpsum investment
-      const lumpsumFv = initialInvestment * Math.pow(1 + rate, years);
-
-      // 2. Shortfall to be covered by SIP
-      const shortfall = targetAmount - lumpsumFv;
-
-      // 3. Required monthly SIP to cover the shortfall
-      const monthlyRate = rate / 12;
-      const n = years * 12;
-      let requiredSip = 0;
-      if (shortfall > 0 && n > 0 && monthlyRate > 0) {
-        requiredSip = (shortfall * monthlyRate) / (Math.pow(1 + monthlyRate, n) - 1);
-      }
-
-      // --- Update UI ---
-      lumpsumFutureValueEl.textContent = formatINR(lumpsumFv);
-      amountRemainingEl.textContent = formatINR(shortfall > 0 ? shortfall : 0);
-      requiredSipEl.textContent = formatINR(requiredSip);
-      targetAmountWords.textContent = numberToWords(targetAmount).split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') + ' Rupees';
-      initialInvestmentWords.textContent = numberToWords(initialInvestment).split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') + ' Rupees';
-      
-      renderProjectionTable(initialInvestment, requiredSip, years, rate);
-    }
-
-    // --- Table Rendering ---
-    function renderProjectionTable(lumpsum, sip, years, rate) {
-        const monthlyRate = rate / 12;
-        let lumpsumBalance = lumpsum;
-        let sipBalance = 0;
-        const projection = [];
-
-        for (let y = 1; y <= years; y++) {
-            lumpsumBalance *= (1 + rate);
-            for (let m = 1; m <= 12; m++) {
-                sipBalance = (sipBalance + sip) * (1 + monthlyRate);
-            }
-            projection.push({
-                year: y,
-                totalValue: lumpsumBalance + sipBalance
-            });
-        }
-
-        let tableHTML = `
-            <table class="min-w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                    <tr>
-                        <th scope="col" class="px-6 py-3">Year</th>
-                        <th scope="col" class="px-6 py-3">Year End Value</th>
-                    </tr>
-                </thead>
-                <tbody>
-        `;
-        projection.forEach(item => {
-            tableHTML += `
-                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">${item.year}</td>
-                    <td class="px-6 py-4 font-semibold text-emerald-600 dark:text-emerald-400">${formatINR(item.totalValue)}</td>
-                </tr>
-            `;
-        });
-        tableHTML += `</tbody></table>`;
-        projectionTableContainer.innerHTML = tableHTML;
-    }
-
-    // --- Event Listeners and Initializer ---
-    async function loadPartial(id, file) {
-      try {
-        const response = await fetch(file);
-        if (!response.ok) throw new Error(`Failed to load ${file}: ${response.status}`);
-        const text = await response.text();
-        const element = document.getElementById(id);
-        if (element) {
-          element.innerHTML = text;
-          Array.from(element.querySelectorAll("script")).forEach(oldScript => {
-            const newScript = document.createElement("script");
-            Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
-            newScript.appendChild(document.createTextNode(oldScript.innerHTML));
-            oldScript.parentNode.replaceChild(newScript, oldScript);
-          });
-        }
-      } catch (error) {
-        console.error(`Error loading partial: ${error}`);
-      }
-    }
-    
-    function setupEventListeners() {
-      const sync = (input, slider) => {
-        slider.addEventListener('input', () => {
-          input.value = slider.value;
-          calculateGoalSip();
-        });
-        input.addEventListener('input', () => {
-          slider.value = input.value;
-          calculateGoalSip();
-        });
-      };
-
-      sync(targetAmountInput, targetAmountSlider);
-      sync(initialInvestmentInput, initialInvestmentSlider);
-      sync(yearsInput, yearsSlider);
-      sync(rateInput, rateSlider);
-    }
-    
-    document.addEventListener('DOMContentLoaded', async () => {
-      await Promise.all([
-        loadPartial("include-nav", "../components/nav.html"),
-        loadPartial("include-footer", "../components/footer.html")
-      ]);
-      setupEventListeners();
-      calculateGoalSip(); // Initial calculation
+    document.addEventListener("DOMContentLoaded", () => {
+      // Use relative paths for components since this page is in a subdirectory
+      loadPartial("include-nav", "../components/nav.html");
+      loadPartial("include-footer", "../components/footer.html");
     });
   </script>
 </body>
