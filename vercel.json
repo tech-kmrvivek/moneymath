@@ -2,6 +2,9 @@
   "rewrites": [
     { "source": "/components/nav.html", "destination": "/nav.html" },
     { "source": "/components/footer.html", "destination": "/footer.html" },
+    { "source": "/calculator/sip-calculator", "destination": "/calculator/sip.html" },
+    { "source": "/calculator/lumpsum-calculator", "destination": "/calculator/lumpsum.html" },
+    { "source": "/calculator/swp-calculator", "destination": "/calculator/swp.html" },
     { "source": "/calculator/sip", "destination": "/calculator/sip.html" },
     { "source": "/calculator/lumpsum", "destination": "/calculator/lumpsum.html" },
     { "source": "/calculator/swp", "destination": "/calculator/swp.html" },
