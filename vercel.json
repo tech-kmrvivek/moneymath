@@ -14,7 +14,7 @@
     { "source": "/calculator/personal-finance-planner", "destination": "/calculator/personal-finance-planner.html" },
     { "source": "/privacy", "destination": "/privacy-policy.html" },
     { "source": "/terms", "destination": "/terms-of-service.html" },
-    { "source": "/blogs/blogs", "destination": "/blogs/blogs.html" },
+    { "source": "/blogs/blog-list", "destination": "/blogs/blogs.html" },
     { "source": "/blogs/build_wealth_with_sip", "destination": "/blogs/build_wealth_with_sip.html" },
     { "source": "/blogs/lumpsum_vs_sip", "destination": "/blogs/lumpsum_vs_sip.html" },
     { "source": "/blogs/fire-retire-early", "destination": "/blogs/fire-retire-early.html" },
