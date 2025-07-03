@@ -93,3 +93,52 @@ input[type="range"]::-moz-range-thumb {
 .dark .nav-link.active {
   color: #34d399; /* emerald-400 */
 }
+
+/* --- Styles for content-heavy pages (Privacy, Terms) --- */
+.content-section p, .content-section ul {
+    margin-bottom: 1rem;
+    line-height: 1.75;
+}
+.content-section ul {
+    list-style-position: inside;
+    list-style-type: disc;
+    padding-left: 1rem;
+}
+.content-section h2 {
+    font-size: 1.5rem; /* text-2xl */
+    font-weight: 700; /* font-bold */
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #e5e7eb; /* gray-200 */
+    color: #047857; /* emerald-700 */
+}
+.dark .content-section h2 {
+    border-color: #374151; /* gray-700 */
+    color: #34d399; /* emerald-400 */
+}
+.content-section h3 {
+    font-size: 1.25rem; /* text-xl */
+    font-weight: 600; /* font-semibold */
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    color: #111827; /* gray-900 */
+}
+.dark .content-section h3 {
+    color: #f9fafb; /* gray-50 */
+}
+.disclaimer {
+    background-color: #fef3c7; /* yellow-100 */
+    border-left: 4px solid #f59e0b; /* amber-500 */
+    padding: 1rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: #78350f; /* amber-900 */
+    font-weight: 500;
+    border-radius: 0.5rem;
+}
+.dark .disclaimer {
+    background-color: #451a03; /* amber-950 */
+    border-left-color: #d97706; /* amber-600 */
+    color: #fcd34d; /* amber-300 */
+}

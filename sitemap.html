@@ -4,38 +4,19 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Sitemap | RupeesWise</title>
-  <meta name="description" content="Find all pages and calculators available on RupeesWise. Your guide to navigating our financial tools and resources.">
+  <meta name="description" content="Explore the sitemap for RupeesWise to easily navigate all our financial calculators, tools, pages, and resources in one place.">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="icon" type="image/jpeg" href="/assets/images/fevicon.JPG">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
   <!-- Favicon -->
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="manifest" href="/site.webmanifest">
-  <style>
-    body {
-      font-family: 'Inter', sans-serif;
-    }
-    .font-montserrat {
-      font-family: 'Montserrat', sans-serif;
-    }
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    .animate-fadeInUp {
-      animation: fadeInUp 0.8s ease-out forwards;
-    }
-  </style>
+  <!-- Link to the external stylesheet -->
+  <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 min-h-screen flex flex-col">
 
@@ -46,7 +27,7 @@
     <!-- Header -->
     <section class="text-center mb-12 animate-fadeInUp">
       <h1 class="text-4xl sm:text-5xl font-extrabold text-emerald-600 dark:text-emerald-400 font-montserrat">Sitemap</h1>
-      <p class="text-lg text-gray-600 dark:text-gray-300 mt-2">Find all pages and calculators on RupeesWise.</p>
+      <p class="text-lg text-gray-600 dark:text-gray-300 mt-2">Explore all the pages, calculators, and financial resources RupeesWise has to offer.</p>
     </section>
 
     <!-- Main Grid Layout -->
@@ -201,7 +182,7 @@
                 <p class="text-sm text-gray-500 dark:text-gray-400">Estimate your National Pension System corpus.</p>
               </li>
               <li>
-                <a href="/calculator/personal-finance-planner.html" class="font-semibold text-gray-800 dark:text-white hover:text-emerald-600">Personal Finance Planner</a>
+                <a href="/calculator/personal-finance-planner" class="font-semibold text-gray-800 dark:text-white hover:text-emerald-600">Personal Finance Planner</a>
                 <p class="text-sm text-gray-500 dark:text-gray-400">Estimate Your Personal Finance.</p>
               </li>
             </ul>
@@ -226,33 +207,12 @@
   <!-- Placeholder for the Footer -->
   <div id="include-footer"></div>
 
-  <!-- Script to load components -->
+  <!-- External JavaScript files -->
+  <script src="/assets/js/main.js"></script>
   <script>
-    async function loadPartial(id, file) {
-      try {
-        const response = await fetch(file);
-        if (!response.ok) throw new Error(`Failed to load ${file}`);
-        const text = await response.text();
-        const element = document.getElementById(id);
-        if (element) {
-          element.innerHTML = text;
-          // Execute scripts within the loaded partial
-          Array.from(element.querySelectorAll("script")).forEach(oldScript => {
-            const newScript = document.createElement("script");
-            Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
-            newScript.appendChild(document.createTextNode(oldScript.innerHTML));
-            oldScript.parentNode.replaceChild(newScript, oldScript);
-          });
-        }
-      } catch (error) {
-        console.error(`Error loading partial: ${error}`);
-      }
-    }
-
-    window.addEventListener("DOMContentLoaded", () => {
-      // Use relative paths for local development
-      loadPartial("include-nav", "./components/nav.html");
-      loadPartial("include-footer", "./components/footer.html");
+    document.addEventListener("DOMContentLoaded", () => {
+      loadPartial("include-nav", "/components/nav.html");
+      loadPartial("include-footer", "/components/footer.html");
     });
   </script>
 </body>
