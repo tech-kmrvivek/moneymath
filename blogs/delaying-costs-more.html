@@ -8,14 +8,12 @@
   <meta name="keywords" content="Cost of Delay, SIP, Investing Early, Compounding, Investment Delay, Wealth Growth, RupeesWise">
   <meta name="author" content="RupeesWise">
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="icon" type="image/jpeg" href="/assets/images/fevicon.JPG"> <!-- Favicon added here -->
+  <link rel="icon" type="image/jpeg" href="/assets/images/fevicon.JPG">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
-  <style>
-    body { font-family: 'Inter', sans-serif; }
-    .font-montserrat { font-family: 'Montserrat', sans-serif; }
-  </style>
+  <!-- Link to the external stylesheet -->
+  <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 min-h-screen flex flex-col">
   
@@ -105,69 +103,15 @@
   <!-- Footer -->
   <div id="include-footer"></div>
 
-  <!-- Script to load components and handle read status -->
+  <!-- External JavaScript files -->
+  <script src="/assets/js/main.js"></script>
+  <script src="/assets/js/blog-post.js"></script>
   <script>
-    function markAsRead() {
-      const storageKey = 'rupeeswise_read_blogs';
-      const currentPath = window.location.pathname;
-      let readBlogs = [];
-      try {
-        const stored = localStorage.getItem(storageKey);
-        if (stored) readBlogs = JSON.parse(stored);
-      } catch (e) { console.error("Error parsing read blogs from localStorage", e); }
-      if (!readBlogs.includes(currentPath)) {
-        readBlogs.push(currentPath);
-        localStorage.setItem(storageKey, JSON.stringify(readBlogs));
-      }
-    }
-
-    function updateReadStatusInNav() {
-      const storageKey = 'rupeeswise_read_blogs';
-      let readBlogs = [];
-      try {
-        const stored = localStorage.getItem(storageKey);
-        if (stored) readBlogs = JSON.parse(stored);
-      } catch (e) { console.error("Error parsing read blogs from localStorage", e); }
-      const blogLinks = document.querySelectorAll('#include-blog-nav a');
-      blogLinks.forEach(link => {
-        const linkPath = link.getAttribute('href');
-        if (readBlogs.includes(linkPath)) {
-          link.classList.add('opacity-70');
-          if (!link.innerHTML.startsWith('✅')) {
-            link.innerHTML = `✅ ${link.innerHTML}`;
-          }
-        }
-      });
-    }
-
-    async function loadPartial(id, file) {
-      try {
-        const response = await fetch(file);
-        if (!response.ok) throw new Error(`Failed to load ${file}`);
-        const text = await response.text();
-        const element = document.getElementById(id);
-        if (element) {
-          element.innerHTML = text;
-          Array.from(element.querySelectorAll("script")).forEach(oldScript => {
-            const newScript = document.createElement("script");
-            Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
-            newScript.appendChild(document.createTextNode(oldScript.innerHTML));
-            oldScript.parentNode.replaceChild(newScript, oldScript);
-          });
-        }
-      } catch (error) {
-        console.error(`Error loading partial: ${error}`);
-      }
-    }
-
-    window.addEventListener("DOMContentLoaded", async () => {
-      markAsRead();
-      await Promise.all([
-        loadPartial("include-nav", "../components/nav.html"),
-        loadPartial("include-blog-nav", "../components/blog-nav.html"),
-        loadPartial("include-footer", "../components/footer.html")
-      ]);
-      updateReadStatusInNav();
+    document.addEventListener("DOMContentLoaded", () => {
+      // Use relative paths for components since this page is in a subdirectory
+      loadPartial("include-nav", "../components/nav.html");
+      loadPartial("include-blog-nav", "../components/blog-nav.html");
+      loadPartial("include-footer", "../components/footer.html");
     });
   </script>
 </body>
