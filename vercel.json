@@ -35,6 +35,7 @@
     { "source": "/blogs/sip-for-1cr-in-15-years", "destination": "/blogs/sip-for-1cr-in-15-years.html" },
     { "source": "/privacy-policy", "destination": "/privacy-policy.html" },
     { "source": "/terms-of-service", "destination": "/terms-of-service.html" },
+    { "source": "/sitemap", "destination": "/sitemap.html" },
     { "source": "/", "destination": "/index.html" }
   ]
 }
