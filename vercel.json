@@ -12,6 +12,8 @@
     { "source": "/calculator/inflation-calculator", "destination": "/calculator/inflation-calculator.html" },
     { "source": "/calculator/goal-sip-calculator", "destination": "/calculator/goal-sip-calculator.html" },
     { "source": "/calculator/personal-finance-planner", "destination": "/calculator/personal-finance-planner.html" },
+    { "source": "/privacy", "destination": "/privacy-policy.html" },
+    { "source": "/terms", "destination": "/terms-of-service.html" },
     { "source": "/blogs/blogs", "destination": "/blogs/blogs.html" },
     { "source": "/blogs/build_wealth_with_sip", "destination": "/blogs/build_wealth_with_sip.html" },
     { "source": "/blogs/lumpsum_vs_sip", "destination": "/blogs/lumpsum_vs_sip.html" },
