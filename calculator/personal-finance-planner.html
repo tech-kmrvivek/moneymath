@@ -6,12 +6,46 @@
   <title>Personal Finance Calculator | RupeesWise</title>
   <meta name="description" content="Plan your financial future with our comprehensive personal finance calculator. Track income, expenses, and savings to achieve your financial goals with confidence.">
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" type="image/jpeg" href="/assets/images/fevicon.JPG"> <!-- Favicon added here -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Inter', sans-serif; }
     .font-montserrat { font-family: 'Montserrat', sans-serif; }
+    /* Custom styles for range sliders */
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 8px;
+      background: #d1fae5; /* emerald-100 */
+      border-radius: 5px;
+      outline: none;
+      opacity: 0.7;
+      transition: opacity .2s;
+    }
+    input[type="range"]:hover {
+      opacity: 1;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      background: #10b981; /* emerald-500 */
+      cursor: pointer;
+      border-radius: 50%;
+      border: 2px solid white;
+    }
+    input[type="range"]::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      background: #10b981; /* emerald-500 */
+      cursor: pointer;
+      border-radius: 50%;
+      border: 2px solid white;
+    }
     /* Style for the dynamic expense input fields */
     .expense-item {
         display: flex;
@@ -122,7 +156,7 @@
     .summary-value.positive {
         color: #059669; /* emerald-600 */
     }
-    .dark .summary-value.positive {
+    .summary-value.positive {
         color: #34d399; /* emerald-400 */
     }
     .summary-value.negative {
@@ -152,14 +186,29 @@
             <div>
               <label for="currentAgeInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Your Current Age</label>
               <input id="currentAgeInput" type="number" value="30" min="18" max="90" placeholder="e.g., 30" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+              <input id="currentAgeSlider" type="range" min="18" max="90" value="30" class="w-full mt-2">
+              <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
+                <span>18</span>
+                <span>90</span>
+              </div>
             </div>
             <div>
               <label for="retirementAgeInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Target Retirement Age</label>
               <input id="retirementAgeInput" type="number" value="60" min="30" max="90" placeholder="e.g., 60" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+              <input id="retirementAgeSlider" type="range" min="30" max="90" value="60" class="w-full mt-2">
+              <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
+                <span>30</span>
+                <span>90</span>
+              </div>
             </div>
             <div>
               <label for="lifeExpectancyInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Life Expectancy (Age)</label>
               <input id="lifeExpectancyInput" type="number" value="90" min="65" max="100" placeholder="e.g., 90" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+              <input id="lifeExpectancySlider" type="range" min="65" max="100" value="90" class="w-full mt-2">
+              <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
+                <span>65</span>
+                <span>100</span>
+              </div>
             </div>
             <div class="pt-2">
                 <p><span class="summary-label">Retirement Years Left:</span> <span id="retirementYearsLeft" class="summary-value">0 years</span></p>
@@ -173,17 +222,27 @@
               <label for="monthlyIncomeInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Current Monthly Income (Net)</label>
               <div class="mt-1 flex rounded-md shadow-sm">
                 <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 text-sm">₹</span>
-                <input id="monthlyIncomeInput" type="number" value="100000" min="0" placeholder="e.g., 100000" class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+                <input id="monthlyIncomeInput" type="number" value="100000" min="0" placeholder="e.g., 100000" class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white">
               </div>
               <span id="monthlyIncomeWords" class="text-xs italic text-gray-500 dark:text-gray-400 mt-1 block text-right"></span>
+              <input id="monthlyIncomeSlider" type="range" min="0" max="2000000" value="100000" step="1000" class="w-full mt-2">
+              <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
+                <span>₹0</span>
+                <span>₹20,00,000</span>
+              </div>
             </div>
             <div>
               <label for="yearlyIncomeInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Current Annual Income (Net, e.g., Bonus)</label>
               <div class="mt-1 flex rounded-md shadow-sm">
                 <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 text-sm">₹</span>
-                <input id="yearlyIncomeInput" type="number" value="1200000" min="0" placeholder="e.g., 1200000" class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+                <input id="yearlyIncomeInput" type="number" value="1200000" min="0" placeholder="e.g., 1200000" class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white">
               </div>
               <span id="yearlyIncomeWords" class="text-xs italic text-gray-500 dark:text-gray-400 mt-1 block text-right"></span>
+              <input id="yearlyIncomeSlider" type="range" min="0" max="20000000" value="1200000" step="10000" class="w-full mt-2">
+              <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
+                <span>₹0</span>
+                <span>₹2,00,00,000</span>
+              </div>
             </div>
             <div class="pt-2">
                 <p><span class="summary-label">Total Annual Income:</span> <span id="totalAnnualIncomeDisplay" class="summary-value">₹0</span></p>
@@ -212,17 +271,27 @@
               <label for="currentSavingsInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Current Savings & Investments</label>
               <div class="mt-1 flex rounded-md shadow-sm">
                 <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 text-sm">₹</span>
-                <input id="currentSavingsInput" type="number" value="1000000" min="0" placeholder="e.g., 1000000" class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+                <input id="currentSavingsInput" type="number" value="1000000" min="0" placeholder="e.g., 1000000" class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white">
               </div>
               <span id="currentSavingsWords" class="text-xs italic text-gray-500 dark:text-gray-400 mt-1 block text-right"></span>
+              <input id="currentSavingsSlider" type="range" min="0" max="100000000" value="1000000" step="10000" class="w-full mt-2">
+              <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
+                <span>₹0</span>
+                <span>₹10,00,00,000</span>
+              </div>
             </div>
             <div>
               <label for="postRetirementMonthlyAmountInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Desired Monthly Income in Retirement (Today's Value)</label>
               <div class="mt-1 flex rounded-md shadow-sm">
                 <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 text-sm">₹</span>
-                <input id="postRetirementMonthlyAmountInput" type="number" value="40000" min="0" placeholder="e.g., 40000" class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+                <input id="postRetirementMonthlyAmountInput" type="number" value="40000" min="0" placeholder="e.g., 40000" class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white">
               </div>
               <span id="postRetirementMonthlyAmountWords" class="text-xs italic text-gray-500 dark:text-gray-400 mt-1 block text-right"></span>
+              <input id="postRetirementMonthlyAmountSlider" type="range" min="0" max="200000" value="40000" step="1000" class="w-full mt-2">
+              <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
+                <span>₹0</span>
+                <span>₹2,00,000</span>
+              </div>
             </div>
             <div class="pt-2">
                 <p><span class="summary-label">Desired Monthly Income at Retirement Age (Inflated Value):</span> <span id="inflatedRetirementMonthlyIncome" class="summary-value">₹0</span></p>
@@ -280,14 +349,21 @@
 
     // --- DOM Elements ---
     const currentAgeInput = document.getElementById('currentAgeInput');
+    const currentAgeSlider = document.getElementById('currentAgeSlider');
     const retirementAgeInput = document.getElementById('retirementAgeInput');
+    const retirementAgeSlider = document.getElementById('retirementAgeSlider');
     const lifeExpectancyInput = document.getElementById('lifeExpectancyInput');
+    const lifeExpectancySlider = document.getElementById('lifeExpectancySlider');
     const monthlyIncomeInput = document.getElementById('monthlyIncomeInput');
+    const monthlyIncomeSlider = document.getElementById('monthlyIncomeSlider');
     const yearlyIncomeInput = document.getElementById('yearlyIncomeInput');
+    const yearlyIncomeSlider = document.getElementById('yearlyIncomeSlider');
     const additionalExpensesContainer = document.getElementById('additionalExpensesContainer');
     const addExpenseBtn = document.getElementById('addExpenseBtn');
     const currentSavingsInput = document.getElementById('currentSavingsInput');
+    const currentSavingsSlider = document.getElementById('currentSavingsSlider');
     const postRetirementMonthlyAmountInput = document.getElementById('postRetirementMonthlyAmountInput');
+    const postRetirementMonthlyAmountSlider = document.getElementById('postRetirementMonthlyAmountSlider');
     const financialPlanTableBody = document.getElementById('financialPlanTableBody');
     const fiAgeEl = document.getElementById('fiAge');
     const fundsLastAgeEl = document.getElementById('fundsLastAge');
@@ -431,7 +507,7 @@
                 <input type="text" placeholder="e.g., Rent, Utilities" class="expense-description px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white" />
                 <div class="flex items-center">
                     <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 text-sm">₹</span>
-                    <input type="number" value="0" min="0" placeholder="e.g., 15000" class="expense-amount flex-1 min-w-0 px-3 py-2 rounded-none rounded-r-md focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" />
+                    <input type="number" value="0" min="0" placeholder="e.g., 15000" class="expense-amount flex-1 min-w-0 px-3 py-2 rounded-none rounded-r-md focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white" />
                 </div>
                 <button class="remove-expense-btn p-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors duration-200">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -625,6 +701,34 @@
 
     // --- Event Listeners and Initializer ---
     /**
+     * Syncs a number input with its corresponding range slider and triggers calculation.
+     * @param {HTMLElement} inputEl - The number input element.
+     * @param {HTMLElement} sliderEl - The range slider element.
+     * @param {HTMLElement|null} wordsEl - The span element to display words, or null if not needed.
+     * @param {string} unit - The unit for the words (e.g., 'Rupees').
+     */
+    function syncInputs(inputEl, sliderEl, wordsEl, unit = '') {
+        const updateWords = () => {
+            if (wordsEl) { // Only update if wordsEl is provided
+                wordsEl.textContent = numberToWords(parseFloat(inputEl.value) || 0) + (unit ? ' ' + unit : '');
+            }
+        };
+
+        sliderEl.addEventListener('input', () => {
+            inputEl.value = sliderEl.value;
+            updateWords();
+            updateCalculator();
+        });
+        inputEl.addEventListener('input', () => {
+            sliderEl.value = inputEl.value; // Ensure slider updates when input changes
+            updateWords();
+            updateCalculator();
+        });
+        // Initial update for words when the page loads
+        updateWords();
+    }
+
+    /**
      * Loads HTML partials into specified elements.
      * @param {string} id - The ID of the element to load the partial into.
      * @param {string} file - The path to the HTML partial file.
@@ -639,7 +743,6 @@
         const element = document.getElementById(id);
         if (element) {
           element.innerHTML = text;
-          // Re-execute scripts within the loaded partial
           Array.from(element.querySelectorAll("script")).forEach(oldScript => {
             const newScript = document.createElement("script");
             Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
@@ -652,62 +755,32 @@
       }
     }
     
-    /**
-     * Sets up all necessary event listeners for input fields and buttons.
-     */
-    function setupEventListeners() {
-        // Age, Income, Savings inputs
-        currentAgeInput.addEventListener('input', calculateFinancialPlan);
-        retirementAgeInput.addEventListener('input', calculateFinancialPlan);
-        lifeExpectancyInput.addEventListener('input', calculateFinancialPlan);
-        
-        // Monthly Income with words
-        monthlyIncomeInput.addEventListener('input', () => {
-            monthlyIncomeWords.textContent = numberToWords(parseFloat(monthlyIncomeInput.value) || 0) + ' Rupees';
-            calculateFinancialPlan();
-        });
-        // Yearly Income with words
-        yearlyIncomeInput.addEventListener('input', () => {
-            yearlyIncomeWords.textContent = numberToWords(parseFloat(yearlyIncomeInput.value) || 0) + ' Rupees';
-            calculateFinancialPlan();
-        });
-
-        // Current Savings with words
-        currentSavingsInput.addEventListener('input', () => {
-            currentSavingsWords.textContent = numberToWords(parseFloat(currentSavingsInput.value) || 0) + ' Rupees';
-            calculateFinancialPlan();
-        });
-        // Post-Retirement Monthly Amount with words
-        postRetirementMonthlyAmountInput.addEventListener('input', () => {
-            postRetirementMonthlyAmountWords.textContent = numberToWords(parseFloat(postRetirementMonthlyAmountInput.value) || 0) + ' Rupees';
-            calculateFinancialPlan();
-        });
-
-        // Dynamic expense button
-        addExpenseBtn.addEventListener('click', addExpenseItem);
-    }
-    
-    // Initialize on DOMContentLoaded
     document.addEventListener('DOMContentLoaded', async () => {
       // Load navigation and footer
       await Promise.all([
         loadPartial("include-nav", "/components/nav.html"),
         loadPartial("include-footer", "/components/footer.html")
       ]);
-      setupEventListeners();
-      addExpenseItem(); // Add one initial dynamic expense field
-      calculateFinancialPlan(); // Initial calculation
+
+      // Sync inputs and sliders, passing null for wordsEl if not needed
+      syncInputs(currentAgeInput, currentAgeSlider, null); // No words for Current Age
+      syncInputs(retirementAgeInput, retirementAgeSlider, null); // No words for Retirement Age
+      syncInputs(lifeExpectancyInput, lifeExpectancySlider, null); // No words for Life Expectancy
+      syncInputs(monthlyIncomeInput, monthlyIncomeSlider, monthlyIncomeWords, 'Rupees');
+      syncInputs(yearlyIncomeInput, yearlyIncomeSlider, yearlyIncomeWords, 'Rupees');
+      syncInputs(currentSavingsInput, currentSavingsSlider, currentSavingsWords, 'Rupees');
+      syncInputs(postRetirementMonthlyAmountInput, postRetirementMonthlyAmountSlider, postRetirementMonthlyAmountWords, 'Rupees');
+
+      // Dynamic expense button
+      addExpenseBtn.addEventListener('click', addExpenseItem);
+
+      // Initial calculation
+      calculateFinancialPlan();
 
       // Display fixed assumption rates
       displayInflationRate.textContent = `${(INFLATION_RATE * 100).toFixed(0)}%`;
       displayPreRetirementRate.textContent = `${(PRE_RETIREMENT_RETURN * 100).toFixed(0)}%`;
       displayPostRetirementRate.textContent = `${(POST_RETIREMENT_RETURN * 100).toFixed(0)}%`;
-
-      // Initial display of words for pre-existing inputs
-      monthlyIncomeWords.textContent = numberToWords(parseFloat(monthlyIncomeInput.value) || 0) + ' Rupees';
-      yearlyIncomeWords.textContent = numberToWords(parseFloat(yearlyIncomeInput.value) || 0) + ' Rupees';
-      currentSavingsWords.textContent = numberToWords(parseFloat(currentSavingsInput.value) || 0) + ' Rupees';
-      postRetirementMonthlyAmountWords.textContent = numberToWords(parseFloat(postRetirementMonthlyAmountInput.value) || 0) + ' Rupees';
     });
   </script>
 </body>

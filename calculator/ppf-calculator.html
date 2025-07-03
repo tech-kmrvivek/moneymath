@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PPF Calculator | RupeesWise</title>
+  <meta name="description" content="Calculate your Public Provident Fund (PPF) investments and maturity amount with our easy-to-use calculator.">
+  <link rel="icon" type="image/jpeg" href="/assets/images/fevicon.JPG"> <!-- Favicon added here -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .font-montserrat { font-family: 'Montserrat', sans-serif; }
+    /* Custom styles for range sliders */
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 8px;
+      background: #d1fae5; /* emerald-100 */
+      border-radius: 5px;
+      outline: none;
+      opacity: 0.7;
+      transition: opacity .2s;
+    }
+    input[type="range"]:hover {
+      opacity: 1;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      background: #10b981; /* emerald-500 */
+      cursor: pointer;
+      border-radius: 50%;
+      border: 2px solid white;
+    }
+    input[type="range"]::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      background: #10b981; /* emerald-500 */
+      cursor: pointer;
+      border-radius: 50%;
+      border: 2px solid white;
+    }
+    /* Styles for summary values */
+    .summary-label {
+        font-weight: 500; /* Medium weight */
+        color: #4b5563; /* gray-700 */
+        font-size: 0.875rem; /* text-sm */
+    }
+    .dark .summary-label {
+        color: #d1d5db; /* gray-300 */
+    }
+    .summary-value {
+        font-weight: 600; /* Semi-bold */
+        color: #059669; /* emerald-600 */
+        font-size: 0.875rem; /* text-sm */
+    }
+    .dark .summary-value {
+        color: #34d399; /* emerald-400 */
+    }
+    .summary-value.positive {
+        color: #059669; /* emerald-600 */
+    }
+    .dark .summary-value.positive {
+        color: #34d399; /* emerald-400 */
+    }
+    .summary-value.negative {
+        color: #ef4444; /* red-600 */
+    }
+    .dark .summary-value.negative {
+        color: #f87171; /* red-400 */
+    }
+    /* Inflation Adjusted Value box styling */
+    .inflation-adjusted-box {
+        background-color: #fffbeb; /* yellow-50 */
+        border-left: 4px solid #fcd34d; /* amber-300 */
+        padding: 1rem;
+        border-radius: 0.5rem;
+        margin-top: 1.5rem;
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    }
+    .dark .inflation-adjusted-box {
+        background-color: #451a03; /* amber-950 */
+        border-left-color: #d97706; /* amber-600 */
+    }
+    .inflation-adjusted-box p {
+        margin-bottom: 0.5rem;
+    }
+    .inflation-adjusted-box .value {
+        font-size: 1.75rem; /* text-3xl */
+        font-weight: 700; /* font-bold */
+        color: #b45309; /* amber-700 */
+        font-family: 'Montserrat', sans-serif;
+    }
+    .dark .inflation-adjusted-box .value {
+        color: #fcd34d; /* amber-300 */
+    }
+    .inflation-adjusted-box .description {
+        font-size: 0.875rem; /* text-sm */
+        color: #78350f; /* amber-900 */
+    }
+    .dark .inflation-adjusted-box .description {
+        color: #fcd34d; /* amber-300 */
+    }
+  </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 min-h-screen flex flex-col">
+
+  <!-- Placeholder for the Navigation Bar -->
+  <div id="include-nav"></div>
+
+  <!-- Main Content -->
+  <main class="flex-1 w-full max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+    <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 dark:text-white font-montserrat mb-6 text-center">PPF Calculator</h1>
+    <p class="text-center text-gray-600 dark:text-gray-400 mb-8">Calculate the returns on your Public Provident Fund (PPF) investments with our easy-to-use calculator.</p>
+
+    <div class="flex flex-col lg:flex-row gap-8">
+
+      <!-- Left Side: Adjust Parameters -->
+      <section class="w-full lg:w-1/3 bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg space-y-6">
+        <h2 class="text-2xl font-bold text-emerald-700 dark:text-emerald-400 font-montserrat">Adjust Parameters</h2>
+        
+        <!-- Yearly Investment -->
+        <div>
+          <label for="yearlyInvestmentInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Yearly Investment</label>
+          <div class="mt-1 flex rounded-md shadow-sm">
+            <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 text-sm">₹</span>
+            <input id="yearlyInvestmentInput" type="number" value="150000" min="500" max="150000" step="100" class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+          </div>
+          <span id="yearlyInvestmentWords" class="text-xs italic text-gray-500 dark:text-gray-400 mt-1 block text-right"></span>
+          <input id="yearlyInvestmentSlider" type="range" min="500" max="150000" step="100" value="150000" class="w-full mt-2">
+          <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
+            <span>₹500</span>
+            <span>₹1,50,000</span>
+          </div>
+        </div>
+
+        <!-- Interest Rate -->
+        <div>
+          <label for="interestRateInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Interest Rate (%)</label>
+          <input id="interestRateInput" type="number" value="7.5" min="5" max="9" step="0.1" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+          <input id="interestRateSlider" type="range" min="5" max="9" step="0.1" value="7.5" class="w-full mt-2">
+          <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
+            <span>5%</span>
+            <span>9%</span>
+          </div>
+        </div>
+        
+        <!-- Time Period -->
+        <div>
+          <label for="timePeriodInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Time Period (Years)</label>
+          <input id="timePeriodInput" type="number" value="15" min="5" max="50" step="1" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+          <input id="timePeriodSlider" type="range" min="5" max="50" step="1" value="15" class="w-full mt-2">
+          <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
+            <span>5 years</span>
+            <span>50 years</span>
+          </div>
+        </div>
+
+        <!-- Inflation Rate Input (Conditionally Visible) -->
+        <div id="inflationRateContainer" class="hidden">
+          <label for="inflationRatePPFInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Inflation Rate (%)</label>
+          <input id="inflationRatePPFInput" type="number" value="5" min="0" max="10" step="0.1" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+          <input id="inflationRatePPFSlider" type="range" min="0" max="10" step="0.1" value="5" class="w-full mt-2">
+          <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
+            <span>0%</span>
+            <span>10%</span>
+          </div>
+        </div>
+
+        <!-- Adjust for Inflation Checkbox -->
+        <div class="flex items-center pt-4">
+          <input id="adjustForInflation" type="checkbox" class="h-4 w-4 text-emerald-600 focus:ring-emerald-500 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600">
+          <label for="adjustForInflation" class="ml-2 block text-sm text-gray-900 dark:text-gray-200">Show inflation-adjusted returns</label>
+        </div>
+      </section>
+
+      <!-- Right Side: Investment Details -->
+      <section class="w-full lg:w-2/3 space-y-6">
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg">
+          <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">Investment Details</h2>
+          <div class="flex flex-col md:flex-row items-center justify-around gap-6">
+            <div class="text-center">
+              <p class="text-sm text-gray-500 dark:text-gray-400">Maturity Amount</p>
+              <p id="maturityAmount" class="text-4xl font-bold text-emerald-800 dark:text-emerald-200 font-montserrat">₹0</p>
+              <p id="investmentMultiplier" class="text-sm text-gray-600 dark:text-gray-300">0x your investment</p>
+            </div>
+            
+            <!-- Inflation-Adjusted Value Box (Conditionally Visible) -->
+            <div id="inflationAdjustedValueBox" class="inflation-adjusted-box hidden">
+                <p class="text-sm text-gray-600 dark:text-gray-400">Inflation-Adjusted Value</p>
+                <p id="inflationAdjustedMaturityAmount" class="value">₹0</p>
+                <p id="inflationAdjustedDescription" class="description">Adjusted for 0% annual inflation</p>
+                <p id="inflationAdjustedMultiplier" class="description">0x your investment in real terms</p>
+            </div>
+
+            <div class="relative w-40 h-40 md:w-48 md:h-48">
+                <svg id="donutChart" viewBox="0 0 36 36" class="absolute inset-0 w-full h-full">
+                    <path id="donutInvestment" class="fill-emerald-600 dark:fill-emerald-400" d="M18 18 L18 0 A18 18 0 0 1 18 0 Z"></path>
+                    <path id="donutInterest" class="fill-purple-600 dark:fill-purple-400" d="M18 18 L18 0 A18 18 0 0 1 18 0 Z"></path>
+                    <circle cx="18" cy="18" r="10" class="fill-white dark:fill-gray-800"></circle>
+                </svg>
+                <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+                    <p class="text-sm text-gray-600 dark:text-gray-300">Total</p>
+                    <p id="totalInvestmentDonut" class="text-lg font-bold text-gray-800 dark:text-white">₹0</p>
+                </div>
+            </div>
+            <div class="flex flex-col space-y-2 text-sm">
+                <div class="flex items-center">
+                    <span class="w-3 h-3 rounded-full bg-emerald-600 dark:bg-emerald-400 mr-2"></span>
+                    <span>Investment</span>
+                </div>
+                <div class="flex items-center">
+                    <span class="w-3 h-3 rounded-full bg-purple-600 dark:bg-purple-400 mr-2"></span>
+                    <span>Interest</span>
+                </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg">
+            <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-4">Projected PPF Returns</h3>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                    <thead id="returnsTableHeader" class="bg-gray-50 dark:bg-gray-700">
+                        <!-- Headers will be populated by JavaScript -->
+                    </thead>
+                    <tbody id="returnsTableBody" class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+                        <!-- Table rows will be populated by JavaScript -->
+                        <tr><td colspan="4" class="text-center py-4 text-gray-500 dark:text-gray-400">Enter parameters to see projections.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Placeholder for the Footer -->
+  <div id="include-footer"></div>
+
+  <script>
+    // --- DOM Elements ---
+    const yearlyInvestmentInput = document.getElementById('yearlyInvestmentInput');
+    const yearlyInvestmentSlider = document.getElementById('yearlyInvestmentSlider');
+    const interestRateInput = document.getElementById('interestRateInput');
+    const interestRateSlider = document.getElementById('interestRateSlider');
+    const timePeriodInput = document.getElementById('timePeriodInput');
+    const timePeriodSlider = document.getElementById('timePeriodSlider');
+    const inflationRatePPFInput = document.getElementById('inflationRatePPFInput');
+    const inflationRatePPFSlider = document.getElementById('inflationRatePPFSlider');
+    const inflationRateContainer = document.getElementById('inflationRateContainer');
+    const adjustForInflationCheckbox = document.getElementById('adjustForInflation');
+
+    const maturityAmountEl = document.getElementById('maturityAmount');
+    const investmentMultiplierEl = document.getElementById('investmentMultiplier');
+    const donutInvestmentPath = document.getElementById('donutInvestment');
+    const donutInterestPath = document.getElementById('donutInterest');
+    const totalInvestmentDonutEl = document.getElementById('totalInvestmentDonut');
+    const returnsTableHeader = document.getElementById('returnsTableHeader');
+    const returnsTableBody = document.getElementById('returnsTableBody');
+
+    // New DOM elements for inflation-adjusted display
+    const inflationAdjustedValueBox = document.getElementById('inflationAdjustedValueBox');
+    const inflationAdjustedMaturityAmount = document.getElementById('inflationAdjustedMaturityAmount');
+    const inflationAdjustedDescription = document.getElementById('inflationAdjustedDescription');
+    const inflationAdjustedMultiplier = document.getElementById('inflationAdjustedMultiplier');
+
+
+    // DOM elements for amount words
+    const yearlyInvestmentWords = document.getElementById('yearlyInvestmentWords');
+    // Removed interestRateWords, timePeriodWords, inflationRatePPFWords as they are no longer needed
+
+
+    // --- Utility Functions ---
+    /**
+     * Formats a number to Indian Rupee currency string.
+     * @param {number} num - The number to format.
+     * @returns {string} Formatted currency string.
+     */
+    function formatINR(num) {
+      if (isNaN(num)) return '₹0';
+      const absNum = Math.abs(num);
+      let formatted;
+      if (absNum >= 10000000) { // Crores
+        formatted = (absNum / 10000000).toFixed(2) + ' Cr';
+      } else if (absNum >= 100000) { // Lakhs
+        formatted = (absNum / 100000).toFixed(2) + ' L';
+      } else {
+        formatted = absNum.toLocaleString('en-IN', { maximumFractionDigits: 0 });
+      }
+      return (num < 0 ? '-₹' : '₹') + formatted;
+    }
+
+    /**
+     * Converts a number to words in Indian numbering system.
+     * Handles decimals for percentages.
+     * @param {number} num - The number to convert.
+     * @returns {string} The number in words.
+     */
+    function numberToWords(num) {
+        if (num === 0) return 'Zero';
+        if (num < 0) return 'Minus ' + numberToWords(Math.abs(num));
+
+        const [integerPart, decimalPart] = num.toString().split('.');
+
+        const words = [];
+        const units = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
+        const tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+
+        function convertChunk(n) {
+            let chunkWords = [];
+            if (n >= 100) {
+                chunkWords.push(units[Math.floor(n / 100)]);
+                chunkWords.push('Hundred');
+                n %= 100;
+            }
+            if (n > 0) {
+                if (n < 20) {
+                    chunkWords.push(units[n]);
+                } else {
+                    chunkWords.push(tens[Math.floor(n / 10)]);
+                    if (n % 10 > 0) {
+                        chunkWords.push(units[n % 10]);
+                    }
+                }
+            }
+            return chunkWords.join(' ');
+        }
+
+        let tempNum = parseInt(integerPart);
+        let crore = Math.floor(tempNum / 10000000);
+        tempNum %= 10000000;
+        let lakh = Math.floor(tempNum / 100000);
+        tempNum %= 100000;
+        let thousand = Math.floor(tempNum / 1000);
+        tempNum %= 1000;
+
+        if (crore > 0) {
+            words.push(convertChunk(crore));
+            words.push('Crore');
+        }
+        if (lakh > 0) {
+            words.push(convertChunk(lakh));
+            words.push('Lakh');
+        }
+        if (thousand > 0) {
+            words.push(convertChunk(thousand));
+            words.push('Thousand');
+        }
+        if (tempNum > 0) {
+            words.push(convertChunk(tempNum));
+        }
+
+        let result = words.join(' ');
+
+        if (decimalPart) {
+            const decimalWords = decimalPart.split('').map(digit => units[parseInt(digit)]).join(' ');
+            result += ' Point ' + decimalWords;
+        }
+
+        return result;
+    }
+
+
+    /**
+     * Calculates the PPF maturity amount and generates yearly projections (nominal values).
+     * @param {number} yearlyInvestment - The annual investment amount.
+     * @param {number} interestRate - The annual interest rate (e.g., 0.071 for 7.1%).
+     * @param {number} timePeriod - The total investment period in years.
+     * @returns {object} An object containing nominal maturity amount, total invested, total interest, and yearly data.
+     */
+    function calculatePPF(yearlyInvestment, interestRate, timePeriod) {
+        let totalInvested = 0;
+        let currentBalance = 0;
+        let yearlyData = [];
+
+        for (let year = 1; year <= timePeriod; year++) {
+            totalInvested += yearlyInvestment;
+            currentBalance += yearlyInvestment; // Add investment for the year
+            
+            let interestForYear = currentBalance * interestRate;
+            currentBalance += interestForYear;
+
+            yearlyData.push({
+                year: year,
+                invested: totalInvested,
+                interest: currentBalance - totalInvested, // Total interest accumulated so far
+                balance: currentBalance
+            });
+        }
+
+        const maturityAmount = currentBalance;
+        const totalInterest = maturityAmount - totalInvested;
+
+        return { maturityAmount, totalInvested, totalInterest, yearlyData };
+    }
+
+    /**
+     * Updates the donut chart based on investment and interest amounts.
+     * @param {number} totalInvested - The total amount invested.
+     * @param {number} totalInterest - The total interest earned.
+     */
+    function updateDonutChart(totalInvested, totalInterest) {
+        const total = totalInvested + totalInterest;
+        if (total === 0) {
+            donutInvestmentPath.setAttribute('d', 'M18 18 L18 0 A18 18 0 0 1 18 0 Z'); // Full circle investment if no interest
+            donutInterestPath.setAttribute('d', 'M18 18 L18 0 A18 18 0 0 1 18 0 Z'); // Hide interest
+            totalInvestmentDonutEl.textContent = formatINR(0);
+            return;
+        }
+
+        const investmentAngle = (totalInvested / total) * 360;
+        const interestAngle = (totalInterest / total) * 360;
+
+        // Function to convert angle to SVG path coordinates
+        function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
+            const angleInRadians = (angleInDegrees - 90) * Math.PI / 180.0;
+            return {
+                x: centerX + (radius * Math.cos(angleInRadians)),
+                y: centerY + (radius * Math.sin(angleInRadians))
+            };
+        }
+
+        const startPointInvestment = polarToCartesian(18, 18, 18, 0);
+        const endPointInvestment = polarToCartesian(18, 18, 18, investmentAngle);
+        const largeArcFlagInvestment = investmentAngle > 180 ? 1 : 0;
+
+        const investmentPath = [
+            `M ${18} ${18}`,
+            `L ${startPointInvestment.x} ${startPointInvestment.y}`,
+            `A ${18} ${18} 0 ${largeArcFlagInvestment} 1 ${endPointInvestment.x} ${endPointInvestment.y}`,
+            `Z`
+        ].join(' ');
+        donutInvestmentPath.setAttribute('d', investmentPath);
+
+        const startPointInterest = polarToCartesian(18, 18, 18, investmentAngle);
+        const endPointInterest = polarToCartesian(18, 18, 18, investmentAngle + interestAngle);
+        const largeArcFlagInterest = interestAngle > 180 ? 1 : 0;
+
+        const interestPath = [
+            `M ${18} ${18}`,
+            `L ${startPointInterest.x} ${startPointInterest.y}`,
+            `A ${18} ${18} 0 ${largeArcFlagInterest} 1 ${endPointInterest.x} ${endPointInterest.y}`,
+            `Z`
+        ].join(' ');
+        donutInterestPath.setAttribute('d', interestPath);
+
+        totalInvestmentDonutEl.textContent = formatINR(total);
+    }
+
+
+    // --- Main Calculation and UI Update Function ---
+    function updateCalculator() {
+      const yearlyInvestment = parseFloat(yearlyInvestmentInput.value) || 0;
+      const interestRate = parseFloat(interestRateInput.value) / 100 || 0;
+      const timePeriod = parseInt(timePeriodInput.value) || 0;
+      const inflationRatePPF = parseFloat(inflationRatePPFInput.value) / 100 || 0;
+      const adjustForInflation = adjustForInflationCheckbox.checked;
+
+      // Toggle visibility of inflation rate input and inflation adjusted box based on checkbox
+      if (adjustForInflation) {
+          inflationRateContainer.classList.remove('hidden');
+          inflationAdjustedValueBox.classList.remove('hidden'); // Show inflation box
+      } else {
+          inflationRateContainer.classList.add('hidden');
+          inflationAdjustedValueBox.classList.add('hidden'); // Hide inflation box
+      }
+
+      // Update amount in words (only for Yearly Investment)
+      if (yearlyInvestmentWords) {
+          yearlyInvestmentWords.textContent = numberToWords(yearlyInvestment) + ' Rupees';
+      }
+
+
+      if (yearlyInvestment <= 0 || interestRate <= 0 || timePeriod <= 0) {
+          maturityAmountEl.textContent = formatINR(0);
+          investmentMultiplierEl.textContent = '0x your investment';
+          inflationAdjustedMaturityAmount.textContent = formatINR(0); // Clear adjusted value
+          inflationAdjustedDescription.textContent = `Adjusted for ${inflationRatePPF * 100}% annual inflation`; // Update description
+          inflationAdjustedMultiplier.textContent = `0x your investment in real terms`; // Clear adjusted multiplier
+          returnsTableHeader.innerHTML = `
+            <tr>
+                <th scope="col" class="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Year</th>
+                <th scope="col" class="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Invested</th>
+                <th scope="col" class="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Interest</th>
+                <th scope="col" class="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Balance</th>
+            </tr>
+          `;
+          returnsTableBody.innerHTML = `<tr><td colspan="4" class="text-center py-4 text-gray-500 dark:text-gray-400">Please enter valid parameters.</td></tr>`;
+          updateDonutChart(0, 0);
+          return;
+      }
+
+      // Always calculate nominal values first
+      const nominalResults = calculatePPF(yearlyInvestment, interestRate, timePeriod);
+      let displayMaturityAmount = nominalResults.maturityAmount;
+      let displayTotalInvested = nominalResults.totalInvested;
+      let displayTotalInterest = nominalResults.totalInterest;
+      let displayYearlyData = nominalResults.yearlyData;
+
+      // Calculate inflation-adjusted values for the dedicated box and main display when checkbox is checked
+      const realMaturityAmount = nominalResults.maturityAmount / Math.pow(1 + inflationRatePPF, timePeriod);
+      const realInvestmentMultiplier = nominalResults.totalInvested > 0 ? (realMaturityAmount / nominalResults.totalInvested).toFixed(2) : 0;
+
+
+      // Apply inflation adjustment for display if checkbox is checked
+      if (adjustForInflation) {
+          // Update the main maturity amount display to real value
+          maturityAmountEl.textContent = formatINR(realMaturityAmount);
+          investmentMultiplierEl.textContent = `${realInvestmentMultiplier}x your investment in real terms`;
+
+          // Update the dedicated inflation adjusted box
+          inflationAdjustedMaturityAmount.textContent = formatINR(realMaturityAmount);
+          inflationAdjustedDescription.textContent = `Adjusted for ${inflationRatePPF * 100}% annual inflation`;
+          inflationAdjustedMultiplier.textContent = `${realInvestmentMultiplier}x your investment in real terms`;
+
+          // Adjust each year's data for inflation for the table
+          displayYearlyData = nominalResults.yearlyData.map(data => {
+              const deflatedFactor = Math.pow(1 + inflationRatePPF, data.year);
+              return {
+                  year: data.year,
+                  invested: nominalResults.yearlyData[data.year - 1].invested / deflatedFactor, // Deflate cumulative nominal invested
+                  interest: (data.balance / deflatedFactor) - (nominalResults.yearlyData[data.year - 1].invested / deflatedFactor), // Real interest = Real balance - Real invested
+                  balance: data.balance / deflatedFactor // Real balance
+              };
+          });
+      } else {
+          // If not adjusting for inflation, ensure main displays show nominal values
+          maturityAmountEl.textContent = formatINR(nominalResults.maturityAmount);
+          const nominalMultiplier = nominalResults.totalInvested > 0 ? (nominalResults.maturityAmount / nominalResults.totalInvested).toFixed(2) : 0;
+          investmentMultiplierEl.textContent = `${nominalMultiplier}x your investment`;
+      }
+
+      // Donut chart always uses nominal values as per the image design
+      updateDonutChart(nominalResults.totalInvested, nominalResults.totalInterest);
+
+      // Populate Returns Table
+      returnsTableBody.innerHTML = ''; // Clear previous data
+
+      // Update table headers based on inflation adjustment
+      returnsTableHeader.innerHTML = `
+        <tr>
+            <th scope="col" class="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Year</th>
+            <th scope="col" class="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">${adjustForInflation ? 'Real Invested' : 'Invested'}</th>
+            <th scope="col" class="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">${adjustForInflation ? 'Real Interest' : 'Interest'}</th>
+            <th scope="col" class="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">${adjustForInflation ? 'Real Balance' : 'Balance'}</th>
+        </tr>
+      `;
+
+      displayYearlyData.forEach(data => {
+          const row = returnsTableBody.insertRow();
+          row.className = 'hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors duration-150';
+          row.innerHTML = `
+              <td class="px-3 py-2 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">${data.year}</td>
+              <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">${formatINR(data.invested)}</td>
+              <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">${formatINR(data.interest)}</td>
+              <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">${formatINR(data.balance)}</td>
+          `;
+      });
+    }
+
+    // --- Event Listeners and Initializer ---
+    /**
+     * Syncs a number input with its corresponding range slider and triggers calculation.
+     * @param {HTMLElement} inputEl - The number input element.
+     * @param {HTMLElement} sliderEl - The range slider element.
+     * @param {HTMLElement|null} wordsEl - The span element to display words, or null if not needed.
+     * @param {string} unit - The unit for the words (e.g., 'Rupees').
+     */
+    function syncInputs(inputEl, sliderEl, wordsEl, unit = '') {
+        const updateWords = () => {
+            if (wordsEl) { // Only update if wordsEl is provided
+                wordsEl.textContent = numberToWords(parseFloat(inputEl.value) || 0) + (unit ? ' ' + unit : '');
+            }
+        };
+
+        sliderEl.addEventListener('input', () => {
+            inputEl.value = sliderEl.value;
+            updateWords();
+            updateCalculator();
+        });
+        inputEl.addEventListener('input', () => {
+            sliderEl.value = inputEl.value;
+            updateWords();
+            updateCalculator();
+        });
+        // Initial update for words when the page loads
+        updateWords();
+    }
+
+    /**
+     * Loads HTML partials into specified elements.
+     * @param {string} id - The ID of the element to load the partial into.
+     * @param {string} file - The path to the HTML partial file.
+     */
+    async function loadPartial(id, file) {
+      try {
+        const response = await fetch(file);
+        if (!response) { // Check if response is null or undefined
+          throw new Error(`Failed to load ${file}: Response is null.`);
+        }
+        if (!response.ok) {
+          throw new Error(`Failed to load ${file}: ${response.statusText}`);
+        }
+        const text = await response.text();
+        const element = document.getElementById(id);
+        if (element) {
+          element.innerHTML = text;
+          Array.from(element.querySelectorAll("script")).forEach(oldScript => {
+            const newScript = document.createElement("script");
+            Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
+            newScript.appendChild(document.createTextNode(oldScript.innerHTML));
+            oldScript.parentNode.replaceChild(newScript, oldScript);
+          });
+        }
+      } catch (error) {
+        console.error(`Error loading partial: ${error}`);
+      }
+    }
+    
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Load navigation and footer
+      await Promise.all([
+        loadPartial("include-nav", "/components/nav.html"),
+        loadPartial("include-footer", "/components/footer.html")
+      ]);
+
+      // Sync inputs and sliders, passing null for wordsEl if not needed
+      syncInputs(yearlyInvestmentInput, yearlyInvestmentSlider, yearlyInvestmentWords, 'Rupees');
+      syncInputs(interestRateInput, interestRateSlider, null); // Changed to null for words
+      syncInputs(timePeriodInput, timePeriodSlider, null); // Changed to null for words
+      syncInputs(inflationRatePPFInput, inflationRatePPFSlider, null); // Changed to null for words
+
+      // Add event listener for checkbox
+      adjustForInflationCheckbox.addEventListener('change', updateCalculator);
+
+      // Initial calculation and word display
+      updateCalculator();
+    });
+  </script>
+</body>
+</html>

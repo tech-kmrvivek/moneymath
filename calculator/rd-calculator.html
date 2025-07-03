@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RD Calculator | RupeesWise</title>
+  <meta name="description" content="Calculate the maturity amount and interest earned on your recurring deposit investments.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" type="image/jpeg" href="/assets/images/fevicon.JPG"> <!-- Favicon added here -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .font-montserrat { font-family: 'Montserrat', sans-serif; }
+    /* Custom styles for range sliders */
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 8px;
+      background: #d1fae5; /* emerald-100 */
+      border-radius: 5px;
+      outline: none;
+      opacity: 0.7;
+      transition: opacity .2s;
+    }
+    input[type="range"]:hover {
+      opacity: 1;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      background: #10b981; /* emerald-500 */
+      cursor: pointer;
+      border-radius: 50%;
+      border: 2px solid white;
+    }
+    input[type="range"]::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      background: #10b981; /* emerald-500 */
+      cursor: pointer;
+      border-radius: 50%;
+      border: 2px solid white;
+    }
+    /* Styles for summary values */
+    .summary-label {
+        font-weight: 500; /* Medium weight */
+        color: #4b5563; /* gray-700 */
+        font-size: 0.875rem; /* text-sm */
+    }
+    .dark .summary-label {
+        color: #d1d5db; /* gray-300 */
+    }
+    .summary-value {
+        font-weight: 600; /* Semi-bold */
+        color: #059669; /* emerald-600 */
+        font-size: 0.875rem; /* text-sm */
+    }
+    .dark .summary-value {
+        color: #34d399; /* emerald-400 */
+    }
+    .summary-value.positive {
+        color: #059669; /* emerald-600 */
+    }
+    .dark .summary-value.positive {
+        color: #34d399; /* emerald-400 */
+    }
+    .summary-value.negative {
+        color: #ef4444; /* red-600 */
+    }
+    .dark .summary-value.negative {
+        color: #f87171; /* red-400 */
+    }
+    /* Compounding frequency button styles */
+    .compounding-btn {
+        padding: 0.5rem 1rem;
+        border-radius: 0.375rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: all 0.2s ease-in-out;
+        background-color: #e5e7eb; /* gray-200 */
+        color: #374151; /* gray-800 */
+    }
+    .dark .compounding-btn {
+        background-color: #4b5563; /* gray-600 */
+        color: #f9fafb; /* gray-50 */
+    }
+    .compounding-btn.active {
+        background-color: #059669; /* emerald-600 */
+        color: #ffffff;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+    .compounding-btn:hover:not(.active) {
+        background-color: #d1fae5; /* emerald-100 */
+        color: #065f46; /* emerald-900 */
+    }
+    .dark .compounding-btn:hover:not(.active) {
+        background-color: #064e3b; /* emerald-900 */
+        color: #d1fae5; /* emerald-100 */
+    }
+    /* Inflation Adjusted Value box styling */
+    .inflation-adjusted-box {
+        background-color: #fffbeb; /* yellow-50 */
+        border-left: 4px solid #fcd34d; /* amber-300 */
+        padding: 1rem;
+        border-radius: 0.5rem;
+        margin-top: 1.5rem;
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    }
+    .dark .inflation-adjusted-box {
+        background-color: #451a03; /* amber-950 */
+        border-left-color: #d97706; /* amber-600 */
+    }
+    .inflation-adjusted-box p {
+        margin-bottom: 0.5rem;
+    }
+    .inflation-adjusted-box .value {
+        font-size: 1.75rem; /* text-3xl */
+        font-weight: 700; /* font-bold */
+        color: #b45309; /* amber-700 */
+        font-family: 'Montserrat', sans-serif;
+    }
+    .dark .inflation-adjusted-box .value {
+        color: #fcd34d; /* amber-300 */
+    }
+    .inflation-adjusted-box .description {
+        font-size: 0.875rem; /* text-sm */
+        color: #78350f; /* amber-900 */
+    }
+    .dark .inflation-adjusted-box .description {
+        color: #fcd34d; /* amber-300 */
+    }
+  </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 min-h-screen flex flex-col">
+
+  <!-- Placeholder for the Navigation Bar -->
+  <div id="include-nav"></div>
+
+  <!-- Main Content -->
+  <main class="flex-1 w-full max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+    <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 dark:text-white font-montserrat mb-6 text-center">Recurring Deposit Calculator</h1>
+    <p class="text-center text-gray-600 dark:text-gray-400 mb-8">Calculate the maturity amount and interest earned on your recurring deposit investments.</p>
+
+    <div class="flex flex-col lg:flex-row gap-8">
+
+      <!-- Left Side: Adjust Parameters -->
+      <section class="w-full lg:w-1/3 bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg space-y-6">
+        <h2 class="text-2xl font-bold text-emerald-700 dark:text-emerald-400 font-montserrat">Adjust Parameters</h2>
+        
+        <!-- Monthly Deposit -->
+        <div>
+          <label for="monthlyDepositInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Monthly Deposit</label>
+          <div class="mt-1 flex rounded-md shadow-sm">
+            <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 text-sm">₹</span>
+            <input id="monthlyDepositInput" type="number" value="5000" min="500" max="100000" step="100" class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+          </div>
+          <span id="monthlyDepositWords" class="text-xs italic text-gray-500 dark:text-gray-400 mt-1 block text-right"></span>
+          <input id="monthlyDepositSlider" type="range" min="500" max="100000" step="100" value="5000" class="w-full mt-2">
+          <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
+            <span>₹500</span>
+            <span>₹1,00,000</span>
+          </div>
+        </div>
+
+        <!-- Interest Rate -->
+        <div>
+          <label for="interestRateInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Interest Rate (%)</label>
+          <input id="interestRateInput" type="number" value="7" min="1" max="15" step="0.1" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+          <input id="interestRateSlider" type="range" min="1" max="15" step="0.1" value="7" class="w-full mt-2">
+          <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
+            <span>1%</span>
+            <span>15%</span>
+          </div>
+        </div>
+        
+        <!-- Time Period -->
+        <div>
+          <label for="timePeriodInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Time Period (Years)</label>
+          <input id="timePeriodInput" type="number" value="3" min="0.5" max="10" step="0.5" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+          <input id="timePeriodSlider" type="range" min="0.5" max="10" step="0.5" value="3" class="w-full mt-2">
+          <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
+            <span>0.5 years</span>
+            <span>10 years</span>
+          </div>
+        </div>
+
+        <!-- Compounding Frequency -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Compounding Frequency</label>
+          <div class="flex flex-wrap gap-2" id="compoundingFrequencyButtons">
+            <button class="compounding-btn" data-frequency="yearly">Yearly</button>
+            <button class="compounding-btn" data-frequency="half-yearly">Half-yearly</button>
+            <button class="compounding-btn active" data-frequency="quarterly">Quarterly</button>
+            <button class="compounding-btn" data-frequency="monthly">Monthly</button>
+          </div>
+        </div>
+
+        <!-- Adjust for Inflation Checkbox -->
+        <div class="flex items-center pt-4">
+          <input id="adjustForInflation" type="checkbox" class="h-4 w-4 text-emerald-600 focus:ring-emerald-500 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600">
+          <label for="adjustForInflation" class="ml-2 block text-sm text-gray-900 dark:text-gray-200">Shows inflation-adjusted returns</label>
+        </div>
+
+        <!-- Inflation Rate Input (Conditionally Visible) -->
+        <div id="inflationRateContainer" class="hidden">
+          <label for="inflationRateRDInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Inflation Rate (%)</label>
+          <input id="inflationRateRDInput" type="number" value="5.5" min="0" max="10" step="0.1" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+          <input id="inflationRateRDSlider" type="range" min="0" max="10" step="0.1" value="5.5" class="w-full mt-2">
+          <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
+            <span>0%</span>
+            <span>10%</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Side: Recurring Deposit Details -->
+      <section class="w-full lg:w-2/3 space-y-6">
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg">
+          <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">Recurring Deposit Details</h2>
+          <div class="flex flex-col md:flex-row items-center justify-around gap-6">
+            <div class="text-center">
+              <p class="text-sm text-gray-500 dark:text-gray-400">Maturity Amount</p>
+              <p id="maturityAmount" class="text-4xl font-bold text-emerald-800 dark:text-emerald-200 font-montserrat">₹0</p>
+              <p id="investmentMultiplier" class="text-sm text-gray-600 dark:text-gray-300">0x your investment</p>
+            </div>
+            
+            <!-- Inflation-Adjusted Value Box (Conditionally Visible) -->
+            <div id="inflationAdjustedValueBox" class="inflation-adjusted-box hidden">
+                <p class="text-sm text-gray-600 dark:text-gray-400">Inflation-Adjusted Value</p>
+                <p id="inflationAdjustedMaturityAmount" class="value">₹0</p>
+                <p id="inflationAdjustedDescription" class="description">Adjusted for 0% annual inflation</p>
+                <p id="inflationAdjustedMultiplier" class="description">0x your investment in real terms</p>
+            </div>
+
+            <div class="relative w-40 h-40 md:w-48 md:h-48">
+                <svg id="donutChart" viewBox="0 0 36 36" class="absolute inset-0 w-full h-full">
+                    <path id="donutPrincipal" class="fill-emerald-600 dark:fill-emerald-400" d="M18 18 L18 0 A18 18 0 0 1 18 0 Z"></path>
+                    <path id="donutInterest" class="fill-purple-600 dark:fill-purple-400" d="M18 18 L18 0 A18 18 0 0 1 18 0 Z"></path>
+                    <circle cx="18" cy="18" r="10" class="fill-white dark:fill-gray-800"></circle>
+                </svg>
+                <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+                    <p class="text-sm text-gray-600 dark:text-gray-300">Total</p>
+                    <p id="totalMaturityDonut" class="text-lg font-bold text-gray-800 dark:text-white">₹0</p>
+                </div>
+            </div>
+            <div class="flex flex-col space-y-2 text-sm">
+                <div class="flex items-center">
+                    <span class="w-3 h-3 rounded-full bg-emerald-600 dark:bg-emerald-400 mr-2"></span>
+                    <span>Principal</span>
+                </div>
+                <div class="flex items-center">
+                    <span class="w-3 h-3 rounded-full bg-purple-600 dark:bg-purple-400 mr-2"></span>
+                    <span>Interest</span>
+                </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg">
+            <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-4">Projected RD Returns</h3>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                    <thead id="returnsTableHeader" class="bg-gray-50 dark:bg-gray-700">
+                        <tr>
+                            <th scope="col" class="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Period</th>
+                            <th scope="col" class="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Total Contribution</th>
+                            <th scope="col" class="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Interest Earned</th>
+                            <th scope="col" class="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Maturity Value</th>
+                        </tr>
+                    </thead>
+                    <tbody id="returnsTableBody" class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+                        <!-- Table rows will be populated by JavaScript -->
+                        <tr><td colspan="4" class="text-center py-4 text-gray-500 dark:text-gray-400">Enter parameters to see projections.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Quick Summary -->
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg">
+            <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-4">Quick Summary</h3>
+            <div class="grid grid-cols-2 gap-4 text-center">
+                <div class="bg-emerald-50 dark:bg-emerald-900/50 p-4 rounded-lg">
+                    <p class="text-sm text-emerald-600 dark:text-emerald-300 font-medium">Total Contribution</p>
+                    <p id="totalContributionSummary" class="text-2xl font-bold text-emerald-800 dark:text-emerald-200">₹0</p>
+                </div>
+                <div class="bg-blue-50 dark:bg-blue-900/50 p-4 rounded-lg">
+                    <p class="text-sm text-blue-600 dark:text-blue-300 font-medium">Interest Earned</p>
+                    <p id="interestEarnedSummary" class="text-2xl font-bold text-blue-800 dark:text-blue-200">₹0</p>
+                </div>
+            </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Placeholder for the Footer -->
+  <div id="include-footer"></div>
+
+  <script>
+    // --- DOM Elements ---
+    const monthlyDepositInput = document.getElementById('monthlyDepositInput');
+    const monthlyDepositSlider = document.getElementById('monthlyDepositSlider');
+    const interestRateInput = document.getElementById('interestRateInput');
+    const interestRateSlider = document.getElementById('interestRateSlider');
+    const timePeriodInput = document.getElementById('timePeriodInput');
+    const timePeriodSlider = document.getElementById('timePeriodSlider');
+    const compoundingFrequencyButtons = document.getElementById('compoundingFrequencyButtons');
+    const adjustForInflationCheckbox = document.getElementById('adjustForInflation');
+    const inflationRateRDInput = document.getElementById('inflationRateRDInput');
+    const inflationRateRDSlider = document.getElementById('inflationRateRDSlider');
+    const inflationRateContainer = document.getElementById('inflationRateContainer');
+
+    const maturityAmountEl = document.getElementById('maturityAmount');
+    const investmentMultiplierEl = document.getElementById('investmentMultiplier');
+    const donutPrincipalPath = document.getElementById('donutPrincipal');
+    const donutInterestPath = document.getElementById('donutInterest');
+    const totalMaturityDonutEl = document.getElementById('totalMaturityDonut');
+    const returnsTableHeader = document.getElementById('returnsTableHeader');
+    const returnsTableBody = document.getElementById('returnsTableBody');
+    const totalContributionSummary = document.getElementById('totalContributionSummary');
+    const interestEarnedSummary = document.getElementById('interestEarnedSummary');
+
+    // New DOM elements for inflation-adjusted display
+    const inflationAdjustedValueBox = document.getElementById('inflationAdjustedValueBox');
+    const inflationAdjustedMaturityAmount = document.getElementById('inflationAdjustedMaturityAmount');
+    const inflationAdjustedDescription = document.getElementById('inflationAdjustedDescription');
+    const inflationAdjustedMultiplier = document.getElementById('inflationAdjustedMultiplier');
+
+
+    // DOM elements for amount words
+    const monthlyDepositWords = document.getElementById('monthlyDepositWords');
+
+
+    let currentCompoundingFrequency = 'quarterly'; // Default compounding frequency as per image
+
+    // --- Utility Functions ---
+    /**
+     * Formats a number to Indian Rupee currency string.
+     * @param {number} num - The number to format.
+     * @returns {string} Formatted currency string.
+     */
+    function formatINR(num) {
+      if (isNaN(num)) return '₹0';
+      const absNum = Math.abs(num);
+      let formatted;
+      if (absNum >= 10000000) { // Crores
+        formatted = (absNum / 10000000).toFixed(2) + ' Cr';
+      } else if (absNum >= 100000) { // Lakhs
+        formatted = (absNum / 100000).toFixed(2) + ' L';
+      } else {
+        formatted = absNum.toLocaleString('en-IN', { maximumFractionDigits: 0 });
+      }
+      return (num < 0 ? '-₹' : '₹') + formatted;
+    }
+
+    /**
+     * Converts a number to words in Indian numbering system.
+     * Handles decimals for percentages.
+     * @param {number} num - The number to convert.
+     * @returns {string} The number in words.
+     */
+    function numberToWords(num) {
+        if (num === 0) return 'Zero';
+        if (num < 0) return 'Minus ' + numberToWords(Math.abs(num));
+
+        const [integerPart, decimalPart] = num.toString().split('.');
+
+        const words = [];
+        const units = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
+        const tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+
+        function convertChunk(n) {
+            let chunkWords = [];
+            if (n >= 100) {
+                chunkWords.push(units[Math.floor(n / 100)]);
+                chunkWords.push('Hundred');
+                n %= 100;
+            }
+            if (n > 0) {
+                if (n < 20) {
+                    chunkWords.push(units[n]);
+                } else {
+                    chunkWords.push(tens[Math.floor(n / 10)]);
+                    if (n % 10 > 0) {
+                        chunkWords.push(units[n % 10]);
+                    }
+                }
+            }
+            return chunkWords.join(' ');
+        }
+
+        let tempNum = parseInt(integerPart);
+        let crore = Math.floor(tempNum / 10000000);
+        tempNum %= 10000000;
+        let lakh = Math.floor(tempNum / 100000);
+        tempNum %= 100000;
+        let thousand = Math.floor(tempNum / 1000);
+        tempNum %= 1000;
+
+        if (crore > 0) {
+            words.push(convertChunk(crore));
+            words.push('Crore');
+        }
+        if (lakh > 0) {
+            words.push(convertChunk(lakh));
+            words.push('Lakh');
+        }
+        if (thousand > 0) {
+            words.push(convertChunk(thousand));
+            words.push('Thousand');
+        }
+        if (tempNum > 0) {
+            words.push(convertChunk(tempNum));
+        }
+
+        let result = words.join(' ');
+
+        if (decimalPart) {
+            const decimalWords = decimalPart.split('').map(digit => units[parseInt(digit)]).join(' ');
+            result += ' Point ' + decimalWords;
+        }
+
+        return result;
+    }
+
+
+    /**
+     * Calculates the RD maturity amount and generates yearly projections.
+     * @param {number} monthlyDeposit - The monthly investment amount.
+     * @param {number} annualInterestRate - The annual interest rate (e.g., 0.07 for 7%).
+     * @param {number} timePeriodYears - The total investment period in years.
+     * @param {string} compoundingFrequency - 'yearly', 'half-yearly', 'quarterly', 'monthly'.
+     * @returns {object} An object containing maturity amount, total contribution, total interest, and yearly data.
+     */
+    function calculateRD(monthlyDeposit, annualInterestRate, timePeriodYears, compoundingFrequency) {
+        let yearlyData = [];
+        let compoundingPeriodsPerYear;
+
+        switch (compoundingFrequency) {
+            case 'yearly': compoundingPeriodsPerYear = 1; break;
+            case 'half-yearly': compoundingPeriodsPerYear = 2; break;
+            case 'quarterly': compoundingPeriodsPerYear = 4; break;
+            case 'monthly': compoundingPeriodsPerYear = 12; break;
+            default: compoundingPeriodsPerYear = 4; // Default to quarterly as per common RD practice
+        }
+
+        const monthlyRate = annualInterestRate / 12;
+        const totalMonths = timePeriodYears * 12;
+
+        let maturityAmount = 0;
+        let totalContribution = 0;
+        let totalInterest = 0;
+
+        let currentBalance = 0;
+        let monthlyInterestRate = annualInterestRate / 12;
+
+        // Calculate maturity amount using the standard RD formula (approximate, as exact depends on bank's method)
+        // A = P * [(1 + R/N)^(N*T) - 1] / [1 - (1 + R/N)^(-1/12)]
+        // Using a more common formula for RD where interest is compounded quarterly for monthly deposits
+        // Or a direct iterative approach for simplicity and accuracy across frequencies.
+
+        let periodsInYear = 12 / compoundingPeriodsPerYear; // How many deposits per compounding period
+        let effectiveRatePerCompoundingPeriod = annualInterestRate / compoundingPeriodsPerYear;
+
+        let currentPrincipal = 0; // This will track the accumulated principal + interest
+        let cumulativeInterest = 0;
+        let cumulativeContribution = 0;
+
+        for (let month = 1; month <= totalMonths; month++) {
+            currentPrincipal += monthlyDeposit; // Add new deposit
+            cumulativeContribution += monthlyDeposit;
+
+            // Calculate interest if it's a compounding period
+            if (month % (12 / compoundingPeriodsPerYear) === 0) {
+                let interestForThisPeriod = currentPrincipal * effectiveRatePerCompoundingPeriod;
+                currentPrincipal += interestForThisPeriod;
+                cumulativeInterest += interestForThisPeriod;
+            }
+
+            // Store yearly data
+            if (month % 12 === 0) {
+                const year = month / 12;
+                yearlyData.push({
+                    period: year,
+                    totalContribution: cumulativeContribution,
+                    interestEarned: cumulativeInterest,
+                    maturityValue: currentPrincipal // Balance at end of year
+                });
+            }
+        }
+        maturityAmount = currentPrincipal;
+        totalInterest = cumulativeInterest;
+        totalContribution = cumulativeContribution;
+
+        // Ensure the final entry in yearlyData matches the exact timePeriodYears if it's not a whole number
+        if (timePeriodYears > 0 && (timePeriodYears % 1 !== 0 || yearlyData.length === 0 || yearlyData[yearlyData.length - 1].period !== timePeriodYears)) {
+            // Recalculate final values precisely for the actual timePeriodYears
+            let finalCalculatedBalance = 0;
+            let finalCalculatedContribution = 0;
+            const totalMonthsExact = timePeriodYears * 12;
+            
+            for (let m = 1; m <= totalMonthsExact; m++) {
+                finalCalculatedBalance += monthlyDeposit;
+                finalCalculatedContribution += monthlyDeposit;
+                if (m % (12 / compoundingPeriodsPerYear) === 0) {
+                    finalCalculatedBalance += finalCalculatedBalance * effectiveRatePerCompoundingPeriod;
+                }
+            }
+            maturityAmount = finalCalculatedBalance;
+            totalContribution = finalCalculatedContribution;
+            totalInterest = maturityAmount - totalContribution;
+
+            // If the last entry is not for the exact timePeriodYears, add or update it
+            if (yearlyData.length === 0 || yearlyData[yearlyData.length - 1].period !== timePeriodYears) {
+                yearlyData.push({
+                    period: timePeriodYears,
+                    totalContribution: totalContribution,
+                    interestEarned: totalInterest,
+                    maturityValue: maturityAmount
+                });
+            } else {
+                // Update the last entry if it matches the timePeriodYears
+                yearlyData[yearlyData.length - 1] = {
+                    period: timePeriodYears,
+                    totalContribution: totalContribution,
+                    interestEarned: totalInterest,
+                    maturityValue: maturityAmount
+                };
+            }
+        }
+
+
+        return { maturityAmount, totalContribution, totalInterest, yearlyData };
+    }
+
+
+    /**
+     * Updates the donut chart based on principal and interest amounts.
+     * @param {number} totalPrincipal - The total principal invested.
+     * @param {number} totalInterest - The total interest earned.
+     */
+    function updateDonutChart(totalPrincipal, totalInterest) {
+        const total = totalPrincipal + totalInterest;
+        if (total === 0) {
+            donutPrincipalPath.setAttribute('d', 'M18 18 L18 0 A18 18 0 0 1 18 0 Z'); // Full circle if no interest
+            donutInterestPath.setAttribute('d', 'M18 18 L18 0 A18 18 0 0 1 18 0 Z'); // Hide interest
+            totalMaturityDonutEl.textContent = formatINR(0);
+            return;
+        }
+
+        const principalAngle = (totalPrincipal / total) * 360;
+        const interestAngle = (totalInterest / total) * 360;
+
+        // Function to convert angle to SVG path coordinates
+        function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
+            const angleInRadians = (angleInDegrees - 90) * Math.PI / 180.0;
+            return {
+                x: centerX + (radius * Math.cos(angleInRadians)),
+                y: centerY + (radius * Math.sin(angleInRadians))
+            };
+        }
+
+        const startPointPrincipal = polarToCartesian(18, 18, 18, 0);
+        const endPointPrincipal = polarToCartesian(18, 18, 18, principalAngle);
+        const largeArcFlagPrincipal = principalAngle > 180 ? 1 : 0;
+
+        const principalPath = [
+            `M ${18} ${18}`,
+            `L ${startPointPrincipal.x} ${startPointPrincipal.y}`,
+            `A ${18} ${18} 0 ${largeArcFlagPrincipal} 1 ${endPointPrincipal.x} ${endPointPrincipal.y}`,
+            `Z`
+        ].join(' ');
+        donutPrincipalPath.setAttribute('d', principalPath);
+
+        const startPointInterest = polarToCartesian(18, 18, 18, principalAngle);
+        const endPointInterest = polarToCartesian(18, 18, 18, principalAngle + interestAngle);
+        const largeArcFlagInterest = interestAngle > 180 ? 1 : 0;
+
+        const interestPath = [
+            `M ${18} ${18}`,
+            `L ${startPointInterest.x} ${startPointInterest.y}`,
+            `A ${18} ${18} 0 ${largeArcFlagInterest} 1 ${endPointInterest.x} ${endPointInterest.y}`,
+            `Z`
+        ].join(' ');
+        donutInterestPath.setAttribute('d', interestPath);
+
+        totalMaturityDonutEl.textContent = formatINR(total);
+    }
+
+
+    // --- Main Calculation and UI Update Function ---
+    function updateCalculator() {
+      const monthlyDeposit = parseFloat(monthlyDepositInput.value) || 0;
+      const interestRate = parseFloat(interestRateInput.value) / 100 || 0;
+      const timePeriod = parseFloat(timePeriodInput.value) || 0;
+      const inflationRateRD = parseFloat(inflationRateRDInput.value) / 100 || 0;
+      const adjustForInflation = adjustForInflationCheckbox.checked;
+
+      // Toggle visibility of inflation rate input and inflation adjusted box based on checkbox
+      if (adjustForInflation) {
+          inflationRateContainer.classList.remove('hidden');
+          inflationAdjustedValueBox.classList.remove('hidden'); // Show inflation box
+      } else {
+          inflationRateContainer.classList.add('hidden');
+          inflationAdjustedValueBox.classList.add('hidden'); // Hide inflation box
+      }
+
+      // Update amount in words (only for Monthly Deposit)
+      if (monthlyDepositWords) {
+          monthlyDepositWords.textContent = numberToWords(monthlyDeposit) + ' Rupees';
+      }
+
+
+      if (monthlyDeposit <= 0 || interestRate <= 0 || timePeriod <= 0) {
+          maturityAmountEl.textContent = formatINR(0);
+          investmentMultiplierEl.textContent = '0x your investment';
+          inflationAdjustedMaturityAmount.textContent = formatINR(0); // Clear adjusted value
+          inflationAdjustedDescription.textContent = `Adjusted for ${inflationRateRD * 100}% annual inflation`; // Update description
+          inflationAdjustedMultiplier.textContent = `0x your investment in real terms`; // Clear adjusted multiplier
+          totalContributionSummary.textContent = formatINR(0);
+          interestEarnedSummary.textContent = formatINR(0);
+          returnsTableBody.innerHTML = `<tr><td colspan="4" class="text-center py-4 text-gray-500 dark:text-gray-400">Please enter valid parameters.</td></tr>`;
+          updateDonutChart(0, 0);
+          return;
+      }
+
+      // Always calculate nominal values first
+      const nominalResults = calculateRD(monthlyDeposit, interestRate, timePeriod, currentCompoundingFrequency);
+      let displayMaturityAmount = nominalResults.maturityAmount;
+      let displayTotalContribution = nominalResults.totalContribution;
+      let displayTotalInterest = nominalResults.totalInterest;
+      let displayYearlyData = nominalResults.yearlyData;
+
+      // Calculate inflation-adjusted values for the dedicated box and main display when checkbox is checked
+      const realMaturityAmount = nominalResults.maturityAmount / Math.pow(1 + inflationRateRD, timePeriod);
+      const realInvestmentMultiplier = nominalResults.totalContribution > 0 ? (realMaturityAmount / nominalResults.totalContribution).toFixed(2) : 0;
+
+
+      // Apply inflation adjustment for display if checkbox is checked
+      if (adjustForInflation) {
+          // Update the main maturity amount display to real value
+          maturityAmountEl.textContent = formatINR(realMaturityAmount);
+          investmentMultiplierEl.textContent = `${realInvestmentMultiplier}x your investment in real terms`;
+
+          // Update the dedicated inflation adjusted box
+          inflationAdjustedMaturityAmount.textContent = formatINR(realMaturityAmount);
+          inflationAdjustedDescription.textContent = `Adjusted for ${inflationRateRD * 100}% annual inflation`;
+          inflationAdjustedMultiplier.textContent = `${realInvestmentMultiplier}x your investment in real terms`;
+
+          // Adjust each year's data for inflation for the table
+          displayYearlyData = nominalResults.yearlyData.map(data => {
+              const deflatedFactor = Math.pow(1 + inflationRateRD, data.period);
+              return {
+                  period: data.period,
+                  totalContribution: data.totalContribution / deflatedFactor, // Real contribution
+                  interestEarned: (data.maturityValue / deflatedFactor) - (data.totalContribution / deflatedFactor), // Real interest
+                  maturityValue: data.maturityValue / deflatedFactor // Real maturity value
+              };
+          });
+      } else {
+          // If not adjusting for inflation, ensure main displays show nominal values
+          maturityAmountEl.textContent = formatINR(nominalResults.maturityAmount);
+          const nominalMultiplier = nominalResults.totalContribution > 0 ? (nominalResults.maturityAmount / nominalResults.totalContribution).toFixed(2) : 0;
+          investmentMultiplierEl.textContent = `${nominalMultiplier}x your investment`;
+      }
+
+      // Donut chart always uses nominal values
+      updateDonutChart(nominalResults.totalContribution, nominalResults.totalInterest);
+
+      // Update Quick Summary
+      totalContributionSummary.textContent = formatINR(nominalResults.totalContribution);
+      interestEarnedSummary.textContent = formatINR(nominalResults.totalInterest);
+
+
+      // Populate Returns Table
+      returnsTableBody.innerHTML = ''; // Clear previous data
+
+      // Update table headers based on inflation adjustment
+      returnsTableHeader.innerHTML = `
+        <tr>
+            <th scope="col" class="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Period</th>
+            <th scope="col" class="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">${adjustForInflation ? 'Real Contribution' : 'Total Contribution'}</th>
+            <th scope="col" class="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">${adjustForInflation ? 'Real Interest Earned' : 'Interest Earned'}</th>
+            <th scope="col" class="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">${adjustForInflation ? 'Real Maturity Value' : 'Maturity Value'}</th>
+        </tr>
+      `;
+
+      displayYearlyData.forEach(data => {
+          const row = returnsTableBody.insertRow();
+          row.className = 'hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors duration-150';
+          row.innerHTML = `
+              <td class="px-3 py-2 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">${data.period}</td>
+              <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">${formatINR(data.totalContribution)}</td>
+              <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">${formatINR(data.interestEarned)}</td>
+              <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">${formatINR(data.maturityValue)}</td>
+          `;
+      });
+    }
+
+    // --- Event Listeners and Initializer ---
+    /**
+     * Syncs a number input with its corresponding range slider and triggers calculation.
+     * @param {HTMLElement} inputEl - The number input element.
+     * @param {HTMLElement} sliderEl - The range slider element.
+     * @param {HTMLElement|null} wordsEl - The span element to display words, or null if not needed.
+     * @param {string} unit - The unit for the words (e.g., 'Rupees').
+     */
+    function syncInputs(inputEl, sliderEl, wordsEl, unit = '') {
+        const updateWords = () => {
+            if (wordsEl) { // Only update if wordsEl is provided
+                wordsEl.textContent = numberToWords(parseFloat(inputEl.value) || 0) + (unit ? ' ' + unit : '');
+            }
+        };
+
+        sliderEl.addEventListener('input', () => {
+            inputEl.value = sliderEl.value;
+            updateWords();
+            updateCalculator();
+        });
+        inputEl.addEventListener('input', () => {
+            sliderEl.value = inputEl.value;
+            updateWords();
+            updateCalculator();
+        });
+        // Initial update for words when the page loads
+        updateWords();
+    }
+
+    /**
+     * Loads HTML partials into specified elements.
+     * @param {string} id - The ID of the element to load the partial into.
+     * @param {string} file - The path to the HTML partial file.
+     */
+    async function loadPartial(id, file) {
+      try {
+        const response = await fetch(file);
+        if (!response) { // Check if response is null or undefined
+          throw new Error(`Failed to load ${file}: Response is null.`);
+        }
+        if (!response.ok) {
+          throw new Error(`Failed to load ${file}: ${response.statusText}`);
+        }
+        const text = await response.text();
+        const element = document.getElementById(id);
+        if (element) {
+          element.innerHTML = text;
+          Array.from(element.querySelectorAll("script")).forEach(oldScript => {
+            const newScript = document.createElement("script");
+            Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
+            newScript.appendChild(document.createTextNode(oldScript.innerHTML));
+            oldScript.parentNode.replaceChild(newScript, oldScript);
+          });
+        }
+      } catch (error) {
+        console.error(`Error loading partial: ${error}`);
+      }
+    }
+    
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Load navigation and footer
+      await Promise.all([
+        loadPartial("include-nav", "/components/nav.html"),
+        loadPartial("include-footer", "/components/footer.html")
+      ]);
+
+      // Sync inputs and sliders, passing null for wordsEl if not needed
+      syncInputs(monthlyDepositInput, monthlyDepositSlider, monthlyDepositWords, 'Rupees');
+      syncInputs(interestRateInput, interestRateSlider, null);
+      syncInputs(timePeriodInput, timePeriodSlider, null);
+      syncInputs(inflationRateRDInput, inflationRateRDSlider, null);
+
+      // Compounding frequency buttons
+      compoundingFrequencyButtons.addEventListener('click', (event) => {
+          const clickedButton = event.target.closest('.compounding-btn');
+          if (clickedButton) {
+              // Remove active class from all buttons
+              Array.from(compoundingFrequencyButtons.children).forEach(btn => {
+                  btn.classList.remove('active');
+              });
+              // Add active class to the clicked button
+              clickedButton.classList.add('active');
+              currentCompoundingFrequency = clickedButton.dataset.frequency;
+              updateCalculator();
+          }
+      });
+
+      // Add event listener for checkbox
+      adjustForInflationCheckbox.addEventListener('change', updateCalculator);
+
+      // Initial calculation and word display
+      updateCalculator();
+    });
+  </script>
+</body>
+</html>
