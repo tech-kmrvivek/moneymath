@@ -4,14 +4,14 @@
 // IMPORTANT: You need to replace the placeholder values below with your actual Firebase project's "Web app" configuration.
 // You can get this from your Firebase project settings > Your apps > Web app.
 const firebaseConfig = {
-    apiKey: "AIzaSyA2V-6IRM7u2w1VCXn-Wp5-ucryz-zxioc",
-    authDomain: "rupeeswise-2a814.firebaseapp.com",
-    projectId: "rupeeswise-2a814",
-    storageBucket: "rupeeswise-2a814.firebasestorage.app",
-    messagingSenderId: "722160242281",
-    appId: "1:722160242281:web:ea1edad66f878d98d99cf8",
-    measurementId: "G-D0LP3H0NE4"
-  };
+  apiKey: "AIzaSyA2V-6IRM7u2w1VCXn-Wp5-ucryz-zxioc",
+  authDomain: "rupeeswise-2a814.firebaseapp.com",
+  projectId: "rupeeswise-2a814",
+  storageBucket: "rupeeswise-2a814.firebasestorage.app",
+  messagingSenderId: "722160242281",
+  appId: "1:722160242281:web:ea1edad66f878d98d99cf8",
+  measurementId: "G-D0LP3H0NE4"
+};
 
 // Initialize Firebase and Firestore
 const app = firebase.initializeApp(firebaseConfig);
