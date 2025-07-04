@@ -19,8 +19,8 @@
 </head>
 <body class="bg-gray-50 dark:bg-gray-900 flex flex-col min-h-screen">
 
-    <!-- Navigation Bar Placeholder -->
-    <header id="navbar-placeholder"></header>
+  <!-- Placeholder for the Navigation Bar -->
+  <div id="include-nav"></div>
 
     <!-- Main Content Area -->
     <main class="flex-grow flex flex-col items-center justify-center px-4 py-12">
@@ -99,12 +99,17 @@
         </div>
     </main>
 
-    <!-- Footer Placeholder -->
-    <footer id="footer-placeholder"></footer>
+    <!-- Placeholder for the Footer -->
+    <div id="include-footer"></div>
 
-    <!-- Scripts -->
-    <!-- UPDATED PATHS TO POINT TO THE NEW DIRECTORY -->
-    <script src="assets/js/include.js" defer></script>
-    <script type="module" src="assets/js/auth.js"></script>
+     <!-- External JavaScript files -->
+  <script src="/assets/js/main.js"></script>
+  <script type="module" src="assets/js/auth.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      loadPartial("include-nav", "/components/nav.html");
+      loadPartial("include-footer", "/components/footer.html");
+    });
+  </script>
 </body>
 </html>
